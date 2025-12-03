@@ -1,0 +1,8 @@
+{
+  "nav": { "tests": "Tests", "admin": "Admin", "assessments": "My Assessments" },
+  "home": { "title": "Ace Your Exams", "subtitle": "Practice timed MCQ tests with instant results" },
+  "actions": { "start": "Start", "resume": "Resume", "submit": "Submit", "login": "Login", "logout": "Logout" },
+  "filters": { "exam": "Exam", "difficulty": "Difficulty", "language": "Language" },
+  "test": { "review": "Review", "next": "Next", "prev": "Prev", "mark": "Mark", "unmark": "Unmark", "timeLeft": "Time Left" },
+  "results": { "title": "Your Result", "score": "Score", "correct": "Correct", "incorrect": "Incorrect", "unanswered": "Unanswered" }
+}

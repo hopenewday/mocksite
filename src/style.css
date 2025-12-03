@@ -1,0 +1,237 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #app { height: 100%; }
+
+@layer base {
+  * {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  
+  body {
+    background-color: #F5F5F5;
+    background-image: 
+      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px),
+      repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+  }
+  
+  .dark body {
+    background-color: #1A1A1A;
+    background-image: 
+      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px),
+      repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px);
+  }
+  
+  @keyframes brutal-bounce {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    25% { transform: translateY(-8px) rotate(-1deg); }
+    75% { transform: translateY(-8px) rotate(1deg); }
+  }
+  
+  @keyframes brutal-shake {
+    0%, 100% { transform: translateX(0) rotate(0deg); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-2px) rotate(-0.5deg); }
+    20%, 40%, 60%, 80% { transform: translateX(2px) rotate(0.5deg); }
+  }
+  
+  @keyframes brutal-pulse {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.05) rotate(1deg); }
+  }
+  
+  @keyframes brutal-wiggle {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+  }
+  
+  .animate-brutal-bounce {
+    animation: brutal-bounce 0.6s ease-in-out;
+  }
+  
+  .animate-brutal-shake {
+    animation: brutal-shake 0.3s ease-in-out;
+  }
+  
+  .animate-brutal-pulse {
+    animation: brutal-pulse 2s ease-in-out infinite;
+  }
+  
+  .animate-brutal-wiggle {
+    animation: brutal-wiggle 0.5s ease-in-out infinite;
+  }
+  
+  .hover-brutal-bounce:hover {
+    animation: brutal-bounce 0.6s ease-in-out;
+  }
+  
+  .hover-brutal-shake:hover {
+    animation: brutal-shake 0.3s ease-in-out;
+  }
+  
+  .hover-brutal-wiggle:hover {
+    animation: brutal-wiggle 0.5s ease-in-out infinite;
+  }
+  
+  @keyframes copy-bounce {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+  
+  .animate-copy-bounce {
+    animation: copy-bounce 0.4s ease-out;
+  }
+}
+
+@layer components {
+  .btn-primary { 
+    @apply px-6 py-4 rounded-brutal font-brutal font-bold text-lg uppercase tracking-wider 
+           border-4 border-black shadow-brutal transition-all duration-200 
+           hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-brutal-lg 
+           active:translate-x-[0px] active:translate-y-[0px] active:shadow-brutal-sm
+           focus:outline-none focus:ring-4 focus:ring-brutal-yellow/50 
+           disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-x-0 disabled:hover:translate-y-0 disabled:shadow-brutal
+           motion-safe:hover:scale-[1.01];
+  }
+  
+  .btn-primary-brutal { @apply bg-brutal-yellow text-black hover:bg-brutal-white; }
+  .btn-primary-cyan { @apply bg-brutal-cyan text-white hover:bg-brutal-blue; }
+  .btn-primary-pink { @apply bg-brutal-pink text-white hover:bg-brutal-purple; }
+  .btn-primary-lime { @apply bg-brutal-lime text-black hover:bg-brutal-green; }
+  
+  .btn-secondary { 
+    @apply px-6 py-4 rounded-brutal font-brutal font-bold text-lg uppercase tracking-wider 
+           border-4 border-black bg-brutal-white text-black shadow-brutal transition-all duration-200 
+           hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-brutal-lg hover:bg-brutal-yellow
+           active:translate-x-[0px] active:translate-y-[0px] active:shadow-brutal-sm
+           focus:outline-none focus:ring-4 focus:ring-brutal-pink/50;
+  }
+  
+  .card { 
+    @apply rounded-brutal bg-brutal-white border-4 border-black shadow-brutal 
+           transition-all duration-200 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-brutal-lg
+           dark:bg-brutal-black dark:border-brutal-white dark:text-brutal-white
+           ;
+  }
+  
+  .card-brutal-yellow { @apply border-brutal-yellow bg-brutal-yellow/20; }
+  .card-brutal-pink { @apply border-brutal-pink bg-brutal-pink/20; }
+  .card-brutal-cyan { @apply border-brutal-cyan bg-brutal-cyan/20; }
+  .card-brutal-lime { @apply border-brutal-lime bg-brutal-lime/20; }
+  
+  .input { 
+    @apply w-full px-4 py-4 rounded-brutal border-4 border-black bg-brutal-white 
+           font-brutal text-lg focus:outline-none focus:ring-4 focus:ring-brutal-cyan/50 
+           focus:border-brutal-cyan transition-all shadow-brutal-sm
+           dark:bg-brutal-black dark:border-brutal-white dark:text-brutal-white
+           ;
+  }
+  
+  .select { 
+    @apply w-full px-4 py-4 rounded-brutal border-4 border-black bg-brutal-white 
+           font-brutal text-lg focus:outline-none focus:ring-4 focus:ring-brutal-cyan/50 
+           focus:border-brutal-cyan transition-all shadow-brutal-sm
+           dark:bg-brutal-black dark:border-brutal-white dark:text-brutal-white
+           ;
+  }
+  
+  .badge { 
+    @apply inline-flex items-center px-3 py-1 rounded-brutal text-xs font-bold uppercase tracking-wider 
+           border-2 border-black shadow-brutal-sm transition-all duration-200
+           hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-brutal
+           ;
+  }
+  
+  .badge-yellow { @apply bg-brutal-yellow text-black; }
+  .badge-pink { @apply bg-brutal-pink text-white; }
+  .badge-cyan { @apply bg-brutal-cyan text-white; }
+  .badge-lime { @apply bg-brutal-lime text-black; }
+  
+  .heading-brutal {
+    @apply font-brutal font-black text-4xl md:text-5xl lg:text-6xl uppercase tracking-wider 
+           leading-tight text-black dark:text-brutal-white
+           ;
+  }
+  
+  .subheading-brutal {
+    @apply font-brutal font-bold text-2xl md:text-3xl uppercase tracking-wide 
+           text-black dark:text-brutal-white;
+  }
+  
+  .text-brutal {
+    @apply font-brutal text-lg leading-relaxed text-gray-700 dark:text-gray-300;
+  }
+}
+
+/* Route transitions */
+.route-fade-enter-active, .route-fade-leave-active { transition: opacity 180ms ease, transform 180ms ease; }
+.route-fade-enter-from, .route-fade-leave-to { opacity: 0; transform: translateY(6px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .route-fade-enter-active, .route-fade-leave-active { transition: none !important; }
+}
+
+/* Top route progress bar */
+#route-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  z-index: 9999;
+  opacity: 0;
+  background: linear-gradient(90deg, #22d3ee, #f472b6, #a3e635);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.2);
+  transition: width 250ms ease, opacity 150ms ease;
+}
+#route-progress.route-progress-active { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  #route-progress { transition: none !important; }
+}
+
+@keyframes ui-spin { to { transform: rotate(360deg); } }
+@keyframes ui-pop { 0% { transform: scale(0.9); opacity: 0.6; } 100% { transform: scale(1); opacity: 1; } }
+
+.btn-primary[data-state="loading"],
+.btn-secondary[data-state="loading"] {
+  position: relative;
+  color: transparent !important;
+}
+.btn-primary[data-state="loading"]::after,
+.btn-secondary[data-state="loading"]::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 18px;
+  margin-top: -9px;
+  margin-left: -9px;
+  border: 3px solid rgba(0,0,0,0.7);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: ui-spin 0.8s linear infinite;
+}
+.dark .btn-primary[data-state="loading"]::after,
+.dark .btn-secondary[data-state="loading"]::after {
+  border-color: rgba(255,255,255,0.8);
+  border-top-color: transparent;
+}
+
+.btn-primary[data-state="success"],
+.btn-secondary[data-state="success"] {
+  position: relative;
+  color: transparent !important;
+}
+.btn-primary[data-state="success"]::after,
+.btn-secondary[data-state="success"]::after {
+  content: "✓";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 900;
+  font-size: 18px;
+  animation: ui-pop 180ms ease;
+}

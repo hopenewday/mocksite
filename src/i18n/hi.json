@@ -1,0 +1,8 @@
+{
+  "nav": { "tests": "परीक्षाएँ", "admin": "प्रशासन", "assessments": "मेरे मूल्यांकन" },
+  "home": { "title": "अपनी परीक्षाएँ पास करें", "subtitle": "टाइम्ड एमसीक्यू टेस्ट, तुरंत परिणाम" },
+  "actions": { "start": "शुरू करें", "resume": "जारी रखें", "submit": "सबमिट", "login": "लॉगिन", "logout": "लॉगआउट" },
+  "filters": { "exam": "परीक्षा", "difficulty": "कठिनाई", "language": "भाषा" },
+  "test": { "review": "रीव्यू", "next": "अगला", "prev": "पिछला", "mark": "चिह्नित करें", "unmark": "हटाएँ", "timeLeft": "शेष समय" },
+  "results": { "title": "आपका परिणाम", "score": "स्कोर", "correct": "सही", "incorrect": "गलत", "unanswered": "अनुत्तरित" }
+}
