@@ -71,33 +71,33 @@ export const examCategories = {
     icon: '🏛️',
     color: 'brutal-cyan',
     subcategories: [
-      { 
-        id: 'ssc-cgl', 
-        name: 'SSC CGL', 
+      {
+        id: 'ssc-cgl',
+        name: 'SSC CGL',
         description: 'Combined Graduate Level Examination',
         icon: '📋'
       },
-      { 
-        id: 'ssc-chsl', 
-        name: 'SSC CHSL', 
+      {
+        id: 'ssc-chsl',
+        name: 'SSC CHSL',
         description: 'Combined Higher Secondary Level',
         icon: '📝'
       },
-      { 
-        id: 'ssc-mts', 
-        name: 'SSC MTS', 
+      {
+        id: 'ssc-mts',
+        name: 'SSC MTS',
         description: 'Multi Tasking Staff',
         icon: '👥'
       },
-      { 
-        id: 'ssc-gd', 
-        name: 'SSC GD', 
+      {
+        id: 'ssc-gd',
+        name: 'SSC GD',
         description: 'General Duty Constable',
         icon: '👮'
       },
-      { 
-        id: 'ssc-je', 
-        name: 'SSC JE', 
+      {
+        id: 'ssc-je',
+        name: 'SSC JE',
         description: 'Junior Engineer',
         icon: '🔧'
       }
@@ -109,33 +109,33 @@ export const examCategories = {
     icon: '🏦',
     color: 'brutal-lime',
     subcategories: [
-      { 
-        id: 'ibps-po', 
-        name: 'IBPS PO', 
+      {
+        id: 'ibps-po',
+        name: 'IBPS PO',
         description: 'Probationary Officer',
         icon: '💼'
       },
-      { 
-        id: 'ibps-clerk', 
-        name: 'IBPS Clerk', 
+      {
+        id: 'ibps-clerk',
+        name: 'IBPS Clerk',
         description: 'Clerical Cadre',
         icon: '📊'
       },
-      { 
-        id: 'sbi-po', 
-        name: 'SBI PO', 
+      {
+        id: 'sbi-po',
+        name: 'SBI PO',
         description: 'State Bank PO',
         icon: '🏪'
       },
-      { 
-        id: 'sbi-clerk', 
-        name: 'SBI Clerk', 
+      {
+        id: 'sbi-clerk',
+        name: 'SBI Clerk',
         description: 'State Bank Clerk',
         icon: '💳'
       },
-      { 
-        id: 'rbi', 
-        name: 'RBI', 
+      {
+        id: 'rbi',
+        name: 'RBI',
         description: 'Reserve Bank of India',
         icon: '🏛️'
       }
@@ -147,27 +147,27 @@ export const examCategories = {
     icon: '🚂',
     color: 'brutal-pink',
     subcategories: [
-      { 
-        id: 'rrb-ntpc', 
-        name: 'RRB NTPC', 
+      {
+        id: 'rrb-ntpc',
+        name: 'RRB NTPC',
         description: 'Non-Technical Popular Categories',
         icon: '🎫'
       },
-      { 
-        id: 'rrb-group-d', 
-        name: 'RRB Group D', 
+      {
+        id: 'rrb-group-d',
+        name: 'RRB Group D',
         description: 'Group D Recruitment',
         icon: '👥'
       },
-      { 
-        id: 'rrb-je', 
-        name: 'RRB JE', 
+      {
+        id: 'rrb-je',
+        name: 'RRB JE',
         description: 'Junior Engineer',
         icon: '🔧'
       },
-      { 
-        id: 'rrb-alp', 
-        name: 'RRB ALP', 
+      {
+        id: 'rrb-alp',
+        name: 'RRB ALP',
         description: 'Assistant Loco Pilot',
         icon: '🚂'
       }
@@ -179,27 +179,27 @@ export const examCategories = {
     icon: '🏛️',
     color: 'brutal-yellow',
     subcategories: [
-      { 
-        id: 'upsc-cse', 
-        name: 'UPSC CSE', 
+      {
+        id: 'upsc-cse',
+        name: 'UPSC CSE',
         description: 'Civil Services Examination',
         icon: '📜'
       },
-      { 
-        id: 'upsc-cds', 
-        name: 'UPSC CDS', 
+      {
+        id: 'upsc-cds',
+        name: 'UPSC CDS',
         description: 'Combined Defence Services',
         icon: '🎖️'
       },
-      { 
-        id: 'upsc-capf', 
-        name: 'UPSC CAPF', 
+      {
+        id: 'upsc-capf',
+        name: 'UPSC CAPF',
         description: 'Central Armed Police Forces',
         icon: '🚔'
       },
-      { 
-        id: 'upsc-epfo', 
-        name: 'UPSC EPFO', 
+      {
+        id: 'upsc-epfo',
+        name: 'UPSC EPFO',
         description: 'Employees Provident Fund Organisation',
         icon: '💼'
       }
@@ -211,21 +211,21 @@ export const examCategories = {
     icon: '🗺️',
     color: 'brutal-purple',
     subcategories: [
-      { 
-        id: 'state-psc', 
-        name: 'State PSC', 
+      {
+        id: 'state-psc',
+        name: 'State PSC',
         description: 'Public Service Commission',
         icon: '🏛️'
       },
-      { 
-        id: 'state-police', 
-        name: 'State Police', 
+      {
+        id: 'state-police',
+        name: 'State Police',
         description: 'Police Recruitment',
         icon: '👮'
       },
-      { 
-        id: 'state-teacher', 
-        name: 'State Teacher', 
+      {
+        id: 'state-teacher',
+        name: 'State Teacher',
         description: 'Teacher Eligibility Test',
         icon: '👨‍🏫'
       }
@@ -250,21 +250,6 @@ export const mockExams: Exam[] = [
     rating: 4.2
   },
   {
-    id: 'ssc-cgl-2024-mock2',
-    name: 'SSC CGL Tier 1 Mock Test 2',
-    description: 'Advanced mock test with previous year questions',
-    category: 'ssc',
-    subcategory: 'ssc-cgl',
-    duration: 60,
-    questions: 100,
-    difficulty: 'Hard',
-    tags: ['mock', 'tier1', 'advanced', 'pyq'],
-    isPremium: true,
-    attempts: 8930,
-    avgScore: 72.3,
-    rating: 4.5
-  },
-  {
     id: 'ibps-po-2024-mock1',
     name: 'IBPS PO Prelims Mock Test',
     description: 'IBPS PO Preliminary examination mock test',
@@ -278,21 +263,6 @@ export const mockExams: Exam[] = [
     attempts: 12350,
     avgScore: 65.8,
     rating: 4.1
-  },
-  {
-    id: 'rrb-ntpc-2024-mock1',
-    name: 'RRB NTPC Mock Test 1',
-    description: 'RRB NTPC CBT 1 mock test with latest syllabus',
-    category: 'railway',
-    subcategory: 'rrb-ntpc',
-    duration: 90,
-    questions: 100,
-    difficulty: 'Easy',
-    tags: ['mock', 'cbt1', 'railway'],
-    isPremium: false,
-    attempts: 18760,
-    avgScore: 71.2,
-    rating: 4.3
   }
 ]
 

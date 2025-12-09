@@ -16,13 +16,32 @@ const RowSchema = z.object({
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, x-csrf-token',
   'Access-Control-Allow-Methods': 'POST, OPTIONS'
+}
+
+async function isAllowedOrigin(req: Request) {
+  const origin = req.headers.get('Origin') || ''
+  const allow = (Deno.env.get('ALLOWED_ORIGINS') || '').split(',').map(s => s.trim()).filter(Boolean)
+  if (allow.length === 0) return true
+  return allow.includes(origin)
+}
+
+function verifyCsrf(req: Request) {
+  const secret = Deno.env.get('CSRF_SECRET') || ''
+  const token = req.headers.get('X-CSRF-Token') || ''
+  return secret && token && secret === token
 }
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders })
   try {
+    if (!(await isAllowedOrigin(req))) {
+      return new Response(JSON.stringify({ error: 'Origin not allowed' }), { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
+    }
+    if (!verifyCsrf(req)) {
+      return new Response(JSON.stringify({ error: 'Invalid CSRF token' }), { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
+    }
     const authHeader = req.headers.get('Authorization')
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
@@ -33,9 +52,15 @@ Deno.serve(async (req) => {
     if (userErr || !userData?.user) {
       return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
     }
+    const serviceClient = createClient(Deno.env.get('SUPABASE_URL') as string, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') as string)
+    const { data: prof } = await serviceClient.from('profiles').select('role').eq('id', userData.user.id).single()
+    const role = (prof as any)?.role || 'user'
+    if (role !== 'super_admin' && role !== 'junior_admin') {
+      return new Response(JSON.stringify({ error: 'Forbidden' }), { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
+    }
     const body = await req.json()
     const parsed = z.array(RowSchema).parse(body.rows)
-    const client = createClient(Deno.env.get('SUPABASE_URL') as string, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') as string)
+    const client = serviceClient
     const payload = parsed.map(r => ({
       test_id: r.test_id,
       type: r.type || 'mcq',

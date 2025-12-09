@@ -19,22 +19,22 @@
             <h2 class="subheading-brutal mb-4">
               Gradient Preview
             </h2>
-            
-            <div 
+
+            <div
               class="w-full h-64 border-4 border-black mb-4"
               :style="{ background: gradientCSS }"
             />
 
             <div class="p-3 bg-brutal-yellow border-2 border-black">
               <label class="font-black block mb-2">CSS Code</label>
-              <textarea 
-                :value="gradientCSS" 
-                readonly 
-                rows="3" 
+              <textarea
+                :value="gradientCSS"
+                readonly
+                rows="3"
                 class="input-brutal w-full font-mono text-sm"
               />
               <div class="mt-2 flex gap-2">
-                <button 
+                <button
                   class="btn-primary btn-primary-lime text-sm"
                   :class="{ 'animate-copy-bounce': copyingCSS }"
                   @click="copyCSS"
@@ -56,16 +56,16 @@
             <h2 class="subheading-brutal mb-4">
               Popular Presets
             </h2>
-            
+
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              <div 
-                v-for="preset in presets" 
+              <div
+                v-for="preset in presets"
                 :key="preset.name"
                 class="border-4 border-black cursor-pointer hover:shadow-brutal-lg transition-all"
                 :class="{ 'ring-4 ring-brutal-cyan': selectedPreset === preset.name }"
                 @click="loadPreset(preset)"
               >
-                <div 
+                <div
                   class="h-16"
                   :style="{ background: preset.gradient }"
                 />
@@ -85,16 +85,16 @@
             <h2 class="subheading-brutal mb-4">
               Gradient Type
             </h2>
-            
+
             <div class="flex gap-2">
-              <button 
+              <button
                 class="btn-primary flex-1"
                 :class="gradientType === 'linear' ? 'bg-brutal-cyan' : 'bg-brutal-white'"
                 @click="gradientType = 'linear'"
               >
                 Linear
               </button>
-              <button 
+              <button
                 class="btn-primary flex-1"
                 :class="gradientType === 'radial' ? 'bg-brutal-cyan' : 'bg-brutal-white'"
                 @click="gradientType = 'radial'"
@@ -108,11 +108,11 @@
               class="mt-4"
             >
               <label class="font-black block mb-2">Angle: {{ angle }}°</label>
-              <input 
-                v-model.number="angle" 
-                type="range" 
-                min="0" 
-                max="360" 
+              <input
+                v-model.number="angle"
+                type="range"
+                min="0"
+                max="360"
                 step="1"
                 class="w-full"
               >
@@ -132,7 +132,7 @@
               <h2 class="subheading-brutal">
                 Color Stops
               </h2>
-              <button 
+              <button
                 class="btn-primary btn-primary-yellow text-sm"
                 :disabled="colorStops.length >= 6"
                 @click="addColorStop"
@@ -142,26 +142,26 @@
             </div>
 
             <div class="space-y-3">
-              <div 
-                v-for="(stop, index) in colorStops" 
+              <div
+                v-for="(stop, index) in colorStops"
                 :key="index"
                 class="border-2 border-black p-3 bg-white"
               >
                 <div class="flex items-center gap-3">
-                  <input 
-                    v-model="stop.color" 
+                  <input
+                    v-model="stop.color"
                     type="color"
                     class="w-12 h-12 border-2 border-black"
                   >
                   <div class="flex-1">
-                    <input 
-                      v-model="stop.color" 
+                    <input
+                      v-model="stop.color"
                       type="text"
                       class="input-brutal w-full text-sm font-mono"
                       placeholder="#000000"
                     >
                   </div>
-                  <button 
+                  <button
                     class="btn-primary btn-primary-pink text-xs"
                     :disabled="colorStops.length <= 2"
                     @click="removeColorStop(index)"
@@ -169,14 +169,14 @@
                     ×
                   </button>
                 </div>
-                
+
                 <div class="mt-3">
                   <label class="font-black block mb-1 text-sm">Position: {{ stop.position }}%</label>
-                  <input 
-                    v-model.number="stop.position" 
-                    type="range" 
-                    min="0" 
-                    max="100" 
+                  <input
+                    v-model.number="stop.position"
+                    type="range"
+                    min="0"
+                    max="100"
                     step="1"
                     class="w-full"
                   >
@@ -190,23 +190,23 @@
             <h2 class="subheading-brutal mb-4">
               Export Options
             </h2>
-            
+
             <div class="space-y-3">
-              <button 
+              <button
                 class="btn-primary btn-primary-lime w-full"
                 :class="{ 'animate-copy-bounce': copyingCSS }"
                 @click="copyCSS"
               >
                 Copy CSS
               </button>
-              
+
               <button
                 class="btn-primary btn-primary-pink w-full"
                 @click="downloadCSS"
               >
                 Download CSS
               </button>
-              
+
               <button
                 class="btn-primary btn-primary-yellow w-full"
                 @click="copyAsBackground"
@@ -272,13 +272,13 @@ const { celebrateFirstUse } = useMilestones()
 
 const gradientCSS = computed(() => {
   if (gradientType.value === 'linear') {
-    const stops = colorStops.value
+    const stops = [...colorStops.value]
       .sort((a, b) => a.position - b.position)
       .map(stop => `${stop.color} ${stop.position}%`)
       .join(', ')
     return `linear-gradient(${angle.value}deg, ${stops})`
   } else {
-    const stops = colorStops.value
+    const stops = [...colorStops.value]
       .sort((a, b) => a.position - b.position)
       .map(stop => `${stop.color} ${stop.position}%`)
       .join(', ')
@@ -288,16 +288,16 @@ const gradientCSS = computed(() => {
 
 const addColorStop = () => {
   if (colorStops.value.length >= 6) return
-  
+
   const lastStop = colorStops.value[colorStops.value.length - 1]
   const newPosition = Math.min(lastStop.position + 20, 100)
   const newColor = generateRandomColor()
-  
+
   colorStops.value.push({
     color: newColor,
     position: newPosition
   })
-  
+
   // Sort by position
   colorStops.value.sort((a, b) => a.position - b.position)
 }
@@ -320,7 +320,7 @@ const loadPreset = (preset: typeof presets[0]) => {
     if (angleMatch) {
       angle.value = parseInt(angleMatch[1])
     }
-    
+
     // Extract colors (simplified)
     const colorMatches = gradient.match(/#[0-9a-fA-F]{6}/g) || []
     colorStops.value = colorMatches.map((color, index) => ({
@@ -335,7 +335,7 @@ const loadPreset = (preset: typeof presets[0]) => {
       position: (index / (colorMatches.length - 1)) * 100
     }))
   }
-  
+
   selectedPreset.value = preset.name
   celebrateFirstUse('gradient-generator')
 }
@@ -343,17 +343,17 @@ const loadPreset = (preset: typeof presets[0]) => {
 const randomGradient = () => {
   gradientType.value = Math.random() > 0.5 ? 'linear' : 'radial'
   angle.value = Math.floor(Math.random() * 360)
-  
+
   const numStops = Math.floor(Math.random() * 3) + 2 // 2-4 stops
   colorStops.value = []
-  
+
   for (let i = 0; i < numStops; i++) {
     colorStops.value.push({
       color: generateRandomColor(),
       position: (i / (numStops - 1)) * 100
     })
   }
-  
+
   selectedPreset.value = ''
 }
 
@@ -377,11 +377,54 @@ const downloadCSS = () => {
 </script>
 
 <style scoped>
-.input-brutal { @apply w-full p-2 border-4 border-black bg-white dark:bg-brutal-black text-black dark:text-white; }
-.btn-primary { @apply px-3 py-2 border-4 border-black shadow-brutal font-black text-center; }
-.btn-primary-yellow { @apply bg-brutal-yellow; }
-.btn-primary-lime { @apply bg-brutal-lime; }
-.btn-primary-pink { @apply bg-brutal-pink; }
-.card-brutal-white { @apply bg-brutal-white; }
-.card-brutal-black { @apply bg-brutal-black; }
+
+/* Input styling without Tailwind @apply */
+.input-brutal {
+  width: 100%;
+  padding: 0.5rem; /* p-2 */
+  border-width: 4px;
+  border-style: solid;
+  border-color: #000000; /* border-black */
+  background-color: #ffffff; /* bg-white */
+  color: #000000; /* text-black */
+}
+
+/* Dark mode override equivalent to dark:bg-brutal-black dark:text-white */
+:global(.dark) .input-brutal {
+  background-color: #000000; /* use actual brutal black color if different */
+  color: #ffffff;
+}
+
+/* Button base styling without @apply */
+.btn-primary {
+  padding: 0.5rem 0.75rem; /* approx px-3 py-2 */
+  border-width: 4px;
+  border-style: solid;
+  border-color: #000000;
+  text-align: center;
+  font-weight: 900; /* font-black */
+  box-shadow: 4px 4px 0 0 #000000; /* shadow-brutal equivalent */
+}
+
+/* Color variants (replacing bg-brutal-* utilities) */
+.btn-primary-yellow {
+  background-color: #facc15; /* brutal yellow */
+}
+
+.btn-primary-lime {
+  background-color: #a3e635; /* brutal lime */
+}
+
+.btn-primary-pink {
+  background-color: #f472b6; /* brutal pink */
+}
+
+/* Card background helpers */
+.card-brutal-white {
+  background-color: #ffffff;
+}
+
+.card-brutal-black {
+  background-color: #000000; /* brutal black */
+}
 </style>

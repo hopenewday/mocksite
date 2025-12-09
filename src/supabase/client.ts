@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 import { env } from "@/config/env";
 
@@ -21,6 +22,11 @@ type StubBuilder = StubChain & {
     eq: (column: string, value: unknown) => Promise<{ error: null }>;
   };
 };
+
+// Define minimal interfaces to satisfy the mock
+interface MockUser { id: string; email?: string }
+interface MockSession { user: MockUser | null; access_token: string }
+interface MockError { message: string }
 
 function createStub(): SupabaseClient {
   const chain = (): StubChain => ({
@@ -48,63 +54,63 @@ function createStub(): SupabaseClient {
   const stub = {
     from: (_table: string) => builder(),
     auth: {
-      getUser: async () => ({ data: { user: null }, error: null }),
-      getSession: async () => ({ data: { session: null }, error: null }),
+      getUser: async () => ({ data: { user: null as MockUser | null }, error: null as MockError | null }),
+      getSession: async () => ({ data: { session: null as MockSession | null }, error: null as MockError | null }),
       onAuthStateChange: (
         _event: string,
-        callback?: (event: string, session: null) => void,
+        _callback?: (event: string, session: null) => void,
       ) => {
         // Return unsubscribe function
-        return { data: { subscription: { unsubscribe: () => {} } } };
+        return { data: { subscription: { unsubscribe: () => { } } } };
       },
       signInWithPassword: async (_credentials: {
         email: string;
         password: string;
       }) => ({
-        data: { user: null, session: null },
-        error: null,
+        data: { user: null as MockUser | null, session: null as MockSession | null },
+        error: null as MockError | null,
       }),
       signUp: async (_credentials: { email: string; password: string }) => ({
-        data: { user: null, session: null },
-        error: null,
+        data: { user: null as MockUser | null, session: null as MockSession | null },
+        error: null as MockError | null,
       }),
-      signOut: async () => ({ error: null }),
+      signOut: async () => ({ error: null as MockError | null }),
       resetPasswordForEmail: async (_email: string) => ({
         data: {},
-        error: null,
+        error: null as MockError | null,
       }),
       updateUser: async (_attributes: unknown) => ({
-        data: { user: null },
-        error: null,
+        data: { user: null as MockUser | null },
+        error: null as MockError | null,
       }),
     },
     storage: {
       from: (_bucket: string) => ({
         upload: async (_path: string, _file: File) => ({
           data: { path: "" },
-          error: null,
+          error: null as MockError | null,
         }),
-        download: async (_path: string) => ({ data: null, error: null }),
+        download: async (_path: string) => ({ data: null as Blob | null, error: null as MockError | null }),
         getPublicUrl: (_path: string) => ({ data: { publicUrl: "" } }),
-        remove: async (_paths: string[]) => ({ data: [], error: null }),
-        list: async (_path?: string) => ({ data: [], error: null }),
+        remove: async (_paths: string[]) => ({ data: [] as unknown[], error: null as MockError | null }),
+        list: async (_path?: string) => ({ data: [] as unknown[], error: null as MockError | null }),
       }),
     },
     functions: {
       invoke: async (_functionName: string, _options?: unknown) => ({
-        data: null,
-        error: null,
+        data: null as unknown,
+        error: null as MockError | null,
       }),
     },
     realtime: {
       channel: (_name: string) => ({
-        on: () => ({ subscribe: () => ({ unsubscribe: () => {} }) }),
-        subscribe: () => ({ unsubscribe: () => {} }),
+        on: () => ({ subscribe: () => ({ unsubscribe: () => { } }) }),
+        subscribe: () => ({ unsubscribe: () => { } }),
       }),
     },
     rpc: async (_fn: string, _params?: unknown) => ({
-      data: null,
-      error: null,
+      data: null as unknown,
+      error: null as MockError | null,
     }),
   };
 

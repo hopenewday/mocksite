@@ -1,10 +1,12 @@
 <template>
   <div class="card card-brutal-lime p-8">
-    <h2 class="subheading-brutal mb-6">Attendance Calculator</h2>
+    <h2 class="subheading-brutal mb-6">
+      Attendance Calculator
+    </h2>
     
     <div class="grid md:grid-cols-2 gap-8">
       <!-- Input -->
-      <div class="bg-brutal-white border-4 border-black p-6 space-y-6">
+      <div class="bg-brutal-white dark:bg-brutal-black border-4 border-black dark:border-brutal-white p-6 space-y-6">
         <div>
           <label class="font-black block mb-2">Total Classes</label>
           <input
@@ -38,10 +40,19 @@
         </div>
 
         <div class="grid grid-cols-2 gap-2">
-          <button class="btn-primary btn-primary-cyan" :class="{ 'animate-copy-bounce': copying }" @click="copyAttendance">
+          <button
+            class="btn-primary btn-primary-cyan"
+            :class="{ 'animate-copy-bounce': copying }"
+            @click="copyAttendance"
+          >
             {{ copying ? 'Copied!' : 'Copy' }}
           </button>
-          <button class="btn-primary btn-primary-pink" @click="reset">Reset</button>
+          <button
+            class="btn-primary btn-primary-pink"
+            @click="reset"
+          >
+            Reset
+          </button>
         </div>
       </div>
 
@@ -49,34 +60,62 @@
       <div class="space-y-6">
         <!-- Current Attendance -->
         <div class="bg-brutal-cyan border-4 border-black p-6">
-          <div class="text-sm font-bold text-brutal-gray mb-2">Current Attendance</div>
-          <div class="text-5xl font-black mb-4">{{ attendancePercentage.toFixed(1) }}%</div>
-          <div class="text-sm font-bold text-brutal-gray">{{ classesAttended }} / {{ totalClasses }} classes</div>
+          <div class="text-sm font-bold text-brutal-gray mb-2">
+            Current Attendance
+          </div>
+          <div class="text-5xl font-black mb-4">
+            {{ attendancePercentage.toFixed(1) }}%
+          </div>
+          <div class="text-sm font-bold text-brutal-gray">
+            {{ classesAttended }} / {{ totalClasses }} classes
+          </div>
         </div>
 
         <!-- Status Indicator -->
         <div :class="['border-4 border-black p-6', statusColor]">
-          <div class="text-sm font-bold text-brutal-gray mb-2">Status</div>
-          <div class="text-2xl font-black">{{ statusMessage }}</div>
-          <div v-if="attendancePercentage < requiredPercentage" class="text-sm font-bold mt-2 text-brutal-gray">
+          <div class="text-sm font-bold text-brutal-gray mb-2">
+            Status
+          </div>
+          <div class="text-2xl font-black">
+            {{ statusMessage }}
+          </div>
+          <div
+            v-if="attendancePercentage < requiredPercentage"
+            class="text-sm font-bold mt-2 text-brutal-gray"
+          >
             ⚠️ {{ (requiredPercentage - parseFloat(attendancePercentage.toFixed(1))).toFixed(1) }}% more needed
           </div>
-          <div v-else class="text-sm font-bold mt-2 text-brutal-gray">
+          <div
+            v-else
+            class="text-sm font-bold mt-2 text-brutal-gray"
+          >
             ✓ {{ (attendancePercentage - requiredPercentage).toFixed(1) }}% above requirement
           </div>
         </div>
 
         <!-- Predictions -->
         <div class="bg-brutal-yellow border-4 border-black p-6">
-          <div class="text-sm font-bold text-brutal-gray mb-2">Missed Classes Allowed</div>
-          <div class="text-4xl font-black">{{ classesCanMiss }}</div>
-          <div class="text-xs font-bold mt-2 text-brutal-gray">to maintain {{ requiredPercentage }}%</div>
+          <div class="text-sm font-bold text-brutal-gray mb-2">
+            Missed Classes Allowed
+          </div>
+          <div class="text-4xl font-black">
+            {{ classesCanMiss }}
+          </div>
+          <div class="text-xs font-bold mt-2 text-brutal-gray">
+            to maintain {{ requiredPercentage }}%
+          </div>
         </div>
 
         <div class="bg-brutal-pink border-4 border-black p-6">
-          <div class="text-sm font-bold text-brutal-gray mb-2">Classes to Attend</div>
-          <div class="text-4xl font-black">{{ classesNeeded }}</div>
-          <div class="text-xs font-bold mt-2 text-brutal-gray">out of remaining {{ totalClasses - classesAttended }}</div>
+          <div class="text-sm font-bold text-brutal-gray mb-2">
+            Classes to Attend
+          </div>
+          <div class="text-4xl font-black">
+            {{ classesNeeded }}
+          </div>
+          <div class="text-xs font-bold mt-2 text-brutal-gray">
+            out of remaining {{ totalClasses - classesAttended }}
+          </div>
         </div>
       </div>
     </div>
@@ -88,8 +127,14 @@
         <span class="font-black">{{ attendancePercentage.toFixed(1) }}% / {{ requiredPercentage }}%</span>
       </div>
       <div class="w-full bg-brutal-gray border-2 border-black h-8 relative overflow-hidden">
-        <div class="absolute h-full bg-brutal-yellow border-r-2 border-black" :style="{ width: `${requiredPercentage}%` }"></div>
-        <div class="relative h-full bg-brutal-cyan border-r-2 border-black" :style="{ width: `${attendancePercentage}%` }"></div>
+        <div
+          class="absolute h-full bg-brutal-yellow border-r-2 border-black"
+          :style="{ width: `${requiredPercentage}%` }"
+        />
+        <div
+          class="relative h-full bg-brutal-cyan border-r-2 border-black"
+          :style="{ width: `${attendancePercentage}%` }"
+        />
       </div>
     </div>
   </div>

@@ -19,31 +19,31 @@
             <h2 class="subheading-brutal mb-4">
               Caption Content
             </h2>
-            
+
             <div class="space-y-4">
               <div>
                 <label class="font-black block mb-2">Main Text</label>
-                <textarea 
-                  v-model="captionText" 
-                  rows="6" 
+                <textarea
+                  v-model="captionText"
+                  rows="6"
                   class="input-brutal w-full"
                   placeholder="Write your caption text here..."
                 />
                 <div class="flex justify-between text-sm mt-1">
                   <span class="font-black">{{ captionText.length }} / 2200 characters</span>
-                  <span 
+                  <span
                     :class="captionText.length > 2200 ? 'text-red-600' : 'text-gray-600'"
                   >
                     {{ captionText.length > 2200 ? 'Too long!' : 'OK' }}
                   </span>
                 </div>
               </div>
-              
+
               <div>
                 <label class="font-black block mb-2">Keywords (for hashtag generation)</label>
-                <input 
-                  v-model="keywords" 
-                  type="text" 
+                <input
+                  v-model="keywords"
+                  type="text"
                   class="input-brutal w-full"
                   placeholder="travel, food, fitness, fashion..."
                 >
@@ -51,7 +51,7 @@
                   Separate keywords with commas
                 </p>
               </div>
-              
+
               <div>
                 <label class="font-black block mb-2">Caption Style</label>
                 <select
@@ -83,10 +83,10 @@
             <h2 class="subheading-brutal mb-4">
               Hashtag Categories
             </h2>
-            
+
             <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-              <button 
-                v-for="category in hashtagCategories" 
+              <button
+                v-for="category in hashtagCategories"
                 :key="category.name"
                 class="btn-primary text-sm"
                 :class="selectedCategories.includes(category.name) ? 'bg-brutal-cyan' : 'bg-brutal-white'"
@@ -105,7 +105,7 @@
             <h2 class="subheading-brutal mb-4">
               Settings
             </h2>
-            
+
             <div class="space-y-4">
               <div>
                 <label class="font-black block mb-2">Number of Hashtags</label>
@@ -130,7 +130,7 @@
                   </option>
                 </select>
               </div>
-              
+
               <div>
                 <label class="font-black block mb-2">Include Emojis</label>
                 <select
@@ -151,7 +151,7 @@
                   </option>
                 </select>
               </div>
-              
+
               <div>
                 <label class="inline-flex items-center gap-2">
                   <input
@@ -166,13 +166,13 @@
 
           <!-- Action Buttons -->
           <div class="flex gap-3">
-            <button 
+            <button
               class="btn-primary btn-primary-yellow flex-1"
               @click="generateCaption"
             >
               Generate Caption
             </button>
-            <button 
+            <button
               class="btn-primary btn-primary-lime flex-1"
               :disabled="!generatedCaption"
               @click="addEmojis"
@@ -188,30 +188,30 @@
             <h2 class="subheading-brutal mb-4">
               Generated Caption
             </h2>
-            
+
             <div v-if="generatedCaption">
               <div class="p-4 bg-white border-4 border-black mb-4">
                 <div class="whitespace-pre-wrap">
                   {{ generatedCaption }}
                 </div>
               </div>
-              
+
               <div class="flex gap-2">
-                <button 
+                <button
                   class="btn-primary btn-primary-lime flex-1"
                   :class="{ 'animate-copy-bounce': copyingCaption }"
                   @click="copyCaption"
                 >
                   Copy Caption
                 </button>
-                <button 
+                <button
                   class="btn-primary btn-primary-pink"
                   @click="clearAll"
                 >
                   Clear
                 </button>
               </div>
-              
+
               <div class="mt-4 p-3 bg-brutal-lime border-2 border-black">
                 <div class="grid grid-cols-2 gap-2 text-sm">
                   <div>
@@ -229,7 +229,7 @@
                 </div>
               </div>
             </div>
-            
+
             <div
               v-else
               class="text-center py-8 text-gray-600"
@@ -246,10 +246,10 @@
             <h2 class="subheading-brutal mb-4">
               Caption Templates
             </h2>
-            
+
             <div class="space-y-2">
-              <button 
-                v-for="template in templates" 
+              <button
+                v-for="template in templates"
                 :key="template.name"
                 class="btn-primary btn-primary-white w-full text-left text-sm"
                 @click="loadTemplate(template)"
@@ -265,7 +265,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { useHead } from '@vueuse/head'
 import { useCopyFeedback } from '@/composables/useCopyFeedback'
 import { useMilestones } from '@/composables/useMilestones'
@@ -368,10 +368,10 @@ const toggleCategory = (categoryName: string) => {
 
 const generateCaption = () => {
   let caption = captionText.value
-  
+
   // Add hashtags based on selected categories and keywords
   let hashtags: string[] = []
-  
+
   // Get hashtags from selected categories
   selectedCategories.value.forEach(catName => {
     const category = hashtagCategories.find(cat => cat.name === catName)
@@ -379,7 +379,7 @@ const generateCaption = () => {
       hashtags.push(...category.hashtags.slice(0, 3))
     }
   })
-  
+
   // Add keyword-based hashtags
   if (keywords.value) {
     const keywordTags = keywords.value
@@ -389,22 +389,22 @@ const generateCaption = () => {
       .map(k => `#${k.replace(/\s+/g, '')}`)
     hashtags.push(...keywordTags)
   }
-  
+
   // Add trending hashtags if enabled
   if (includeTrending.value) {
     hashtags.push(...trendingHashtags.slice(0, 3))
   }
-  
+
   // Remove duplicates and limit count
   hashtags = [...new Set(hashtags)].slice(0, hashtagCount.value)
-  
+
   // Add line break before hashtags
   if (hashtags.length > 0) {
     caption += '\n\n' + hashtags.join(' ')
   }
-  
+
   generatedCaption.value = caption
-  
+
   if (generatedCaption.value) {
     celebrateFirstUse('instagram-caption')
   }
@@ -418,12 +418,12 @@ const addEmojis = () => {
     humorous: ['😄', '😂', '🤣', '😜', '🤪', '😝', '🤗', '😋', '😎', '🤩'],
     motivational: ['💪', '🔥', '💯', '⭐', '🚀', '🎯', '🏆', '🌟', '✨', '💎']
   }
-  
+
   const emojis = emojiSets[style.value] || emojiSets.casual
-  const emojiCount = emojiStyle.value === 'few' ? 2 : 
-                    emojiStyle.value === 'moderate' ? 4 : 
+  const emojiCount = emojiStyle.value === 'few' ? 2 :
+                    emojiStyle.value === 'moderate' ? 4 :
                     emojiStyle.value === 'many' ? 6 : 0
-  
+
   if (emojiCount > 0) {
     const selectedEmojis = emojis.slice(0, emojiCount)
     generatedCaption.value += ' ' + selectedEmojis.join(' ')
@@ -457,14 +457,3 @@ const getEmojiCount = (): number => {
   return (generatedCaption.value.match(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu) || []).length
 }
 </script>
-
-<style scoped>
-.input-brutal { @apply w-full p-3 border-4 border-black bg-white dark:bg-brutal-black text-black dark:text-white; }
-.btn-primary { @apply px-4 py-2 border-4 border-black shadow-brutal font-black; }
-.btn-primary-yellow { @apply bg-brutal-yellow; }
-.btn-primary-lime { @apply bg-brutal-lime; }
-.btn-primary-pink { @apply bg-brutal-pink; }
-.btn-primary-white { @apply bg-white; }
-.card-brutal-white { @apply bg-brutal-white; }
-.card-brutal-black { @apply bg-brutal-black; }
-</style>

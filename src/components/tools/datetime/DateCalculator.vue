@@ -14,8 +14,8 @@
     <div class="max-w-7xl mx-auto p-6">
       <!-- Tabs -->
       <div class="flex flex-wrap gap-2 mb-6">
-        <button 
-          v-for="tab in tabs" 
+        <button
+          v-for="tab in tabs"
           :key="tab.id"
           class="btn-primary"
           :class="[
@@ -36,29 +36,29 @@
         <h2 class="subheading-brutal mb-6">
           Add/Subtract Days
         </h2>
-        
+
         <div class="grid md:grid-cols-3 gap-6">
           <div>
             <label class="font-black block mb-2">Start Date</label>
-            <input 
-              v-model="startDate" 
-              type="date" 
+            <input
+              v-model="startDate"
+              type="date"
               class="input-brutal w-full"
             >
           </div>
-          
+
           <div>
             <label class="font-black block mb-2">Days to {{ operation }}</label>
-            <input 
-              v-model.number="daysToAdd" 
-              type="number" 
+            <input
+              v-model.number="daysToAdd"
+              type="number"
               class="input-brutal w-full"
               placeholder="Enter number of days"
             >
           </div>
-          
+
           <div class="flex items-end">
-            <button 
+            <button
               class="btn-primary btn-primary-yellow w-full"
               :disabled="!startDate || !daysToAdd"
               @click="calculateDate"
@@ -92,29 +92,29 @@
         <h2 class="subheading-brutal mb-6">
           Date Difference
         </h2>
-        
+
         <div class="grid md:grid-cols-2 gap-6">
           <div>
             <label class="font-black block mb-2">Start Date</label>
-            <input 
-              v-model="startDateDiff" 
-              type="date" 
+            <input
+              v-model="startDateDiff"
+              type="date"
               class="input-brutal w-full"
             >
           </div>
-          
+
           <div>
             <label class="font-black block mb-2">End Date</label>
-            <input 
-              v-model="endDateDiff" 
-              type="date" 
+            <input
+              v-model="endDateDiff"
+              type="date"
               class="input-brutal w-full"
             >
           </div>
         </div>
 
         <div class="mt-6">
-          <button 
+          <button
             class="btn-primary btn-primary-yellow"
             :disabled="!startDateDiff || !endDateDiff"
             @click="calculateDifference"
@@ -172,22 +172,22 @@
         <h2 class="subheading-brutal mb-6">
           Business Days Calculator
         </h2>
-        
+
         <div class="grid md:grid-cols-2 gap-6">
           <div>
             <label class="font-black block mb-2">Start Date</label>
-            <input 
-              v-model="startDateBusiness" 
-              type="date" 
+            <input
+              v-model="startDateBusiness"
+              type="date"
               class="input-brutal w-full"
             >
           </div>
-          
+
           <div>
             <label class="font-black block mb-2">End Date</label>
-            <input 
-              v-model="endDateBusiness" 
-              type="date" 
+            <input
+              v-model="endDateBusiness"
+              type="date"
               class="input-brutal w-full"
             >
           </div>
@@ -204,7 +204,7 @@
         </div>
 
         <div class="mt-6">
-          <button 
+          <button
             class="btn-primary btn-primary-yellow"
             :disabled="!startDateBusiness || !endDateBusiness"
             @click="calculateBusinessDays"
@@ -269,7 +269,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { useHead } from '@vueuse/head'
 import { useMilestones } from '@/composables/useMilestones'
 
@@ -324,7 +324,7 @@ const formatDate = (date: Date): string => {
 
 const setToday = (field: string) => {
   const today = new Date().toISOString().split('T')[0]
-  
+
   switch (field) {
     case 'start':
       startDate.value = today
@@ -355,30 +355,30 @@ const calculateDifference = () => {
 
   const start = new Date(startDateDiff.value)
   const end = new Date(endDateDiff.value)
-  
+
   const diffTime = Math.abs(end.getTime() - start.getTime())
   const totalDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-  
+
   // Calculate years, months, and days
   const years = end.getFullYear() - start.getFullYear()
   const months = end.getMonth() - start.getMonth()
   const days = end.getDate() - start.getDate()
-  
+
   let adjustedYears = years
   let adjustedMonths = months
   let adjustedDays = days
-  
+
   if (adjustedDays < 0) {
     adjustedMonths--
     const prevMonth = new Date(end.getFullYear(), end.getMonth(), 0)
     adjustedDays += prevMonth.getDate()
   }
-  
+
   if (adjustedMonths < 0) {
     adjustedYears--
     adjustedMonths += 12
   }
-  
+
   difference.value = {
     years: adjustedYears,
     months: adjustedMonths,
@@ -392,20 +392,20 @@ const calculateBusinessDays = () => {
 
   const start = new Date(startDateBusiness.value)
   const end = new Date(endDateBusiness.value)
-  
+
   let count = 0
   const current = new Date(start)
-  
+
   while (current <= end) {
     const dayOfWeek = current.getDay()
     const isWeekend = dayOfWeek === 0 || dayOfWeek === 6
-    
+
     if (!excludeWeekends.value || !isWeekend) {
       count++
     }
     current.setDate(current.getDate() + 1)
   }
-  
+
   businessDaysResult.value = count
   celebrateFirstUse('date-calculator')
 }
@@ -424,11 +424,53 @@ const clearAll = () => {
 </script>
 
 <style scoped>
-.input-brutal { @apply w-full p-3 border-4 border-black bg-white dark:bg-brutal-black text-black dark:text-white; }
-.btn-primary { @apply px-4 py-2 border-4 border-black shadow-brutal font-black; }
-.btn-primary-yellow { @apply bg-brutal-yellow; }
-.btn-primary-lime { @apply bg-brutal-lime; }
-.btn-primary-pink { @apply bg-brutal-pink; }
-.card-brutal-white { @apply bg-brutal-white; }
-.card-brutal-black { @apply bg-brutal-black; }
+
+/* Input styling without Tailwind @apply */
+.input-brutal {
+  width: 100%;
+  padding: 0.75rem; /* p-3 */
+  border-width: 4px;
+  border-style: solid;
+  border-color: #000000; /* border-black */
+  background-color: #ffffff; /* bg-white */
+  color: #000000; /* text-black */
+}
+
+/* Dark mode override equivalent to dark:bg-brutal-black dark:text-white */
+:global(.dark) .input-brutal {
+  background-color: #000000; /* brutal black */
+  color: #ffffff;
+}
+
+/* Button base styling without @apply */
+.btn-primary {
+  padding: 0.5rem 1rem; /* approx px-4 py-2 */
+  border-width: 4px;
+  border-style: solid;
+  border-color: #000000;
+  font-weight: 900; /* font-black */
+  box-shadow: 4px 4px 0 0 #000000; /* shadow-brutal equivalent */
+}
+
+/* Color variants (replacing bg-brutal-* utilities) */
+.btn-primary-yellow {
+  background-color: #facc15; /* brutal yellow */
+}
+
+.btn-primary-lime {
+  background-color: #a3e635; /* brutal lime */
+}
+
+.btn-primary-pink {
+  background-color: #f472b6; /* brutal pink */
+}
+
+/* Card background helpers */
+.card-brutal-white {
+  background-color: #ffffff;
+}
+
+.card-brutal-black {
+  background-color: #000000; /* brutal black */
+}
 </style>

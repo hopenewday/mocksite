@@ -1,67 +1,173 @@
 <template>
   <div class="card card-brutal-lime p-8">
-    <h2 class="subheading-brutal mb-6">Math Equation Solver</h2>
+    <h2 class="subheading-brutal mb-6">
+      Math Equation Solver
+    </h2>
     
     <div class="grid md:grid-cols-3 gap-6 mb-8">
       <!-- Equation Type -->
-      <div class="bg-brutal-white border-4 border-black p-6 space-y-4">
-        <h3 class="font-black mb-4">Equation Type</h3>
+      <div class="bg-brutal-white dark:bg-brutal-black border-4 border-black dark:border-brutal-white p-6 space-y-4">
+        <h3 class="font-black mb-4">
+          Equation Type
+        </h3>
         
         <div class="space-y-2">
-          <button :class="['btn-small w-full', equationType === 'linear' ? 'btn-primary-cyan' : 'btn-primary-gray']" @click="equationType = 'linear'">
+          <button
+            :class="['btn-small w-full', equationType === 'linear' ? 'btn-primary-cyan' : 'btn-primary-gray']"
+            @click="equationType = 'linear'"
+          >
             Linear: ax + b = c
           </button>
-          <button :class="['btn-small w-full', equationType === 'quadratic' ? 'btn-primary-cyan' : 'btn-primary-gray']" @click="equationType = 'quadratic'">
+          <button
+            :class="['btn-small w-full', equationType === 'quadratic' ? 'btn-primary-cyan' : 'btn-primary-gray']"
+            @click="equationType = 'quadratic'"
+          >
             Quadratic: ax² + bx + c = 0
           </button>
-          <button :class="['btn-small w-full', equationType === 'system' ? 'btn-primary-cyan' : 'btn-primary-gray']" @click="equationType = 'system'">
+          <button
+            :class="['btn-small w-full', equationType === 'system' ? 'btn-primary-cyan' : 'btn-primary-gray']"
+            @click="equationType = 'system'"
+          >
             System of Equations
           </button>
         </div>
 
-        <button class="btn-primary btn-primary-lime w-full" @click="solve">Solve</button>
+        <button
+          class="btn-primary btn-primary-lime w-full"
+          @click="solve"
+        >
+          Solve
+        </button>
 
         <div class="grid grid-cols-2 gap-2">
-          <button class="btn-primary btn-primary-cyan" :class="{ 'animate-copy-bounce': copying }" @click="copySolution">
+          <button
+            class="btn-primary btn-primary-cyan"
+            :class="{ 'animate-copy-bounce': copying }"
+            @click="copySolution"
+          >
             {{ copying ? 'Copied!' : 'Copy' }}
           </button>
-          <button class="btn-primary btn-primary-pink" @click="reset">Clear</button>
+          <button
+            class="btn-primary btn-primary-pink"
+            @click="reset"
+          >
+            Clear
+          </button>
         </div>
       </div>
 
       <!-- Coefficients -->
-      <div class="md:col-span-2 bg-brutal-yellow border-4 border-black p-6">
-        <h3 class="font-black mb-4">Enter Coefficients</h3>
+      <div class="md:col-span-2 bg-brutal-yellow dark:bg-brutal-black border-4 border-black dark:border-brutal-white p-6">
+        <h3 class="font-black mb-4">
+          Enter Coefficients
+        </h3>
         
-        <div v-if="equationType === 'linear'" class="space-y-2">
-          <input v-model.number="coeffs.a" type="number" placeholder="a" class="input w-full">
-          <input v-model.number="coeffs.b" type="number" placeholder="b" class="input w-full">
-          <input v-model.number="coeffs.c" type="number" placeholder="c" class="input w-full">
-          <div class="text-xs font-bold text-brutal-gray">{{ coeffs.a }}x + {{ coeffs.b }} = {{ coeffs.c }}</div>
+        <div
+          v-if="equationType === 'linear'"
+          class="space-y-2"
+        >
+          <input
+            v-model.number="coeffs.a"
+            type="number"
+            placeholder="a"
+            class="input w-full"
+          >
+          <input
+            v-model.number="coeffs.b"
+            type="number"
+            placeholder="b"
+            class="input w-full"
+          >
+          <input
+            v-model.number="coeffs.c"
+            type="number"
+            placeholder="c"
+            class="input w-full"
+          >
+          <div class="text-xs font-bold text-brutal-gray">
+            {{ coeffs.a }}x + {{ coeffs.b }} = {{ coeffs.c }}
+          </div>
         </div>
 
-        <div v-else-if="equationType === 'quadratic'" class="space-y-2">
-          <input v-model.number="coeffs.a" type="number" placeholder="a" class="input w-full">
-          <input v-model.number="coeffs.b" type="number" placeholder="b" class="input w-full">
-          <input v-model.number="coeffs.c" type="number" placeholder="c" class="input w-full">
-          <div class="text-xs font-bold text-brutal-gray">{{ coeffs.a }}x² + {{ coeffs.b }}x + {{ coeffs.c }} = 0</div>
+        <div
+          v-else-if="equationType === 'quadratic'"
+          class="space-y-2"
+        >
+          <input
+            v-model.number="coeffs.a"
+            type="number"
+            placeholder="a"
+            class="input w-full"
+          >
+          <input
+            v-model.number="coeffs.b"
+            type="number"
+            placeholder="b"
+            class="input w-full"
+          >
+          <input
+            v-model.number="coeffs.c"
+            type="number"
+            placeholder="c"
+            class="input w-full"
+          >
+          <div class="text-xs font-bold text-brutal-gray">
+            {{ coeffs.a }}x² + {{ coeffs.b }}x + {{ coeffs.c }} = 0
+          </div>
         </div>
 
-        <div v-else class="space-y-4">
+        <div
+          v-else
+          class="space-y-4"
+        >
           <div class="border-2 border-black p-3">
-            <div class="text-xs font-bold mb-2">Equation 1: ax + by = c</div>
+            <div class="text-xs font-bold mb-2">
+              Equation 1: ax + by = c
+            </div>
             <div class="grid grid-cols-3 gap-2">
-              <input v-model.number="system.eq1.a" type="number" placeholder="a" class="input text-sm">
-              <input v-model.number="system.eq1.b" type="number" placeholder="b" class="input text-sm">
-              <input v-model.number="system.eq1.c" type="number" placeholder="c" class="input text-sm">
+              <input
+                v-model.number="system.eq1.a"
+                type="number"
+                placeholder="a"
+                class="input text-sm"
+              >
+              <input
+                v-model.number="system.eq1.b"
+                type="number"
+                placeholder="b"
+                class="input text-sm"
+              >
+              <input
+                v-model.number="system.eq1.c"
+                type="number"
+                placeholder="c"
+                class="input text-sm"
+              >
             </div>
           </div>
           <div class="border-2 border-black p-3">
-            <div class="text-xs font-bold mb-2">Equation 2: dx + ey = f</div>
+            <div class="text-xs font-bold mb-2">
+              Equation 2: dx + ey = f
+            </div>
             <div class="grid grid-cols-3 gap-2">
-              <input v-model.number="system.eq2.a" type="number" placeholder="d" class="input text-sm">
-              <input v-model.number="system.eq2.b" type="number" placeholder="e" class="input text-sm">
-              <input v-model.number="system.eq2.c" type="number" placeholder="f" class="input text-sm">
+              <input
+                v-model.number="system.eq2.a"
+                type="number"
+                placeholder="d"
+                class="input text-sm"
+              >
+              <input
+                v-model.number="system.eq2.b"
+                type="number"
+                placeholder="e"
+                class="input text-sm"
+              >
+              <input
+                v-model.number="system.eq2.c"
+                type="number"
+                placeholder="f"
+                class="input text-sm"
+              >
             </div>
           </div>
         </div>
@@ -69,16 +175,32 @@
     </div>
 
     <!-- Solution -->
-    <div v-if="solution" class="grid md:grid-cols-2 gap-6">
+    <div
+      v-if="solution"
+      class="grid md:grid-cols-2 gap-6"
+    >
       <div class="bg-brutal-cyan border-4 border-black p-6">
-        <div class="text-sm font-bold text-brutal-gray mb-2">Solution</div>
-        <div class="text-4xl font-black break-words">{{ solution }}</div>
+        <div class="text-sm font-bold text-brutal-gray mb-2">
+          Solution
+        </div>
+        <div class="text-4xl font-black break-words">
+          {{ solution }}
+        </div>
       </div>
 
-      <div v-if="steps.length > 0" class="bg-brutal-pink border-4 border-black p-6">
-        <div class="text-sm font-bold text-brutal-gray mb-2">Steps</div>
+      <div
+        v-if="steps.length > 0"
+        class="bg-brutal-pink border-4 border-black p-6"
+      >
+        <div class="text-sm font-bold text-brutal-gray mb-2">
+          Steps
+        </div>
         <div class="text-sm font-bold space-y-2">
-          <div v-for="(step, idx) in steps" :key="idx" class="p-2 bg-brutal-white border-2 border-black">
+          <div
+            v-for="(step, idx) in steps"
+            :key="idx"
+            class="p-2 bg-brutal-white border-2 border-black"
+          >
             {{ idx + 1 }}. {{ step }}
           </div>
         </div>

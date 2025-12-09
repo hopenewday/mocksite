@@ -116,6 +116,7 @@ import { saveAs } from 'file-saver'
 import { useCopyFeedback } from '@/composables/useCopyFeedback'
 import { useMilestones } from '@/composables/useMilestones'
 import { marked } from 'marked'
+import { markedHighlight } from 'marked-highlight'
 import Prism from 'prismjs'
 import 'prismjs/components/prism-markdown'
 import 'prismjs/components/prism-javascript'
@@ -142,16 +143,19 @@ const { celebrateFirstUse } = useMilestones()
 
 const sanitizeHTML = (html: string) => html.replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '').replace(/on[a-z]+\s*=\s*"[^"]*"/gi, '')
 
-marked.setOptions({
-  highlight(code, lang) {
-    try {
-      const language = (lang && Prism.languages[lang]) ? lang : 'javascript'
-      return Prism.highlight(code, Prism.languages[language], language)
-    } catch {
-      return code
+marked.use(
+  markedHighlight({
+    langPrefix: 'language-',
+    highlight(code, lang) {
+      try {
+        const language = (lang && Prism.languages[lang]) ? lang : 'javascript'
+        return Prism.highlight(code, Prism.languages[language], language)
+      } catch {
+        return code
+      }
     }
-  }
-})
+  })
+)
 
 const convertMarkdown = () => {
   error.value = ''
@@ -172,7 +176,7 @@ const convertMarkdown = () => {
 }
 
 // Debounce timer
-let timeoutId: number | null = null
+let timeoutId: ReturnType<typeof setTimeout> | null = null
 
 const updatePreview = () => {
   // Debounced update for better performance
@@ -297,58 +301,17 @@ convertMarkdown()
 </script>
 
 <style scoped>
-.input-brutal { @apply w-full p-3 border-4 border-black bg-white dark:bg-brutal-black text-black dark:text-white; }
-.btn-primary { @apply px-4 py-2 border-4 border-black shadow-brutal font-black; }
-.btn-primary-yellow { @apply bg-brutal-yellow; }
-.btn-primary-lime { @apply bg-brutal-lime; }
-.btn-primary-pink { @apply bg-brutal-pink; }
-.btn-primary-white { @apply bg-white; }
-.card-brutal-white { @apply bg-brutal-white; }
-.card-brutal-black { @apply bg-brutal-black; }
 
-/* Markdown styling for preview */
-:deep(.prose) {
-  max-width: none;
-}
-
-:deep(.prose h1) {
-  @apply text-2xl font-bold mb-4;
-}
-
-:deep(.prose h2) {
-  @apply text-xl font-bold mb-3 mt-6;
-}
-
-:deep(.prose h3) {
-  @apply text-lg font-bold mb-2 mt-4;
-}
-
-:deep(.prose code) {
-  @apply bg-gray-100 px-1 py-0.5 rounded text-sm;
-}
-
-:deep(.prose pre) {
-  @apply bg-gray-100 p-4 rounded overflow-x-auto;
-}
-
-:deep(.prose pre code) {
-  @apply bg-transparent p-0;
-}
-
-:deep(.prose blockquote) {
-  @apply border-l-4 border-gray-300 pl-4 italic text-gray-600;
-}
-
-:deep(.prose table) {
-  @apply border-collapse border border-gray-300;
-}
-
-:deep(.prose th),
-:deep(.prose td) {
-  @apply border border-gray-300 px-3 py-1;
-}
-
-:deep(.prose th) {
-  @apply bg-gray-100 font-bold;
-}
+/* Use minimal scoped rules; rely on template utility classes */
+:deep(.prose) { max-width: none; }
+:deep(.prose h1) { font-weight: 700; margin-bottom: 1rem; font-size: 1.5rem; }
+:deep(.prose h2) { font-weight: 700; margin-bottom: 0.75rem; margin-top: 1.5rem; font-size: 1.25rem; }
+:deep(.prose h3) { font-weight: 700; margin-bottom: 0.5rem; margin-top: 1rem; font-size: 1.125rem; }
+:deep(.prose code) { background-color: #f3f4f6; padding: 0.125rem 0.25rem; border-radius: 0.25rem; font-size: 0.875rem; }
+:deep(.prose pre) { background-color: #f3f4f6; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; }
+:deep(.prose pre code) { background: transparent; padding: 0; }
+:deep(.prose blockquote) { border-left: 4px solid #d1d5db; padding-left: 1rem; font-style: italic; color: #4b5563; }
+:deep(.prose table) { border-collapse: collapse; border: 1px solid #d1d5db; }
+:deep(.prose th), :deep(.prose td) { border: 1px solid #d1d5db; padding: 0.25rem 0.75rem; }
+:deep(.prose th) { background-color: #f3f4f6; font-weight: 700; }
 </style>

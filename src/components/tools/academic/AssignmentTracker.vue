@@ -1,24 +1,42 @@
 <template>
   <div class="card card-brutal-pink p-8">
-    <h2 class="subheading-brutal mb-6">Assignment Tracker</h2>
+    <h2 class="subheading-brutal mb-6">
+      Assignment Tracker
+    </h2>
     
     <div class="grid md:grid-cols-4 gap-4 mb-6">
       <!-- Stats -->
-      <div class="bg-brutal-cyan border-4 border-black p-4">
-        <div class="text-xs font-bold text-brutal-gray">Total</div>
-        <div class="text-3xl font-black">{{ assignments.length }}</div>
+      <div class="bg-brutal-cyan dark:bg-brutal-black border-4 border-black dark:border-brutal-white p-4">
+        <div class="text-xs font-bold text-brutal-gray">
+          Total
+        </div>
+        <div class="text-3xl font-black">
+          {{ assignments.length }}
+        </div>
       </div>
-      <div class="bg-brutal-lime border-4 border-black p-4">
-        <div class="text-xs font-bold text-brutal-gray">Completed</div>
-        <div class="text-3xl font-black">{{ completed }}</div>
+      <div class="bg-brutal-lime dark:bg-brutal-black border-4 border-black dark:border-brutal-white p-4">
+        <div class="text-xs font-bold text-brutal-gray">
+          Completed
+        </div>
+        <div class="text-3xl font-black">
+          {{ completed }}
+        </div>
       </div>
-      <div class="bg-brutal-yellow border-4 border-black p-4">
-        <div class="text-xs font-bold text-brutal-gray">Pending</div>
-        <div class="text-3xl font-black">{{ pending }}</div>
+      <div class="bg-brutal-yellow dark:bg-brutal-black border-4 border-black dark:border-brutal-white p-4">
+        <div class="text-xs font-bold text-brutal-gray">
+          Pending
+        </div>
+        <div class="text-3xl font-black">
+          {{ pending }}
+        </div>
       </div>
       <div class="bg-red-200 border-4 border-red-600 p-4">
-        <div class="text-xs font-bold text-brutal-gray">Overdue</div>
-        <div class="text-3xl font-black">{{ overdue }}</div>
+        <div class="text-xs font-bold text-brutal-gray">
+          Overdue
+        </div>
+        <div class="text-3xl font-black">
+          {{ overdue }}
+        </div>
       </div>
     </div>
 
@@ -26,58 +44,128 @@
       <!-- Filters -->
       <div>
         <label class="font-black block text-sm mb-2">Filter by Priority</label>
-        <select v-model="filterPriority" class="input w-full text-sm">
-          <option value="">All</option>
-          <option value="high">High</option>
-          <option value="medium">Medium</option>
-          <option value="low">Low</option>
+        <select
+          v-model="filterPriority"
+          class="input w-full text-sm"
+        >
+          <option value="">
+            All
+          </option>
+          <option value="high">
+            High
+          </option>
+          <option value="medium">
+            Medium
+          </option>
+          <option value="low">
+            Low
+          </option>
         </select>
       </div>
       <div>
         <label class="font-black block text-sm mb-2">Filter by Status</label>
-        <select v-model="filterStatus" class="input w-full text-sm">
-          <option value="">All</option>
-          <option value="pending">Pending</option>
-          <option value="completed">Completed</option>
-          <option value="overdue">Overdue</option>
+        <select
+          v-model="filterStatus"
+          class="input w-full text-sm"
+        >
+          <option value="">
+            All
+          </option>
+          <option value="pending">
+            Pending
+          </option>
+          <option value="completed">
+            Completed
+          </option>
+          <option value="overdue">
+            Overdue
+          </option>
         </select>
       </div>
       <div>
         <label class="font-black block text-sm mb-2">Sort By</label>
-        <select v-model="sortBy" class="input w-full text-sm">
-          <option value="due">Due Date</option>
-          <option value="priority">Priority</option>
-          <option value="subject">Subject</option>
+        <select
+          v-model="sortBy"
+          class="input w-full text-sm"
+        >
+          <option value="due">
+            Due Date
+          </option>
+          <option value="priority">
+            Priority
+          </option>
+          <option value="subject">
+            Subject
+          </option>
         </select>
       </div>
       <div>
         <label class="font-black block text-sm mb-2">&nbsp;</label>
-        <button class="btn-primary btn-primary-pink w-full text-sm" @click="addAssignment">+ Add</button>
+        <button
+          class="btn-primary btn-primary-pink w-full text-sm"
+          @click="addAssignment"
+        >
+          + Add
+        </button>
       </div>
     </div>
 
     <!-- List -->
     <div class="space-y-2 max-h-[500px] overflow-y-auto">
-      <div v-for="(a, idx) in filteredSorted" :key="idx" class="bg-brutal-white border-4 border-black p-4 grid grid-cols-6 gap-2 items-center text-sm">
-        <input v-model="a.completed" type="checkbox" class="w-4 h-4">
+      <div
+        v-for="(a, idx) in filteredSorted"
+        :key="idx"
+        class="bg-brutal-white border-4 border-black p-4 grid grid-cols-6 gap-2 items-center text-sm"
+      >
+        <input
+          v-model="a.completed"
+          type="checkbox"
+          class="w-4 h-4"
+        >
         <div class="col-span-2">
-          <div class="font-black" :class="{ 'line-through': a.completed }">{{ a.title }}</div>
-          <div class="text-xs font-bold text-brutal-gray">{{ a.subject }}</div>
+          <div
+            class="font-black"
+            :class="{ 'line-through': a.completed }"
+          >
+            {{ a.title }}
+          </div>
+          <div class="text-xs font-bold text-brutal-gray">
+            {{ a.subject }}
+          </div>
         </div>
         <div class="text-xs">
-          <span class="font-black" :class="getPriorityColor(a.priority)">{{ a.priority.toUpperCase() }}</span>
+          <span
+            class="font-black"
+            :class="getPriorityColor(a.priority)"
+          >{{ a.priority.toUpperCase() }}</span>
         </div>
-        <div class="text-xs font-bold">{{ formatDate(a.dueDate) }}</div>
-        <button class="btn-small btn-primary-pink" @click="removeAssignment(idx)">✕</button>
+        <div class="text-xs font-bold">
+          {{ formatDate(a.dueDate) }}
+        </div>
+        <button
+          class="btn-small btn-primary-pink"
+          @click="removeAssignment(idx)"
+        >
+          ✕
+        </button>
       </div>
     </div>
 
     <!-- Export -->
     <div class="mt-6 grid grid-cols-2 gap-4">
-      <button class="btn-primary btn-primary-cyan" :class="{ 'animate-copy-bounce': copying }" @click="copyList">
+      <button
+        class="btn-primary btn-primary-cyan"
+        :class="{ 'animate-copy-bounce': copying }"
+        @click="copyList"
+      >
         {{ copying ? 'Copied!' : 'Copy List' }}
       </button>
-      <button class="btn-primary btn-primary-lime" @click="exportJSON">Download JSON</button>
+      <button
+        class="btn-primary btn-primary-lime"
+        @click="exportJSON"
+      >
+        Download JSON
+      </button>
     </div>
   </div>
 </template>

@@ -1,176 +1,99 @@
 <template>
-  <div class="min-h-screen bg-brutal-white dark:bg-brutal-black">
+  <div class="min-h-screen bg-[url('https://www.transparenttextures.com/patterns/concrete-wall.png')] bg-brutal-white dark:bg-brutal-black font-sans pb-16">
+    <!-- Header Section -->
     <header
       v-if="$route.name === 'tools'"
-      class="bg-brutal-pink border-b-4 border-black shadow-brutal p-6"
+      class="bg-white dark:bg-gray-900 border-b-4 border-black dark:border-white p-8 text-center"
     >
       <div class="max-w-7xl mx-auto">
-        <h1 class="heading-brutal text-4xl">
-          Tools Suite
+        <h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter mb-2 text-black dark:text-white">
+          TOOLS SUITE
         </h1>
-        <p class="text-brutal mt-2 text-lg">
-          Professional tools for productivity and creativity
-        </p>
+
+        <!-- Search Bar -->
+        <div class="max-w-xl mx-auto mt-8 relative">
+          <input
+            v-model="searchQuery"
+            type="text"
+            class="block w-full py-3 px-4 bg-gray-200 dark:bg-gray-800 border-4 border-black dark:border-white text-xl font-bold uppercase placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:bg-white dark:focus:bg-gray-700 transition-colors text-black dark:text-white"
+            placeholder="SEARCH TOOLS..."
+          >
+          <div class="absolute right-4 top-1/2 -translate-y-1/2 text-2xl">
+            🔍
+          </div>
+        </div>
       </div>
     </header>
-    
+
+    <!-- Tools Grid -->
     <div
       v-if="$route.name === 'tools'"
-      class="max-w-7xl mx-auto p-6"
+      class="max-w-7xl mx-auto p-4 md:p-8"
     >
-      <!-- Desktop Grid -->
       <div
-        v-if="$route.name === 'tools'"
-        class="hidden md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8"
+        v-if="filteredCategories.length === 0"
+        class="text-center py-12"
       >
-        <ToolCard 
-          icon="📋" 
-          title="PDF Tools" 
-          description="Merge, split, rotate, compress PDFs"
-          link="/tools/pdf"
-        />
-        
-        <ToolCard 
-          icon="🖼️" 
-          title="Image Tools" 
-          description="Convert, crop, resize images"
-          link="/tools/image"
-        />
-        
-        <ToolCard 
-          icon="🧮" 
-          title="Calculator Suite" 
-          description="Percentage, BMI, scientific calculators"
-          link="/tools/calculator"
-        />
-        
-        <ToolCard 
-          icon="📝" 
-          title="Text Tools" 
-          description="Word counter, case converter, diff tool"
-          link="/tools/text"
-        />
-        
-        <ToolCard 
-          icon="📅" 
-          title="Date & Time" 
-          description="Age calculator, date difference"
-          link="/tools/datetime"
-        />
-        
-        <ToolCard 
-          icon="📱" 
-          title="QR Code Tools" 
-          description="Generate and read QR codes"
-          link="/tools/qr"
-        />
-        
-        <ToolCard 
-          icon="🎨" 
-          title="Color Tools" 
-          description="Color picker, palette, converter"
-          link="/tools/color"
-        />
-        
-        <ToolCard 
-          icon="🔤" 
-          title="Font Tools" 
-          description="Font preview, identifier, converter"
-          link="/tools/font"
-        />
-        
-        <ToolCard 
-          icon="📄" 
-          title="Document Converters" 
-          description="Convert between document formats"
-          link="/tools/document"
-        />
-        
-        <ToolCard 
-          icon="🛠️" 
-          title="Misc Tools" 
-          description="Various utility tools"
-          link="/tools/misc"
-        />
+        <p class="text-2xl font-bold text-gray-500 dark:text-gray-400">
+          No tools found matching "{{ searchQuery }}"
+        </p>
       </div>
-      
-      <!-- Mobile List -->
-      <div
-        v-if="$route.name === 'tools'"
-        class="md:hidden space-y-4"
-      >
-        <MobileToolCard 
-          icon="📋" 
-          title="PDF Tools" 
-          description="Merge, split, rotate, compress PDFs"
-          link="/tools/pdf"
-        />
-        
-        <MobileToolCard 
-          icon="🖼️" 
-          title="Image Tools" 
-          description="Convert, crop, resize images"
-          link="/tools/image"
-        />
-        
-        <MobileToolCard 
-          icon="🧮" 
-          title="Calculator Suite" 
-          description="Percentage, BMI, scientific calculators"
-          link="/tools/calculator"
-        />
-        
-        <MobileToolCard 
-          icon="📝" 
-          title="Text Tools" 
-          description="Word counter, case converter, diff tool"
-          link="/tools/text"
-        />
-        
-        <MobileToolCard 
-          icon="📅" 
-          title="Date & Time" 
-          description="Age calculator, date difference"
-          link="/tools/datetime"
-        />
-        
-        <MobileToolCard 
-          icon="📱" 
-          title="QR Code Tools" 
-          description="Generate and read QR codes"
-          link="/tools/qr"
-        />
-        
-        <MobileToolCard 
-          icon="🎨" 
-          title="Color Tools" 
-          description="Color picker, palette, converter"
-          link="/tools/color"
-        />
-        
-        <MobileToolCard 
-          icon="🔤" 
-          title="Font Tools" 
-          description="Font preview, identifier, converter"
-          link="/tools/font"
-        />
-        
-        <MobileToolCard 
-          icon="📄" 
-          title="Document Converters" 
-          description="Convert between document formats"
-          link="/tools/document"
-        />
-        
-        <MobileToolCard 
-          icon="🛠️" 
-          title="Misc Tools" 
-          description="Various utility tools"
-          link="/tools/misc"
-        />
+
+      <!-- True Masonry Layout using CSS Columns -->
+      <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-0">
+        <div
+          v-for="category in filteredCategories"
+          :key="category.path"
+          :class="[
+            'bg-white dark:bg-gray-900 border-4 border-black dark:border-white shadow-[8px_8px_0px_#000] dark:shadow-[8px_8px_0px_#fff] flex flex-col break-inside-avoid mb-6',
+            category.stripeClass
+          ]"
+        >
+          <!-- Header with dynamic color stripe -->
+          <div :class="['border-b-4 border-black dark:border-white p-3 md:p-4 flex items-center gap-2 md:gap-3', category.colorClass]">
+            <Icon
+              :icon="category.icon || 'mdi:hammer-wrench'"
+              class="text-2xl md:text-3xl text-black"
+            />
+            <h2 class="text-lg md:text-xl font-black uppercase leading-none tracking-tighter text-black">
+              {{ category.title }}
+            </h2>
+          </div>
+
+          <!-- Content Grid (Mini Icons) - COLORED BACKGROUNDS like reference -->
+          <div :class="['p-3 md:p-4 grid gap-2 md:gap-3', category.gridClass]">
+            <template
+              v-for="tool in category.children.slice(0, category.showCount)"
+              :key="tool.path"
+            >
+              <router-link
+                :to="`${category.path}/${tool.path}`"
+                class="flex flex-col items-center text-center group"
+              >
+                <div :class="['w-12 h-12 md:w-14 md:h-14 border-2 border-black dark:border-white flex items-center justify-center mb-1 transition-all rounded-lg group-hover:shadow-[3px_3px_0px_#000] dark:group-hover:shadow-[3px_3px_0px_#fff]', category.iconColorClass]">
+                  <Icon
+                    :icon="tool.meta?.icon || 'mdi:hammer-wrench'"
+                    class="text-xl md:text-2xl text-black"
+                  />
+                </div>
+                <span class="text-[9px] md:text-[10px] font-bold leading-tight uppercase text-black dark:text-white line-clamp-2">{{ tool.meta?.title }}</span>
+              </router-link>
+            </template>
+          </div>
+
+          <!-- Footer Button - BLACK like reference -->
+          <div class="p-3 md:p-4 pt-0 mt-auto">
+            <router-link
+              :to="category.path"
+              class="block w-full bg-gray-800 dark:bg-gray-700 text-white border-4 border-black dark:border-white text-center py-1.5 md:py-2 font-black uppercase text-xs md:text-sm transition-all hover:bg-gray-700 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[4px_4px_0px_#000] dark:hover:shadow-[4px_4px_0px_#fff]"
+            >
+              VIEW ALL {{ category.children.length }} TOOLS
+            </router-link>
+          </div>
+        </div>
       </div>
     </div>
-    
+
     <RouterView
       v-else
       v-slot="{ Component }"
@@ -186,15 +109,209 @@
 </template>
 
 <script setup lang="ts">
-import ToolCard from '@/components/common/ToolCard.vue'
-import MobileToolCard from '@/components/common/MobileToolCard.vue'
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import { useHead } from '@vueuse/head'
+import { Icon } from '@iconify/vue'
 
 useHead({
+  title: 'Tools Suite - All Tools',
   meta: [
-    { name: 'description', content: 'All-in-one online tools suite: PDF, image, text, color, fonts, QR, calculators, and document converters.' },
-    { property: 'og:title', content: 'Tools Suite' },
-    { property: 'og:description', content: 'Professional tools for productivity and creativity.' }
+    { name: 'description', content: 'Explore our comprehensive suite of online tools.' }
   ]
+})
+
+const router = useRouter()
+const searchQuery = ref('')
+
+// Color & Size Mapping for Neo-Brutalist Theme
+// Large cards: PDF, Text, Misc, Academic (more tools shown)
+// Small cards: Image, Calculator, DateTime, QR, Color, Font, Document (fewer tools)
+interface CategoryStyle {
+  header: string
+  icon: string
+  iconColor: string  // Background color for tool icons
+  stripe: string
+  button: string
+  size: 'large' | 'small'
+  grid: string
+  showCount: number
+}
+
+const colorMap: Record<string, CategoryStyle> = {
+  'pdf': {
+    header: 'bg-brutal-lime',
+    icon: 'group-hover:bg-brutal-lime',
+    iconColor: 'bg-brutal-lime',
+    stripe: 'border-l-[6px] border-l-brutal-lime',
+    button: 'bg-brutal-lime',
+    size: 'large',
+    grid: 'grid-cols-3',
+    showCount: 6
+  },
+  'image': {
+    header: 'bg-brutal-cyan',
+    icon: 'group-hover:bg-brutal-cyan',
+    iconColor: 'bg-brutal-cyan',
+    stripe: 'border-l-[6px] border-l-brutal-cyan',
+    button: 'bg-brutal-cyan',
+    size: 'small',
+    grid: 'grid-cols-3',
+    showCount: 5
+  },
+  'calculator': {
+    header: 'bg-brutal-yellow',
+    icon: 'group-hover:bg-brutal-yellow',
+    iconColor: 'bg-brutal-yellow',
+    stripe: 'border-l-[6px] border-l-brutal-yellow',
+    button: 'bg-brutal-yellow',
+    size: 'small',
+    grid: 'grid-cols-2',
+    showCount: 4
+  },
+  'text': {
+    header: 'bg-brutal-cyan',
+    icon: 'group-hover:bg-brutal-cyan',
+    iconColor: 'bg-brutal-cyan',
+    stripe: 'border-l-[6px] border-l-brutal-cyan',
+    button: 'bg-brutal-cyan',
+    size: 'large',
+    grid: 'grid-cols-3',
+    showCount: 6
+  },
+  'datetime': {
+    header: 'bg-brutal-yellow',
+    icon: 'group-hover:bg-brutal-yellow',
+    iconColor: 'bg-brutal-yellow',
+    stripe: 'border-l-[6px] border-l-brutal-yellow',
+    button: 'bg-brutal-yellow',
+    size: 'small',
+    grid: 'grid-cols-2',
+    showCount: 4
+  },
+  'qr': {
+    header: 'bg-brutal-pink',
+    icon: 'group-hover:bg-brutal-pink',
+    iconColor: 'bg-brutal-pink',
+    stripe: 'border-l-[6px] border-l-brutal-pink',
+    button: 'bg-brutal-pink',
+    size: 'small',
+    grid: 'grid-cols-2',
+    showCount: 2
+  },
+  'color': {
+    header: 'bg-brutal-pink',
+    icon: 'group-hover:bg-brutal-pink',
+    iconColor: 'bg-brutal-pink',
+    stripe: 'border-l-[6px] border-l-brutal-pink',
+    button: 'bg-brutal-pink',
+    size: 'small',
+    grid: 'grid-cols-2',
+    showCount: 4
+  },
+  'font': {
+    header: 'bg-brutal-cyan',
+    icon: 'group-hover:bg-brutal-cyan',
+    iconColor: 'bg-brutal-cyan',
+    stripe: 'border-l-[6px] border-l-brutal-cyan',
+    button: 'bg-brutal-cyan',
+    size: 'small',
+    grid: 'grid-cols-3',
+    showCount: 3
+  },
+  'document': {
+    header: 'bg-brutal-yellow',
+    icon: 'group-hover:bg-brutal-yellow',
+    iconColor: 'bg-brutal-yellow',
+    stripe: 'border-l-[6px] border-l-brutal-yellow',
+    button: 'bg-brutal-yellow',
+    size: 'small',
+    grid: 'grid-cols-3',
+    showCount: 3
+  },
+  'academic': {
+    header: 'bg-brutal-lime',
+    icon: 'group-hover:bg-brutal-lime',
+    iconColor: 'bg-brutal-lime',
+    stripe: 'border-l-[6px] border-l-brutal-lime',
+    button: 'bg-brutal-lime',
+    size: 'large',
+    grid: 'grid-cols-3',
+    showCount: 6
+  },
+  'misc': {
+    header: 'bg-gray-300 dark:bg-gray-600',
+    icon: 'group-hover:bg-gray-300 dark:group-hover:bg-gray-600',
+    iconColor: 'bg-gray-200 dark:bg-gray-700',
+    stripe: 'border-l-[6px] border-l-gray-400',
+    button: 'bg-gray-700 text-white',
+    size: 'large',
+    grid: 'grid-cols-3',
+    showCount: 6
+  }
+}
+
+const getToolsData = () => {
+  const toolsRoute = router.options.routes.find(r => r.name === 'tools')
+  if (!toolsRoute || !toolsRoute.children) return []
+
+  return toolsRoute.children.map(child => {
+    const categoryKey = child.path
+    const styling = colorMap[categoryKey] || {
+      header: 'bg-white',
+      icon: 'group-hover:bg-gray-100',
+      iconColor: 'bg-gray-100',
+      stripe: 'border-l-[6px] border-l-gray-400',
+      button: 'bg-gray-700 text-white',
+      size: 'small' as const,
+      grid: 'grid-cols-3',
+      showCount: 6
+    }
+
+    // Size class for masonry - large cards span 2 rows on desktop
+    const sizeClass = styling.size === 'large' ? 'lg:row-span-1' : ''
+
+    return {
+      path: `/tools/${child.path}`,
+      name: child.name,
+      title: (child.meta as any)?.title || categoryKey,
+      description: (child.meta as any)?.description || '',
+      icon: (child.meta as any)?.icon || 'mdi:hammer-wrench',
+      colorClass: styling.header,
+      iconBgClass: styling.icon,
+      iconColorClass: styling.iconColor,  // Colored background for tool icons
+      stripeClass: styling.stripe,
+      buttonClass: styling.button,
+      sizeClass: sizeClass,
+      gridClass: styling.grid,
+      showCount: styling.showCount,
+      children: child.children ? child.children.map(c => ({
+          ...c,
+          meta: {
+              ...c.meta,
+              icon: (c.meta as any)?.icon || 'mdi:hammer-wrench'
+          }
+      })) : []
+    }
+  })
+}
+
+const allCategories = getToolsData()
+
+const filteredCategories = computed(() => {
+  const query = searchQuery.value.toLowerCase().trim()
+  if (!query) return allCategories
+
+  return allCategories.map(cat => {
+    const categoryMatches = cat.title.toLowerCase().includes(query)
+    const matchingChildren = cat.children.filter(tool => {
+       const toolTitle = (tool.meta as any)?.title?.toLowerCase() || ''
+       return toolTitle.includes(query)
+    })
+
+    if (categoryMatches) return cat
+    if (matchingChildren.length > 0) return { ...cat, children: matchingChildren }
+    return null
+  }).filter(Boolean) as typeof allCategories
 })
 </script>

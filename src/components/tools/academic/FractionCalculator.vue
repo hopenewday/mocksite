@@ -1,59 +1,131 @@
 <template>
   <div class="card card-brutal-yellow p-8">
-    <h2 class="subheading-brutal mb-6">Fraction Calculator</h2>
-    
+    <h2 class="subheading-brutal mb-6">
+      Fraction Calculator
+    </h2>
+
     <div class="grid md:grid-cols-3 gap-6 mb-8">
       <!-- Input -->
-      <div class="bg-brutal-white border-4 border-black p-6 space-y-6 md:col-span-1">
-        <h3 class="font-black text-lg">Fraction 1</h3>
+      <div class="bg-brutal-white dark:bg-brutal-black border-4 border-black dark:border-brutal-white p-6 space-y-6 md:col-span-1">
+        <h3 class="font-black text-lg">
+          Fraction 1
+        </h3>
         <div class="flex gap-2 items-center">
-          <input v-model.number="frac1.num" type="number" placeholder="Numerator" class="input flex-1">
+          <input
+            v-model.number="frac1.num"
+            type="number"
+            placeholder="Numerator"
+            class="input flex-1"
+          >
           <span class="font-black text-2xl">/</span>
-          <input v-model.number="frac1.denom" type="number" placeholder="Denominator" class="input flex-1">
+          <input
+            v-model.number="frac1.denom"
+            type="number"
+            placeholder="Denominator"
+            class="input flex-1"
+          >
         </div>
 
-        <h3 class="font-black text-lg">Operation</h3>
+        <h3 class="font-black text-lg">
+          Operation
+        </h3>
         <div class="grid grid-cols-2 gap-2">
-          <button :class="['btn-small', operationIs('+')]" @click="operation = '+'">+</button>
-          <button :class="['btn-small', operationIs('-')]" @click="operation = '-'">−</button>
-          <button :class="['btn-small', operationIs('*')]" @click="operation = '*'">×</button>
-          <button :class="['btn-small', operationIs('/')]" @click="operation = '/'">÷</button>
+          <button
+            :class="['btn-small', operationIs('+')]"
+            @click="operation = '+'"
+          >
+            +
+          </button>
+          <button
+            :class="['btn-small', operationIs('-')]"
+            @click="operation = '-'"
+          >
+            −
+          </button>
+          <button
+            :class="['btn-small', operationIs('*')]"
+            @click="operation = '*'"
+          >
+            ×
+          </button>
+          <button
+            :class="['btn-small', operationIs('/')]"
+            @click="operation = '/'"
+          >
+            ÷
+          </button>
         </div>
 
-        <h3 class="font-black text-lg">Fraction 2</h3>
+        <h3 class="font-black text-lg">
+          Fraction 2
+        </h3>
         <div class="flex gap-2 items-center">
-          <input v-model.number="frac2.num" type="number" placeholder="Numerator" class="input flex-1">
+          <input
+            v-model.number="frac2.num"
+            type="number"
+            placeholder="Numerator"
+            class="input flex-1"
+          >
           <span class="font-black text-2xl">/</span>
-          <input v-model.number="frac2.denom" type="number" placeholder="Denominator" class="input flex-1">
+          <input
+            v-model.number="frac2.denom"
+            type="number"
+            placeholder="Denominator"
+            class="input flex-1"
+          >
         </div>
 
-        <button class="btn-primary btn-primary-lime w-full font-black" @click="calculate">Calculate</button>
+        <button
+          class="btn-primary btn-primary-lime w-full font-black"
+          @click="calculate"
+        >
+          Calculate
+        </button>
 
         <div class="grid grid-cols-2 gap-2">
-          <button class="btn-primary btn-primary-cyan" :class="{ 'animate-copy-bounce': copying }" @click="copyResult">
+          <button
+            class="btn-primary btn-primary-cyan"
+            :class="{ 'animate-copy-bounce': copying }"
+            @click="copyResult"
+          >
             {{ copying ? 'Copied!' : 'Copy' }}
           </button>
-          <button class="btn-primary btn-primary-pink" @click="reset">Reset</button>
+          <button
+            class="btn-primary btn-primary-pink"
+            @click="reset"
+          >
+            Reset
+          </button>
         </div>
       </div>
 
       <!-- Results -->
       <div class="md:col-span-2 space-y-6">
         <div class="bg-brutal-cyan border-4 border-black p-6">
-          <div class="text-sm font-bold text-brutal-gray mb-2">Result (Fraction)</div>
+          <div class="text-sm font-bold text-brutal-gray mb-2">
+            Result (Fraction)
+          </div>
           <div class="text-5xl font-black">
             {{ resultFrac.num }} <span class="text-2xl">/</span> {{ resultFrac.denom }}
           </div>
-          <div class="text-sm font-bold mt-2 text-brutal-gray">Simplified</div>
+          <div class="text-sm font-bold mt-2 text-brutal-gray">
+            Simplified
+          </div>
         </div>
 
         <div class="bg-brutal-pink border-4 border-black p-6">
-          <div class="text-sm font-bold text-brutal-gray mb-2">Result (Decimal)</div>
-          <div class="text-4xl font-black">{{ resultDecimal.toFixed(6) }}</div>
+          <div class="text-sm font-bold text-brutal-gray mb-2">
+            Result (Decimal)
+          </div>
+          <div class="text-4xl font-black">
+            {{ resultDecimal.toFixed(6) }}
+          </div>
         </div>
 
         <div class="bg-brutal-yellow border-4 border-black p-6">
-          <div class="text-sm font-bold text-brutal-gray mb-2">As Mixed Number</div>
+          <div class="text-sm font-bold text-brutal-gray mb-2">
+            As Mixed Number
+          </div>
           <div class="text-3xl font-black">
             {{ mixedWhole }}<span v-if="mixedNum"> {{ mixedNum }}/{{ mixedDenom }}</span>
           </div>
@@ -62,10 +134,19 @@
     </div>
 
     <!-- Steps -->
-    <div v-if="steps.length > 0" class="bg-brutal-white border-4 border-black p-6">
-      <h3 class="font-black mb-4">Solution Steps</h3>
+    <div
+      v-if="steps.length > 0"
+      class="bg-brutal-white border-4 border-black p-6"
+    >
+      <h3 class="font-black mb-4">
+        Solution Steps
+      </h3>
       <div class="space-y-2 text-sm font-bold">
-        <div v-for="(step, idx) in steps" :key="idx" class="flex gap-2">
+        <div
+          v-for="(step, idx) in steps"
+          :key="idx"
+          class="flex gap-2"
+        >
           <span class="font-black text-brutal-cyan min-w-8">{{ idx + 1 }}.</span>
           <span>{{ step }}</span>
         </div>
@@ -118,7 +199,7 @@ function calculate() {
 
   switch (operation.value) {
     case '+':
-    case '-':
+    case '-': {
       const lcm = (d1 * d2) / gcd(d1, d2)
       const m1 = lcm / d1
       const m2 = lcm / d2
@@ -127,6 +208,7 @@ function calculate() {
       steps.value.push(`Common denominator: ${lcm}`)
       steps.value.push(`${n1 * m1}/${lcm} ${operation.value === '+' ? '+' : '-'} ${n2 * m2}/${lcm} = ${result.num}/${result.denom}`)
       break
+    }
     case '*':
       result.num = n1 * n2
       result.denom = d1 * d2

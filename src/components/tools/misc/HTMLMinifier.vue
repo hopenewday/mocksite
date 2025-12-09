@@ -336,13 +336,3 @@ const formatSize = (bytes: number): string => {
 }
 </script>
 
-<style scoped>
-.input-brutal { @apply w-full p-3 border-4 border-black bg-white dark:bg-brutal-black text-black dark:text-white; }
-.btn-primary { @apply px-4 py-2 border-4 border-black shadow-brutal font-black; }
-.btn-primary-yellow { @apply bg-brutal-yellow; }
-.btn-primary-lime { @apply bg-brutal-lime; }
-.btn-primary-pink { @apply bg-brutal-pink; }
-.btn-primary-white { @apply bg-white; }
-.card-brutal-white { @apply bg-brutal-white; }
-.card-brutal-black { @apply bg-brutal-black; }
-</style>

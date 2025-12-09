@@ -5,10 +5,10 @@
       class="bg-brutal-yellow border-b-4 border-black shadow-brutal p-6"
     >
       <div class="max-w-7xl mx-auto">
-        <h1 class="heading-brutal text-4xl">
+        <h1 class="font-black text-4xl uppercase text-black">
           Calculator Suite
         </h1>
-        <p class="text-brutal mt-2 text-lg">
+        <p class="text-black mt-2 text-lg opacity-80">
           Professional calculators for various needs
         </p>
       </div>

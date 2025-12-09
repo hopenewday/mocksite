@@ -5,10 +5,10 @@
       class="bg-brutal-pink border-b-4 border-black shadow-brutal p-6"
     >
       <div class="max-w-7xl mx-auto">
-        <h1 class="heading-brutal text-4xl">
+        <h1 class="font-black text-4xl uppercase text-black">
           Color Tools
         </h1>
-        <p class="text-brutal mt-2 text-lg">
+        <p class="text-black mt-2 text-lg opacity-80">
           Professional color tools and utilities
         </p>
       </div>

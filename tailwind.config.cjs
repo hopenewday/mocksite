@@ -1,29 +1,19 @@
 module.exports = {
   darkMode: 'class',
-  content: ['./index.html', './src/**/*.{vue,ts}'],
+  content: ['./index.html', './src/**/*.{vue,ts,tsx,js,jsx}'],
   theme: {
     extend: {
       colors: {
-        brand: {
-          DEFAULT: '#5b5fc7', // Slate Indigo
-          dark: '#4c4fb0',
-          violet: '#6D28D9', // Deep Violet
-          green: '#22c55e', // Emerald Green
-          blue: '#3B82F6', // Sky Blue
-          orange: '#F59E0B', // Sunset Orange
-          red: '#F43F5E' // Rose Red
-        },
-        brutal: {
-          yellow: '#facc15',
-          cyan: '#22d3ee',
-          pink: '#f472b6',
-          lime: '#a3e635',
-          white: '#ffffff',
-          black: '#000000',
-          blue: '#3b82f6',
-          purple: '#8b5cf6',
-          green: '#22c55e',
-        }
+        'brutal-yellow': '#facc15',
+        'brutal-cyan': '#22d3ee',
+        'brutal-pink': '#f472b6',
+        'brutal-lime': '#a3e635',
+        'brutal-white': '#ffffff',
+        'brutal-black': '#000000',
+        'brutal-blue': '#3b82f6',
+        'brutal-purple': '#8b5cf6',
+        'brutal-green': '#22c55e',
+        'brutal-gray': '#6b7280',
       },
       borderRadius: {
         'xl': '1rem',

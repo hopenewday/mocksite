@@ -5,8 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mock Test Pro</title>
     <meta name="theme-color" content="#0ea5e9" />
+    <script>
+      // Apply dark mode immediately to prevent flash
+      if (localStorage.getItem('dark') === '1') {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
   </head>
-  <body class="bg-white dark:bg-neutral-900">
+  <body>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>

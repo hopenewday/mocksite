@@ -3,26 +3,26 @@
     <h2 class="subheading-brutal mb-6">
       Password Generator
     </h2>
-    
+
     <div class="grid md:grid-cols-2 gap-6 mb-8">
       <!-- Password Options -->
       <div class="bg-brutal-white border-4 border-black p-6">
         <h3 class="font-black text-lg mb-4">
           Password Options
         </h3>
-        
+
         <div class="space-y-4">
           <div>
             <label class="font-black mb-2 block">Password Length</label>
             <div class="flex gap-2">
-              <input 
+              <input
                 v-model.number="passwordLength"
                 type="range"
                 min="4"
                 max="128"
                 class="flex-1"
               >
-              <input 
+              <input
                 v-model.number="passwordLength"
                 type="number"
                 min="4"
@@ -34,7 +34,7 @@
               {{ passwordLength }} characters
             </div>
           </div>
-          
+
           <div>
             <label class="font-black mb-2 block">Character Types</label>
             <div class="space-y-2">
@@ -80,7 +80,7 @@
               </label>
             </div>
           </div>
-          
+
           <div>
             <label class="font-black mb-2 block">Advanced Options</label>
             <div class="space-y-2">
@@ -110,7 +110,7 @@
               </label>
             </div>
           </div>
-          
+
           <div>
             <label class="font-black mb-2 block">Quantity</label>
             <select
@@ -131,7 +131,7 @@
               </option>
             </select>
           </div>
-          
+
           <button
             class="btn-primary btn-primary-lime w-full"
             @click="generatePasswords"
@@ -140,18 +140,18 @@
           </button>
         </div>
       </div>
-      
+
       <!-- Generated Passwords -->
       <div class="bg-brutal-yellow border-4 border-black p-6">
         <h3 class="font-black text-lg mb-4">
           Generated Passwords
         </h3>
-        
+
         <div
           v-if="generatedPasswords.length > 0"
           class="space-y-3"
         >
-          <div 
+          <div
             v-for="(password, index) in generatedPasswords"
             :key="index"
             class="flex items-center gap-2 p-3 bg-brutal-white border-2 border-black"
@@ -164,8 +164,8 @@
                 Strength: {{ getPasswordStrength(password) }}
               </div>
             </div>
-            
-            <button 
+
+            <button
               class="btn-primary btn-primary-cyan px-3 py-1 text-xs"
               :class="{ 'animate-copy-bounce': copyingPassword }"
               :data-state="copyingPassword ? 'success' : null"
@@ -176,7 +176,7 @@
             </button>
           </div>
         </div>
-        
+
         <div
           v-else
           class="text-center py-8"
@@ -187,7 +187,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Password Strength Analysis -->
     <div
       v-if="generatedPasswords.length > 0"
@@ -196,7 +196,7 @@
       <h3 class="font-black text-lg mb-4">
         Password Strength Analysis
       </h3>
-      
+
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="text-center bg-brutal-white border-2 border-black p-4">
           <div class="text-2xl font-black mb-2">
@@ -206,7 +206,7 @@
             Very Weak
           </div>
         </div>
-        
+
         <div class="text-center bg-brutal-white border-2 border-black p-4">
           <div class="text-2xl font-black mb-2">
             {{ strengthAnalysis.weak }}
@@ -215,7 +215,7 @@
             Weak
           </div>
         </div>
-        
+
         <div class="text-center bg-brutal-white border-2 border-black p-4">
           <div class="text-2xl font-black mb-2">
             {{ strengthAnalysis.medium }}
@@ -224,7 +224,7 @@
             Medium
           </div>
         </div>
-        
+
         <div class="text-center bg-brutal-white border-2 border-black p-4">
           <div class="text-2xl font-black mb-2">
             {{ strengthAnalysis.strong }}
@@ -235,15 +235,15 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Password Templates -->
     <div class="bg-brutal-pink border-4 border-black p-6 mb-8">
       <h3 class="font-black text-lg mb-4">
         Quick Templates
       </h3>
-      
+
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <button 
+        <button
           class="p-4 bg-brutal-white border-2 border-black transform transition-all duration-200 hover:rotate-[-1deg]"
           @click="applyTemplate('simple')"
         >
@@ -259,8 +259,8 @@
             </p>
           </div>
         </button>
-        
-        <button 
+
+        <button
           class="p-4 bg-brutal-white border-2 border-black transform transition-all duration-200 hover:rotate-[-1deg]"
           @click="applyTemplate('standard')"
         >
@@ -276,8 +276,8 @@
             </p>
           </div>
         </button>
-        
-        <button 
+
+        <button
           class="p-4 bg-brutal-white border-2 border-black transform transition-all duration-200 hover:rotate-[-1deg]"
           @click="applyTemplate('strong')"
         >
@@ -293,8 +293,8 @@
             </p>
           </div>
         </button>
-        
-        <button 
+
+        <button
           class="p-4 bg-brutal-white border-2 border-black transform transition-all duration-200 hover:rotate-[-1deg]"
           @click="applyTemplate('paranoid')"
         >
@@ -312,24 +312,24 @@
         </button>
       </div>
     </div>
-    
+
     <!-- Password Checker -->
     <div class="bg-brutal-cyan border-4 border-black p-6">
       <h3 class="font-black text-lg mb-4">
         Check Password Strength
       </h3>
-      
+
       <div class="space-y-4">
         <div>
           <label class="font-black mb-2 block">Enter Password to Check</label>
-          <input 
+          <input
             v-model="passwordToCheck"
             type="password"
             placeholder="Enter password to analyze..."
             class="input w-full"
           >
         </div>
-        
+
         <div
           v-if="passwordToCheck"
           class="space-y-3"
@@ -340,16 +340,16 @@
               <span class="font-black">{{ passwordCheckScore }}/100</span>
             </div>
             <div class="w-full bg-brutal-gray border-2 border-black h-4">
-              <div 
+              <div
                 class="h-full transition-all duration-300"
-                :style="{ 
+                :style="{
                   width: passwordCheckScore + '%',
                   backgroundColor: getStrengthColor(passwordCheckScore)
                 }"
               />
             </div>
           </div>
-          
+
           <div class="grid md:grid-cols-2 gap-4">
             <div>
               <h4 class="font-bold mb-2">
@@ -388,7 +388,7 @@
                 </div>
               </div>
             </div>
-            
+
             <div>
               <h4 class="font-bold mb-2">
                 Feedback
@@ -441,12 +441,12 @@ const templates = {
 const hasUppercase = computed(() => /[A-Z]/.test(passwordToCheck.value))
 const hasLowercase = computed(() => /[a-z]/.test(passwordToCheck.value))
 const hasNumbers = computed(() => /\d/.test(passwordToCheck.value))
-const hasSymbols = computed(() => /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(passwordToCheck.value))
+const hasSymbols = computed(() => new RegExp('[!@#$%^&*()_+\\-=[\\\\]{};\':"\\\\|,.<>/?]').test(passwordToCheck.value))
 
 const passwordCheckScore = computed(() => {
   let score = 0
   const password = passwordToCheck.value
-  
+
   if (password.length >= 8) score += 20
   if (password.length >= 12) score += 10
   if (password.length >= 16) score += 10
@@ -454,30 +454,30 @@ const passwordCheckScore = computed(() => {
   if (hasLowercase.value) score += 15
   if (hasNumbers.value) score += 15
   if (hasSymbols.value) score += 15
-  
+
   return Math.min(100, score)
 })
 
 const passwordFeedback = computed(() => {
   const feedback = []
   const password = passwordToCheck.value
-  
+
   if (password.length < 8) feedback.push('Password should be at least 8 characters long')
   if (!hasUppercase.value) feedback.push('Add uppercase letters for better security')
   if (!hasLowercase.value) feedback.push('Add lowercase letters for better security')
   if (!hasNumbers.value) feedback.push('Add numbers for better security')
   if (!hasSymbols.value) feedback.push('Add symbols for maximum security')
-  
+
   if (feedback.length === 0) {
     feedback.push('Excellent password strength!')
   }
-  
+
   return feedback
 })
 
 const strengthAnalysis = computed(() => {
   const analysis = { veryWeak: 0, weak: 0, medium: 0, strong: 0 }
-  
+
   generatedPasswords.value.forEach(password => {
     const strength = getPasswordStrength(password)
     if (strength === 'Very Weak') analysis.veryWeak++
@@ -485,71 +485,71 @@ const strengthAnalysis = computed(() => {
     else if (strength === 'Medium') analysis.medium++
     else if (strength === 'Strong') analysis.strong++
   })
-  
+
   return analysis
 })
 
 const generatePasswords = () => {
   const passwords = []
-  
+
   for (let i = 0; i < passwordCount.value; i++) {
     passwords.push(generateSinglePassword())
   }
-  
+
   generatedPasswords.value = passwords
 }
 
 const generateSinglePassword = (): string => {
   let charset = ''
-  
+
   if (includeUppercase.value) charset += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
   if (includeLowercase.value) charset += 'abcdefghijklmnopqrstuvwxyz'
   if (includeNumbers.value) charset += '0123456789'
   if (includeSymbols.value) charset += '!@#$%^&*()_+-=[]{}|;:,.<>?'
-  
+
   if (excludeSimilar.value) {
     charset = charset.replace(/[il1Lo0O]/g, '')
   }
-  
+
   if (charset === '') {
     alert('Please select at least one character type')
     return ''
   }
-  
+
   let password = ''
   const usedChars = new Set()
-  
+
   for (let i = 0; i < passwordLength.value; i++) {
     let char
     do {
       char = charset.charAt(Math.floor(Math.random() * charset.length))
     } while (excludeDuplicates.value && usedChars.has(char) && usedChars.size < charset.length)
-    
+
     if (excludeDuplicates.value) usedChars.add(char)
     password += char
   }
-  
+
   if (beginWithLetter.value && /[a-zA-Z]/.test(password[0]) === false) {
     const letters = charset.replace(/[^a-zA-Z]/g, '')
     if (letters) {
       password = letters.charAt(Math.floor(Math.random() * letters.length)) + password.slice(1)
     }
   }
-  
+
   return password
 }
 
 const getPasswordStrength = (password: string): string => {
   let score = 0
-  
+
   if (password.length >= 8) score++
   if (password.length >= 12) score++
   if (password.length >= 16) score++
   if (/[A-Z]/.test(password)) score++
   if (/[a-z]/.test(password)) score++
   if (/\d/.test(password)) score++
-  if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) score++
-  
+  if (new RegExp('[!@#$%^&*()_+\\-=[\\\\]{};\':"\\\\|,.<>/?]').test(password)) score++
+
   if (score <= 2) return 'Very Weak'
   if (score <= 4) return 'Weak'
   if (score <= 6) return 'Medium'
@@ -575,7 +575,7 @@ const applyTemplate = (templateName: keyof typeof templates) => {
   includeLowercase.value = template.lowercase
   includeNumbers.value = template.numbers
   includeSymbols.value = template.symbols
-  
+
   generatePasswords()
 }
 </script>

@@ -1,22 +1,37 @@
 <template>
   <div class="card card-brutal-cyan p-8">
-    <h2 class="subheading-brutal mb-6">GPA Calculator</h2>
+    <h2 class="subheading-brutal mb-6">
+      GPA Calculator
+    </h2>
     
     <div class="grid md:grid-cols-3 gap-6 mb-8">
       <!-- Controls -->
-      <div class="bg-brutal-white border-4 border-black p-6 space-y-4 md:col-span-1">
+      <div class="bg-brutal-white dark:bg-brutal-black border-4 border-black dark:border-brutal-white p-6 space-y-4 md:col-span-1">
         <div>
           <label class="font-black block mb-2">Grade Scale</label>
-          <select v-model="gradeScale" class="input w-full">
-            <option value="4.0">4.0 Scale</option>
-            <option value="5.0">5.0 Scale</option>
-            <option value="10.0">10.0 Scale</option>
+          <select
+            v-model="gradeScale"
+            class="input w-full"
+          >
+            <option value="4.0">
+              4.0 Scale
+            </option>
+            <option value="5.0">
+              5.0 Scale
+            </option>
+            <option value="10.0">
+              10.0 Scale
+            </option>
           </select>
         </div>
 
         <div>
           <label class="flex items-center gap-2">
-            <input v-model="isWeighted" type="checkbox" class="w-4 h-4">
+            <input
+              v-model="isWeighted"
+              type="checkbox"
+              class="w-4 h-4"
+            >
             <span class="font-black">Weighted GPA</span>
           </label>
         </div>
@@ -42,48 +57,116 @@
           >
         </div>
 
-        <button class="btn-primary btn-primary-lime w-full" @click="toggleCumulative">
+        <button
+          class="btn-primary btn-primary-lime w-full"
+          @click="toggleCumulative"
+        >
           {{ cumulative.previousGPA ? 'Semester GPA' : 'Cumulative GPA' }}
         </button>
 
         <div class="grid grid-cols-2 gap-2">
-          <button class="btn-primary btn-primary-cyan" :class="{ 'animate-copy-bounce': copying }" @click="copyGPA">
+          <button
+            class="btn-primary btn-primary-cyan"
+            :class="{ 'animate-copy-bounce': copying }"
+            @click="copyGPA"
+          >
             {{ copying ? 'Copied!' : 'Copy GPA' }}
           </button>
-          <button class="btn-primary btn-primary-pink" @click="clearCourses">Clear All</button>
+          <button
+            class="btn-primary btn-primary-pink"
+            @click="clearCourses"
+          >
+            Clear All
+          </button>
         </div>
       </div>
 
       <!-- Courses -->
-      <div class="md:col-span-2 bg-brutal-yellow border-4 border-black p-6">
-        <h3 class="font-black mb-4">Courses</h3>
+      <div class="md:col-span-2 bg-brutal-yellow dark:bg-brutal-black border-4 border-black dark:border-brutal-white p-6">
+        <h3 class="font-black mb-4">
+          Courses
+        </h3>
         <div class="space-y-4 max-h-96 overflow-y-auto">
-          <div v-for="(course, idx) in courses" :key="idx" class="bg-brutal-white border-2 border-black p-4 space-y-2">
-            <input v-model="course.name" type="text" placeholder="Course name" class="input w-full text-sm">
+          <div
+            v-for="(course, idx) in courses"
+            :key="idx"
+            class="bg-brutal-white border-2 border-black p-4 space-y-2"
+          >
+            <input
+              v-model="course.name"
+              type="text"
+              placeholder="Course name"
+              class="input w-full text-sm"
+            >
             <div class="grid grid-cols-3 gap-2">
-              <input v-model="course.grade" type="text" placeholder="Grade (A, B+, 3.5...)" class="input text-sm">
-              <input v-model.number="course.credits" type="number" placeholder="Credits" min="0.5" step="0.5" class="input text-sm">
-              <input v-if="isWeighted" v-model.number="course.weight" type="number" placeholder="Weight %" min="0" max="100" class="input text-sm">
+              <input
+                v-model="course.grade"
+                type="text"
+                placeholder="Grade (A, B+, 3.5...)"
+                class="input text-sm"
+              >
+              <input
+                v-model.number="course.credits"
+                type="number"
+                placeholder="Credits"
+                min="0.5"
+                step="0.5"
+                class="input text-sm"
+              >
+              <input
+                v-if="isWeighted"
+                v-model.number="course.weight"
+                type="number"
+                placeholder="Weight %"
+                min="0"
+                max="100"
+                class="input text-sm"
+              >
             </div>
-            <button class="btn-small btn-primary-pink w-full text-xs" @click="removeCourse(idx)">Remove</button>
+            <button
+              class="btn-small btn-primary-pink w-full text-xs"
+              @click="removeCourse(idx)"
+            >
+              Remove
+            </button>
           </div>
         </div>
-        <button class="btn-primary btn-primary-lime w-full mt-4" @click="addCourse">+ Add Course</button>
+        <button
+          class="btn-primary btn-primary-lime w-full mt-4"
+          @click="addCourse"
+        >
+          + Add Course
+        </button>
       </div>
     </div>
 
     <!-- Results -->
     <div class="grid md:grid-cols-2 gap-6">
       <div class="bg-brutal-cyan border-4 border-black p-6">
-        <div class="text-sm font-bold text-brutal-gray mb-2">Semester GPA</div>
-        <div class="text-4xl font-black">{{ calculatedGPA.toFixed(2) }}</div>
-        <div class="text-sm font-bold mt-2">Credits: {{ totalCredits }}</div>
+        <div class="text-sm font-bold text-brutal-gray mb-2">
+          Semester GPA
+        </div>
+        <div class="text-4xl font-black">
+          {{ calculatedGPA.toFixed(2) }}
+        </div>
+        <div class="text-sm font-bold mt-2">
+          Credits: {{ totalCredits }}
+        </div>
       </div>
       
-      <div v-if="cumulative.previousGPA" class="bg-brutal-pink border-4 border-black p-6">
-        <div class="text-sm font-bold text-brutal-gray mb-2">Cumulative GPA</div>
-        <div class="text-4xl font-black">{{ cumulativeGPA.toFixed(2) }}</div>
-        <div class="text-sm font-bold mt-2">Total Credits: {{ totalCredits + cumulative.previousCredits }}</div>
+      <div
+        v-if="cumulative.previousGPA"
+        class="bg-brutal-pink border-4 border-black p-6"
+      >
+        <div class="text-sm font-bold text-brutal-gray mb-2">
+          Cumulative GPA
+        </div>
+        <div class="text-4xl font-black">
+          {{ cumulativeGPA.toFixed(2) }}
+        </div>
+        <div class="text-sm font-bold mt-2">
+          Total Credits: {{ totalCredits + cumulative.previousCredits }}
+        </div>
       </div>
     </div>
   </div>

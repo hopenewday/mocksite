@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable vue/no-v-html -->
   <div class="min-h-screen bg-brutal-white dark:bg-brutal-black">
     <header class="bg-brutal-cyan border-b-4 border-black shadow-brutal p-6">
       <div class="max-w-7xl mx-auto">
@@ -64,9 +65,9 @@
           </div>
 
           <label class="font-black block mb-2">Input JSON</label>
-          <textarea 
-            v-model="input" 
-            rows="12" 
+          <textarea
+            v-model="input"
+            rows="12"
             class="input-brutal w-full font-mono text-sm"
             placeholder="Paste your JSON here..."
           />
@@ -129,10 +130,10 @@
               {{ stats.processedSize }} ({{ formatSize(stats.processedSize) }}) / {{ formatSize(stats.originalSize) }}
             </div>
           </div>
-          <textarea 
-            :value="output" 
-            readonly 
-            rows="12" 
+          <textarea
+            :value="output"
+            readonly
+            rows="12"
             class="input-brutal w-full font-mono text-sm"
             :class="{ 'bg-green-50': isValid === true, 'bg-red-50': isValid === false }"
             placeholder="Result will appear here..."
@@ -201,7 +202,7 @@ const processJSON = () => {
   output.value = ''
   isValid.value = null
   stats.value = { originalSize: 0, processedSize: 0, savings: 0 }
-  
+
   const trimmedInput = input.value.trim()
   if (!trimmedInput) {
     error.value = 'Please enter JSON data'
@@ -235,7 +236,7 @@ const processJSON = () => {
   } catch (e: any) {
     isValid.value = false
     error.value = e.message || 'Invalid JSON format'
-    
+
     // Try to get line and column info from error
     const match = e.message.match(/position (\d+)/)
     if (match) {
@@ -290,13 +291,3 @@ watch(input, () => {
 
 const highlighted = computed(() => Prism.highlight(output.value || '', Prism.languages.json, 'json'))
 </script>
-
-<style scoped>
-.input-brutal { @apply w-full p-3 border-4 border-black bg-white dark:bg-brutal-black text-black dark:text-white; }
-.btn-primary { @apply px-4 py-2 border-4 border-black shadow-brutal font-black; }
-.btn-primary-yellow { @apply bg-brutal-yellow; }
-.btn-primary-lime { @apply bg-brutal-lime; }
-.btn-primary-pink { @apply bg-brutal-pink; }
-.card-brutal-white { @apply bg-brutal-white; }
-.card-brutal-black { @apply bg-brutal-black; }
-</style>

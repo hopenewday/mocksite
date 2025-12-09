@@ -295,6 +295,7 @@
         </button>
       </div>
 
+      <!-- eslint-disable-next-line vue/no-v-html -->
       <div
         v-if="previewMode === 'rendered'"
         class="bg-white border-2 border-black p-6 max-h-96 overflow-auto prose prose-sm max-w-none"

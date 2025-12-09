@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { ref } from 'vue'
 import CaseConverter from '../CaseConverter.vue'
@@ -19,10 +19,10 @@ vi.mock('@vueuse/head', () => ({
 vi.mock('../../../../composables/useCountUp', async () => {
   const { ref } = await import('vue')
   return {
-    useCountUp: (initial) => {
+    useCountUp: (initial: number) => {
       const value = ref(initial)
       const displayValue = ref(String(initial))
-      const setValue = (val) => {
+      const setValue = (val: number) => {
         // console.log('Mock setValue called with:', val)
         value.value = val
         displayValue.value = String(val)
@@ -93,21 +93,21 @@ describe('Phase 4: Text Tools', () => {
       // Let's verify by finding buttons with specific text
       const buttons = wrapper.findAll('button')
       const upperBtn = buttons.find(b => b.text().includes('UPPERCASE'))
-      
+
       if (upperBtn) {
         await upperBtn.trigger('click')
-        
+
         // Check if output updated
         // The output is in a readonly textarea, so we check its value property
         const textareas = wrapper.findAll('textarea')
         const outputTextarea = textareas.length > 1 ? textareas[1] : textareas[0] // Assuming output is 2nd or checking distinct one
-        
+
         // Actually CaseConverter likely has 2 textareas (input and output)
         if (textareas.length >= 2) {
-             expect(textareas[1].element.value).toContain('HELLO WORLD')
+          expect(textareas[1].element.value).toContain('HELLO WORLD')
         } else {
-             // Fallback if logic differs
-             expect(wrapper.text()).toContain('HELLO WORLD') 
+          // Fallback if logic differs
+          expect(wrapper.text()).toContain('HELLO WORLD')
         }
       }
     })
@@ -172,11 +172,11 @@ describe('Phase 4: Text Tools', () => {
       const wrapper = mount(LineCounter)
       const textarea = wrapper.find('textarea')
       await textarea.setValue('one\ntwo three')
-      
+
       // Wait for watchers
       await flushPromises()
       await wrapper.vm.$nextTick()
-      
+
       // Debug output if needed
       // console.log('LineCounter text:', wrapper.text())
 
@@ -195,7 +195,7 @@ describe('Phase 4: Text Tools', () => {
       const wrapper = mount(LoremIpsumGenerator)
       const generateBtn = wrapper.find('button.btn-primary-lime')
       await generateBtn.trigger('click')
-      
+
       const textarea = wrapper.find('textarea')
       expect(textarea.element.value).toBeTruthy()
       expect(textarea.element.value).toContain('Lorem')
@@ -207,17 +207,17 @@ describe('Phase 4: Text Tools', () => {
       const wrapper = mount(TextCleaner)
       expect(wrapper.text()).toContain('Text Cleaner')
     })
-    
+
     it('cleans text', async () => {
-        const wrapper = mount(TextCleaner)
-        const textarea = wrapper.find('textarea')
-        await textarea.setValue('  hello   world  ')
-        
-        // Trigger clean - might be specific button like "Trim Whitespace" or "Clean All"
-        // Assuming there is a "Clean" or similar action or multiple actions
-        // Let's verify existence of buttons
-        const buttons = wrapper.findAll('button')
-        expect(buttons.length).toBeGreaterThan(0)
+      const wrapper = mount(TextCleaner)
+      const textarea = wrapper.find('textarea')
+      await textarea.setValue('  hello   world  ')
+
+      // Trigger clean - might be specific button like "Trim Whitespace" or "Clean All"
+      // Assuming there is a "Clean" or similar action or multiple actions
+      // Let's verify existence of buttons
+      const buttons = wrapper.findAll('button')
+      expect(buttons.length).toBeGreaterThan(0)
     })
   })
 
@@ -231,7 +231,7 @@ describe('Phase 4: Text Tools', () => {
       const wrapper = mount(WordCounter)
       const textarea = wrapper.find('textarea')
       await textarea.setValue('Hello world this is a test')
-      
+
       await flushPromises()
       await wrapper.vm.$nextTick()
 

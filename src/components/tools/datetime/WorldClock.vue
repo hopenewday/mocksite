@@ -18,14 +18,14 @@
           <div class="flex items-center gap-4">
             <span class="font-black">Time Format:</span>
             <div class="flex gap-2">
-              <button 
+              <button
                 class="btn-primary"
                 :class="timeFormat === '12' ? 'bg-brutal-cyan' : 'bg-brutal-white'"
                 @click="timeFormat = '12'"
               >
                 12-Hour
               </button>
-              <button 
+              <button
                 class="btn-primary"
                 :class="timeFormat === '24' ? 'bg-brutal-cyan' : 'bg-brutal-white'"
                 @click="timeFormat = '24'"
@@ -34,16 +34,16 @@
               </button>
             </div>
           </div>
-          
+
           <div class="flex items-center gap-4">
-            <button 
+            <button
               class="btn-primary btn-primary-lime"
               :disabled="timezones.length === 0"
               @click="copyAllTimes"
             >
               Copy All Times
             </button>
-            <button 
+            <button
               class="btn-primary btn-primary-pink"
               :disabled="timezones.length === 0"
               @click="clearAll"
@@ -59,20 +59,20 @@
         <div class="flex items-center gap-4">
           <div class="flex-1">
             <label class="font-black block mb-2">Add Timezone</label>
-            <input 
-              v-model="searchQuery" 
+            <input
+              v-model="searchQuery"
               placeholder="Search for a city or timezone..."
               class="input-brutal w-full"
               @input="searchTimezones"
             >
-            
+
             <!-- Search Results -->
             <div
               v-if="searchResults.length > 0"
               class="mt-2 border-2 border-black bg-white max-h-40 overflow-y-auto"
             >
-              <div 
-                v-for="timezone in searchResults" 
+              <div
+                v-for="timezone in searchResults"
                 :key="timezone.value"
                 class="p-2 hover:bg-brutal-lime cursor-pointer border-b border-black"
                 @click="addTimezone(timezone)"
@@ -86,8 +86,8 @@
               </div>
             </div>
           </div>
-          
-          <button 
+
+          <button
             class="btn-primary btn-primary-yellow"
             @click="searchTimezones"
           >
@@ -98,19 +98,19 @@
 
       <!-- Timezones Grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div 
-          v-for="timezone in timezones" 
+        <div
+          v-for="timezone in timezones"
           :key="timezone.id"
           class="card-brutal-white dark:card-brutal-black border-4 border-black p-6 relative"
         >
           <!-- Remove Button -->
-          <button 
+          <button
             class="absolute top-2 right-2 btn-primary btn-primary-pink text-sm w-8 h-8 p-0"
             @click="removeTimezone(timezone.id)"
           >
             ×
           </button>
-          
+
           <div class="text-center">
             <h3 class="font-black text-xl mb-2">
               {{ timezone.city }}
@@ -118,7 +118,7 @@
             <div class="text-sm text-gray-600 mb-4">
               {{ timezone.timezone }}
             </div>
-            
+
             <!-- Current Time -->
             <div class="mb-4">
               <div class="font-black text-3xl md:text-4xl">
@@ -128,7 +128,7 @@
                 {{ formatDate(timezone.currentTime) }}
               </div>
             </div>
-            
+
             <!-- UTC Offset -->
             <div class="p-2 bg-brutal-yellow border-2 border-black">
               <div class="font-black text-sm">
@@ -137,10 +137,10 @@
             </div>
           </div>
         </div>
-        
+
         <!-- Empty State -->
-        <div 
-          v-if="timezones.length === 0" 
+        <div
+          v-if="timezones.length === 0"
           class="col-span-full text-center py-12"
         >
           <div class="card-brutal-white dark:card-brutal-black border-4 border-black p-8">
@@ -151,8 +151,8 @@
               Search for cities above to add them to your world clock
             </p>
             <div class="flex flex-wrap justify-center gap-2">
-              <button 
-                v-for="city in defaultCities" 
+              <button
+                v-for="city in defaultCities"
                 :key="city.timezone"
                 class="btn-primary btn-primary-lime"
                 @click="addTimezone(city)"
@@ -206,7 +206,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useHead } from '@vueuse/head'
 import { useCopyFeedback } from '@/composables/useCopyFeedback'
 import { useMilestones } from '@/composables/useMilestones'
@@ -317,8 +317,8 @@ const searchTimezones = () => {
 
   const query = searchQuery.value.toLowerCase()
   searchResults.value = availableTimezones
-    .filter(tz => 
-      tz.label.toLowerCase().includes(query) || 
+    .filter(tz =>
+      tz.label.toLowerCase().includes(query) ||
       tz.value.toLowerCase().includes(query)
     )
     .slice(0, 10)
@@ -328,7 +328,7 @@ const addTimezone = (timezone: { value: string; label: string; city?: string }) 
   const city = timezone.city || timezone.label.split(' (')[0]
   const id = `${timezone.value}-${Date.now()}`
   const offset = getTimezoneOffset(timezone.value)
-  
+
   timezones.value.push({
     id,
     city,
@@ -336,10 +336,10 @@ const addTimezone = (timezone: { value: string; label: string; city?: string }) 
     offset,
     currentTime: new Date()
   })
-  
+
   searchQuery.value = ''
   searchResults.value = []
-  
+
   if (timezones.value.length === 1) {
     celebrateFirstUse('world-clock')
   }
@@ -360,11 +360,11 @@ const updateTimes = () => {
 
 const copyAllTimes = async () => {
   if (timezones.value.length === 0) return
-  
-  const times = timezones.value.map(tz => 
+
+  const times = timezones.value.map(tz =>
     `${tz.city}: ${formatTime(tz.currentTime, timeFormat)} (${formatDate(tz.currentTime)})`
   ).join('\n')
-  
+
   await copyWithFeedback(times)
 }
 
@@ -374,8 +374,8 @@ const clearAll = () => {
 
 const getDayCount = (): number => {
   if (timezones.value.length === 0) return 0
-  
-  const dates = timezones.value.map(tz => 
+
+  const dates = timezones.value.map(tz =>
     tz.currentTime.toDateString()
   )
   return new Set(dates).size
@@ -386,7 +386,7 @@ onMounted(() => {
   defaultCities.slice(0, 4).forEach(city => {
     addTimezone(city)
   })
-  
+
   updateTimes()
   updateInterval = setInterval(updateTimes, 1000)
 })
@@ -397,13 +397,3 @@ onUnmounted(() => {
   }
 })
 </script>
-
-<style scoped>
-.input-brutal { @apply w-full p-3 border-4 border-black bg-white dark:bg-brutal-black text-black dark:text-white; }
-.btn-primary { @apply px-4 py-2 border-4 border-black shadow-brutal font-black; }
-.btn-primary-yellow { @apply bg-brutal-yellow; }
-.btn-primary-lime { @apply bg-brutal-lime; }
-.btn-primary-pink { @apply bg-brutal-pink; }
-.card-brutal-white { @apply bg-brutal-white; }
-.card-brutal-black { @apply bg-brutal-black; }
-</style>

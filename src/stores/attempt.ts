@@ -22,7 +22,7 @@ export const useAttemptStore = defineStore('attempt', {
       this.testId = testId
       this.durationMs = durationMinutes * 60 * 1000
       this.startedAt = Date.now()
-      this.answers = questions.map(q => ({ question_id: q.id, option_index: null, marked: false }))
+      this.answers = questions.map(q => ({ question_id: q.id, option_index: null, marked: false } as Answer))
       this.currentIndex = 0
       localStorage.setItem(`attempt:${testId}`, JSON.stringify(this.$state))
     },
@@ -31,17 +31,17 @@ export const useAttemptStore = defineStore('attempt', {
       if (raw) Object.assign(this, JSON.parse(raw))
     },
     setAnswer(questionId: string, index: number | null) {
-      const a = this.answers.find(x => x.question_id === questionId)
+      const a = this.answers.find((x: Answer) => x.question_id === questionId)
       if (a) a.option_index = index
       localStorage.setItem(`attempt:${this.testId}`, JSON.stringify(this.$state))
     },
     setTextAnswer(questionId: string, value: string | null) {
-      const a = this.answers.find(x => x.question_id === questionId)
+      const a = this.answers.find((x: Answer) => x.question_id === questionId)
       if (a) a.text = value
       localStorage.setItem(`attempt:${this.testId}`, JSON.stringify(this.$state))
     },
     toggleMark(questionId: string) {
-      const a = this.answers.find(x => x.question_id === questionId)
+      const a = this.answers.find((x: Answer) => x.question_id === questionId)
       if (a) a.marked = !a.marked
       localStorage.setItem(`attempt:${this.testId}`, JSON.stringify(this.$state))
     },
@@ -50,13 +50,13 @@ export const useAttemptStore = defineStore('attempt', {
     jump(index: number) { this.currentIndex = index },
     async submit(score: number) {
       if (!this.testId) return null
-      
+
       // Check if Supabase is available
       if (!supabase) {
         console.warn('Supabase not available, submit will be handled by fallback')
         return null
       }
-      
+
       try {
         const { data: userData } = await supabase.auth.getUser()
         const user = userData?.user

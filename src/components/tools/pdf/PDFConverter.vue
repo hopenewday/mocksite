@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable vue/no-v-html -->
   <div class="card card-brutal-lime p-8">
     <h2 class="subheading-brutal mb-6">
       Convert to PDF

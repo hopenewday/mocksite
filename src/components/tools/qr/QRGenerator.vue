@@ -3,7 +3,7 @@
     <h2 class="subheading-brutal mb-6">
       QR Code Generator
     </h2>
-    
+
     <div class="space-y-6">
       <!-- Content Input -->
       <div>
@@ -32,69 +32,69 @@
               SMS
             </option>
           </select>
-          
+
           <!-- URL Input -->
-          <input 
+          <input
             v-if="contentType === 'url'"
             v-model="content.url"
             type="url"
             placeholder="https://example.com"
             class="input w-full"
           >
-          
+
           <!-- Plain Text Input -->
-          <textarea 
+          <textarea
             v-else-if="contentType === 'text'"
             v-model="content.text"
             placeholder="Enter your text here..."
             class="input w-full h-32 resize-none"
           />
-          
+
           <!-- Email Input -->
           <div
             v-else-if="contentType === 'email'"
             class="space-y-2"
           >
-            <input 
+            <input
               v-model="content.email"
               type="email"
               placeholder="email@example.com"
               class="input w-full"
             >
-            <input 
+            <input
               v-model="content.subject"
               type="text"
               placeholder="Subject (optional)"
               class="input w-full"
             >
-            <textarea 
+            <textarea
               v-model="content.body"
               placeholder="Message (optional)"
               class="input w-full h-24 resize-none"
             />
           </div>
-          
+
           <!-- Phone Input -->
-          <input 
+          <input
             v-else-if="contentType === 'phone'"
             v-model="content.phone"
             type="tel"
             placeholder="+1234567890"
             class="input w-full"
           >
-          
+
           <!-- WiFi Input -->
           <div
             v-else-if="contentType === 'wifi'"
             class="space-y-2"
           >
-            <input 
+            <input
               v-model="content.ssid"
               type="text"
               placeholder="Network Name (SSID)"
               class="input w-full"
             >
-            <input 
+            <input
               v-model="content.password"
               type="password"
               placeholder="Password"
@@ -115,19 +115,19 @@
               </option>
             </select>
           </div>
-          
+
           <!-- SMS Input -->
           <div
             v-else-if="contentType === 'sms'"
             class="space-y-2"
           >
-            <input 
+            <input
               v-model="content.phone"
               type="tel"
               placeholder="+1234567890"
               class="input w-full"
             >
-            <textarea 
+            <textarea
               v-model="content.message"
               placeholder="SMS Message"
               class="input w-full h-24 resize-none"
@@ -135,7 +135,7 @@
           </div>
         </div>
       </div>
-      
+
       <!-- QR Code Options -->
       <div class="bg-brutal-white border-4 border-black p-6">
         <h3 class="font-black text-lg mb-4">
@@ -162,7 +162,7 @@
               </option>
             </select>
           </div>
-          
+
           <div>
             <label class="font-black mb-2 block">Error Correction</label>
             <select
@@ -185,9 +185,9 @@
           </div>
         </div>
       </div>
-      
+
       <!-- Generate Button -->
-      <button 
+      <button
         :disabled="!hasContent || isGenerating"
         class="btn-primary btn-primary-cyan w-full disabled:opacity-50"
         @click="generateQR"
@@ -195,7 +195,7 @@
         <span v-if="isGenerating">Generating...</span>
         <span v-else>Generate QR Code</span>
       </button>
-      
+
       <!-- QR Code Display -->
       <div
         v-if="qrCodeDataUrl"
@@ -211,16 +211,16 @@
             class="max-w-full"
           >
         </div>
-        
+
         <div class="mt-4 flex gap-4 justify-center">
-          <button 
+          <button
             class="btn-primary btn-primary-pink"
             @click="downloadQR"
           >
             Download PNG
           </button>
-          
-          <button 
+
+          <button
             class="btn-primary btn-primary-lime"
             :class="{ 'animate-copy-bounce': copyingImage }"
             :data-state="copyingImage ? 'success' : null"
@@ -231,7 +231,7 @@
           </button>
         </div>
       </div>
-      
+
       <!-- Error Message -->
       <div
         v-if="error"
@@ -311,7 +311,7 @@ const formatContent = (): string => {
       return content.value.text
     case 'url':
       return content.value.url
-    case 'email':
+    case 'email': {
       let email = `mailto:${content.value.email}`
       if (content.value.subject || content.value.body) {
         email += '?'
@@ -321,11 +321,13 @@ const formatContent = (): string => {
         email += params.join('&')
       }
       return email
+    }
     case 'phone':
       return `tel:${content.value.phone}`
-    case 'wifi':
+    case 'wifi': {
       const wifi = `WIFI:T:${content.value.encryption};S:${content.value.ssid};P:${content.value.password};;`
       return wifi
+    }
     case 'sms':
       return `sms:${content.value.phone}?body=${encodeURIComponent(content.value.message)}`
     default:
@@ -335,10 +337,10 @@ const formatContent = (): string => {
 
 const generateQR = async () => {
   if (!hasContent.value) return
-  
+
   isGenerating.value = true
   error.value = ''
-  
+
   try {
     const qrData = formatContent()
     qrCodeDataUrl.value = await QRCode.toDataURL(qrData, {
@@ -360,7 +362,7 @@ const generateQR = async () => {
 
 const downloadQR = () => {
   if (!qrCodeDataUrl.value) return
-  
+
   const link = document.createElement('a')
   link.download = `qr-code-${contentType.value}-${Date.now()}.png`
   link.href = qrCodeDataUrl.value
@@ -369,7 +371,7 @@ const downloadQR = () => {
 
 const copyToClipboard = async () => {
   if (!qrCodeDataUrl.value) return
-  
+
   try {
     const blob = await (await fetch(qrCodeDataUrl.value)).blob()
     await navigator.clipboard.write([

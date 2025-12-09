@@ -1,95 +1,145 @@
 <template>
-  <section class="max-w-7xl mx-auto px-4 py-16">
+  <div class="min-h-screen bg-brutal-white dark:bg-brutal-black font-sans pb-16">
     <!-- Header -->
-    <div class="text-center mb-12">
-      <div class="inline-block mb-6">
-        <div class="bg-brutal-cyan border-4 border-black shadow-brutal px-8 py-4 transform rotate-[-1deg]">
-          <h1 class="heading-brutal text-3xl md:text-4xl">
-            Mock Tests
-          </h1>
-        </div>
+    <div class="w-full bg-white dark:bg-gray-900 border-b-4 border-black dark:border-white p-8 text-center relative overflow-hidden">
+      <!-- Background Grid (Optional) -->
+      <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#000_1px,transparent_1px)] dark:bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]" />
+
+      <div class="relative z-10 bg-white dark:bg-gray-900 border-4 border-black dark:border-white shadow-brutal dark:shadow-[4px_4px_0px_0px_#fff] inline-block px-8 py-2">
+        <h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none m-0 text-black dark:text-white">
+          MOCK TESTS
+        </h1>
       </div>
-      <p class="text-brutal text-lg">
+      <p class="font-bold text-center mt-4 text-xl text-black dark:text-white">
         Choose from 1000+ mock tests across all competitive exams
       </p>
     </div>
 
-    <!-- Exam Categories -->
-    <div class="mb-12">
-      <h2 class="subheading-brutal text-2xl mb-6">
-        Exam Categories
-      </h2>
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div 
-          v-for="(category, key) in examCategories" 
-          :key="key"
-          :class="[
-            'card p-6 cursor-pointer transform transition-all duration-200 hover:rotate-0',
-            selectedCategory === key ? 'ring-4 ring-brutal-cyan' : '',
-            `card-${category.color} rotate-[-1deg]`
-          ]"
-          @click="selectCategory(key)"
-        >
-          <div class="flex items-center gap-4 mb-4">
-            <div class="w-16 h-16 bg-brutal-white border-4 border-black shadow-brutal flex items-center justify-center">
-              <span class="text-3xl">{{ category.icon }}</span>
+    <div class="max-w-7xl mx-auto px-4 py-8">
+      <!-- Exam Categories -->
+      <div class="mb-4">
+        <h2 class="bg-white dark:bg-gray-900 border-4 border-black dark:border-white inline-block px-4 py-1 text-2xl font-black uppercase mb-6 transform -rotate-1 shadow-brutal dark:shadow-[4px_4px_0px_0px_#fff] text-black dark:text-white">
+          Exam Categories
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+          <!-- SSC Exams (Cyan) -->
+          <div
+            :class="['card p-6 cursor-pointer hover:translate-y-1 transition-transform border-4 border-black dark:border-white bg-brutal-cyan relative overflow-hidden h-40', selectedCategory === 'ssc' ? 'ring-4 ring-black dark:ring-white ring-offset-2' : '']"
+            @click="selectCategory('ssc')"
+          >
+            <div class="absolute top-2 right-2 text-4xl opacity-20">
+              🏛️
             </div>
-            <div>
-              <h3 class="font-black text-xl">
-                {{ category.name }}
-              </h3>
-              <p class="text-sm font-bold text-brutal-gray">
-                {{ category.subcategories.length }} exams
-              </p>
+            <div class="text-4xl mb-2">
+              🏛️
             </div>
+            <h3 class="text-2xl font-black leading-none mb-1">
+              SSC Exams
+            </h3>
+            <p class="font-bold text-sm">
+              5 exams
+            </p>
+            <p class="text-xs font-bold mt-2">
+              Staff Selection Commission Exams
+            </p>
           </div>
-          <p class="text-brutal text-sm font-bold">
-            {{ category.description }}
-          </p>
+
+          <!-- Banking (Lime) -->
+          <div
+            :class="['card p-6 cursor-pointer hover:translate-y-1 transition-transform border-4 border-black dark:border-white bg-brutal-lime relative overflow-hidden h-40', selectedCategory === 'banking' ? 'ring-4 ring-black dark:ring-white ring-offset-2' : '']"
+            @click="selectCategory('banking')"
+          >
+            <div class="absolute top-2 right-2 text-4xl opacity-20">
+              🏦
+            </div>
+            <div class="text-4xl mb-2">
+              🏦
+            </div>
+            <h3 class="text-2xl font-black leading-none mb-1">
+              Banking Exams
+            </h3>
+            <p class="font-bold text-sm">
+              5 exams
+            </p>
+            <p class="text-xs font-bold mt-2">
+              Banking Recruitment Exams
+            </p>
+          </div>
+
+          <!-- Railway (Pink) -->
+          <div
+            :class="['card p-6 cursor-pointer hover:translate-y-1 transition-transform border-4 border-black dark:border-white bg-brutal-pink relative overflow-hidden h-40', selectedCategory === 'railway' ? 'ring-4 ring-black dark:ring-white ring-offset-2' : '']"
+            @click="selectCategory('railway')"
+          >
+            <div class="absolute top-2 right-2 text-4xl opacity-20">
+              🚂
+            </div>
+            <div class="text-4xl mb-2">
+              🚂
+            </div>
+            <h3 class="text-2xl font-black leading-none mb-1">
+              Railway Exams
+            </h3>
+            <p class="font-bold text-sm">
+              4 exams
+            </p>
+            <p class="text-xs font-bold mt-2">
+              Railway Recruitment Board Exams
+            </p>
+          </div>
+
+          <!-- UPSC (Yellow) -->
+          <div
+            :class="['card p-6 cursor-pointer hover:translate-y-1 transition-transform border-4 border-black dark:border-white bg-brutal-yellow relative overflow-hidden h-40', selectedCategory === 'upsc' ? 'ring-4 ring-black dark:ring-white ring-offset-2' : '']"
+            @click="selectCategory('upsc')"
+          >
+            <div class="absolute top-2 right-2 text-4xl opacity-20">
+              🏛️
+            </div>
+            <div class="text-4xl mb-2">
+              🏛️
+            </div>
+            <h3 class="text-2xl font-black leading-none mb-1">
+              UPSC Exams
+            </h3>
+            <p class="font-bold text-sm">
+              4 exams
+            </p>
+            <p class="text-xs font-bold mt-2">
+              Union Public Service Commission Exams
+            </p>
+          </div>
+
+          <!-- State (White) -->
+          <div
+            :class="['card p-6 cursor-pointer hover:translate-y-1 transition-transform border-4 border-black dark:border-white bg-white relative overflow-hidden h-40', selectedCategory === 'state' ? 'ring-4 ring-black dark:ring-white ring-offset-2' : '']"
+            @click="selectCategory('state')"
+          >
+            <div class="absolute top-2 right-2 text-4xl opacity-20">
+              🗺️
+            </div>
+            <div class="text-4xl mb-2">
+              🗺️
+            </div>
+            <h3 class="text-2xl font-black leading-none mb-1">
+              State Exams
+            </h3>
+            <p class="font-bold text-sm">
+              3 exams
+            </p>
+            <p class="text-xs font-bold mt-2">
+              State Government Recruitment Exams
+            </p>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Selected Category Subcategories -->
-    <div
-      v-if="selectedCategory"
-      class="mb-12"
-    >
-      <h2 class="subheading-brutal text-2xl mb-6">
-        {{ examCategories[selectedCategory].name }} - Subcategories
-      </h2>
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div 
-          v-for="subcategory in examCategories[selectedCategory].subcategories" 
-          :key="subcategory.id"
-          :class="[
-            'bg-brutal-white border-4 border-black p-4 cursor-pointer transform transition-all duration-200 hover:rotate-0',
-            selectedSubcategory === subcategory.id ? 'ring-4 ring-brutal-pink' : 'rotate-[-1deg]'
-          ]"
-          @click="selectSubcategory(subcategory.id)"
-        >
-          <div class="flex items-center gap-3">
-            <span class="text-2xl">{{ subcategory.icon }}</span>
-            <div>
-              <h3 class="font-black">
-                {{ subcategory.name }}
-              </h3>
-              <p class="text-sm font-bold text-brutal-gray">
-                {{ subcategory.description }}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Filters -->
-    <div class="mb-8">
-      <div class="bg-brutal-yellow border-4 border-black shadow-brutal p-6 transform rotate-[1deg]">
-        <div class="flex flex-wrap gap-4 items-center">
+      <!-- Filters Bar -->
+      <div class="flex flex-wrap gap-3 items-center mb-8 border-4 border-black dark:border-white p-4 bg-white dark:bg-gray-900 shadow-brutal dark:shadow-[4px_4px_0px_0px_#fff]">
+        <div class="flex flex-wrap gap-3 flex-1">
           <select
             v-model="difficultyFilter"
-            class="select"
+            class="bg-white dark:bg-gray-800 border-2 border-black dark:border-white p-2 px-3 font-bold focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white text-black dark:text-white min-w-[140px]"
           >
             <option value="">
               All Difficulties
@@ -104,10 +154,9 @@
               Hard
             </option>
           </select>
-          
           <select
             v-model="typeFilter"
-            class="select"
+            class="bg-white dark:bg-gray-800 border-2 border-black dark:border-white p-2 px-3 font-bold focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white text-black dark:text-white min-w-[120px]"
           >
             <option value="">
               All Types
@@ -115,174 +164,188 @@
             <option value="mock">
               Mock Test
             </option>
-            <option value="previous">
+            <option value="pyq">
               Previous Year
             </option>
-            <option value="practice">
-              Practice Set
-            </option>
           </select>
-          
-          <select
-            v-model="premiumFilter"
-            class="select"
-          >
-            <option value="">
-              All Tests
-            </option>
-            <option value="false">
-              Free
-            </option>
-            <option value="true">
-              Premium
-            </option>
-          </select>
-          
-          <button
-            class="btn-primary btn-primary-pink"
-            @click="clearFilters"
-          >
-            Clear Filters
-          </button>
         </div>
-      </div>
-    </div>
 
-    <!-- Test Grid -->
-    <div
-      v-if="filteredExams.length"
-      class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8"
-    >
-      <div
-        v-for="(exam, index) in filteredExams"
-        :key="exam.id"
-        :class="[
-          'card p-6 transform transition-all duration-200 hover:rotate-0',
-          index % 3 === 0 ? 'card-brutal-lime rotate-[-1deg]' : 
-          index % 3 === 1 ? 'card-brutal-pink rotate-[1deg]' : 
-          'card-brutal-cyan rotate-[-2deg]'
-        ]"
-      >
-        <!-- Premium Badge -->
-        <div
-          v-if="exam.isPremium"
-          class="mb-3"
-        >
-          <span class="badge badge-yellow font-black">👑 PREMIUM</span>
-        </div>
-        
-        <div class="mb-4">
-          <h3 class="subheading-brutal text-xl mb-2">
-            {{ exam.name }}
-          </h3>
-          <p class="text-brutal text-sm font-bold mb-3">
-            {{ exam.description }}
-          </p>
-          
-          <div class="flex items-center gap-3 text-brutal font-bold mb-3">
-            <span class="badge badge-cyan">{{ exam.difficulty }}</span>
-            <span class="badge badge-pink">{{ exam.duration }}m</span>
-            <span class="badge badge-lime">{{ exam.questions }} Q</span>
-          </div>
-          
-          <!-- Stats -->
-          <div class="flex justify-between text-sm font-black text-brutal-gray">
-            <span>👥 {{ exam.attempts.toLocaleString() }} attempts</span>
-            <span>⭐ {{ exam.rating }}</span>
-            <span>📊 {{ exam.avgScore }}% avg</span>
-          </div>
-        </div>
-        
-        <router-link
-          :to="'/test/' + exam.id"
-          :class="[
-            'w-full btn-primary',
-            index % 3 === 0 ? 'btn-primary-lime' : 
-            index % 3 === 1 ? 'btn-primary-pink' : 
-            'btn-primary-cyan'
-          ]"
-        >
-          {{ $t('actions.start') }}
-        </router-link>
-      </div>
-    </div>
-
-    <!-- Empty State -->
-    <div
-      v-else
-      class="text-center py-16"
-    >
-      <div class="bg-brutal-white border-4 border-black shadow-brutal p-12 max-w-md mx-auto transform rotate-[-1deg]">
-        <div class="text-6xl mb-4">
-          📚
-        </div>
-        <h3 class="subheading-brutal mb-4">
-          No Tests Found
-        </h3>
-        <p class="text-brutal mb-6">
-          Try adjusting your filters or check back later for new tests.
-        </p>
         <button
-          class="btn-primary btn-primary-brutal"
+          class="bg-brutal-pink border-2 border-black dark:border-white px-4 py-2 font-black uppercase hover:bg-white dark:hover:bg-gray-800 transition-colors shadow-[2px_2px_0px_#000] dark:shadow-[2px_2px_0px_#fff] text-black whitespace-nowrap"
           @click="clearFilters"
         >
           Clear Filters
         </button>
       </div>
+
+      <!-- Test List Strips -->
+      <div
+        v-if="loading"
+        class="text-center py-20"
+      >
+        <div class="animate-spin text-4xl inline-block">
+          ⏳
+        </div>
+        <p class="font-bold mt-2">
+          Loading Tests...
+        </p>
+      </div>
+
+      <div
+        v-else-if="filteredExams.length === 0"
+        class="text-center py-20 border-4 border-black dark:border-white border-dashed bg-gray-50 dark:bg-gray-800"
+      >
+        <h3 class="text-2xl font-black text-black dark:text-white">
+          NO TESTS FOUND
+        </h3>
+        <p class="font-bold text-gray-500 dark:text-gray-400">
+          Try changing or clearing your filters.
+        </p>
+      </div>
+
+      <div
+        v-else
+        class="space-y-4"
+      >
+        <!-- List Item -->
+        <div
+          v-for="(test, index) in filteredExams"
+          :key="test.id"
+          :class="[
+            'border-4 border-black dark:border-white p-4 flex flex-col md:flex-row items-start md:items-center justify-between shadow-brutal dark:shadow-[4px_4px_0px_0px_#fff] hover:translate-x-1 transition-transform',
+            index % 3 === 0 ? 'bg-brutal-lime' : index % 3 === 1 ? 'bg-brutal-pink' : 'bg-brutal-cyan'
+          ]"
+        >
+          <div class="flex-1">
+            <div class="flex items-center gap-2 mb-1">
+              <span
+                v-if="test.isPremium"
+                class="bg-brutal-yellow border-2 border-black px-2 text-xs font-black"
+              >PREMIUM</span>
+              <h3 class="text-xl md:text-2xl font-black uppercase leading-tight">
+                {{ test.name }}
+              </h3>
+            </div>
+
+            <p class="font-bold text-sm mb-2 max-w-2xl line-clamp-1 opacity-80">
+              {{ test.description }}
+            </p>
+
+            <div class="flex flex-wrap gap-2">
+              <span class="bg-white border-2 border-black px-2 py-0.5 text-xs font-bold uppercase">{{ test.difficulty || 'Medium' }}</span>
+              <span class="bg-white border-2 border-black px-2 py-0.5 text-xs font-bold uppercase">{{ test.duration || 60 }}M</span>
+              <span class="bg-white border-2 border-black px-2 py-0.5 text-xs font-bold uppercase">{{ test.questions || 100 }} Q</span>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4 mt-4 md:mt-0 w-full md:w-auto justify-between md:justify-end flex-wrap">
+            <div class="text-right min-w-[80px]">
+              <div class="font-black text-lg">
+                {{ test.attempts?.toLocaleString() || 0 }}
+              </div>
+              <div class="text-xs font-bold uppercase opacity-60">
+                Attempts
+              </div>
+            </div>
+
+            <div class="text-right min-w-[80px]">
+              <div class="font-black text-lg">
+                {{ test.rating || '4.0' }}
+              </div>
+              <div class="text-xs font-bold uppercase opacity-60">
+                Rating
+              </div>
+            </div>
+
+            <button
+              class="bg-brutal-green border-4 border-black dark:border-white px-6 py-3 text-xl md:text-2xl font-black uppercase hover:bg-white hover:text-black hover:shadow-none shadow-[4px_4px_0px_#000] dark:shadow-[4px_4px_0px_0px_#fff] transition-all min-w-[100px] flex-shrink-0"
+              @click="startTest(test.id)"
+            >
+              START
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Login CTA (Sticky Bottom or Inline) -->
+      <div
+        v-if="isGuestLimitReached"
+        class="mt-8 border-4 border-black dark:border-white bg-white dark:bg-gray-900 p-6 shadow-brutal dark:shadow-[4px_4px_0px_0px_#fff] text-center"
+      >
+        <h3 class="text-2xl font-black uppercase mb-2 text-black dark:text-white">
+          You've reached the free limit!
+        </h3>
+        <p class="font-bold mb-4 text-black dark:text-white">
+          Create an account to access 1000+ more tests and track your progress.
+        </p>
+        <router-link
+          to="/login"
+          class="inline-block bg-brutal-pink border-4 border-black dark:border-white px-8 py-3 font-black uppercase hover:bg-black hover:text-white transition-colors"
+        >
+          Sign Up Now
+        </router-link>
+      </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { examCategories, mockExams } from '@/lib/data/examData'
+import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { useTestsStore } from '@/stores/tests'
+import { useAuthStore } from '@/stores/auth'
+
+const router = useRouter()
+const testsStore = useTestsStore()
+const authStore = useAuthStore()
 
 const selectedCategory = ref('')
-const selectedSubcategory = ref('')
 const difficultyFilter = ref('')
 const typeFilter = ref('')
-const premiumFilter = ref('')
 
-const filteredExams = computed(() => {
-  let exams = mockExams
-  
-  if (selectedCategory.value) {
-    exams = exams.filter(exam => exam.category === selectedCategory.value)
-  }
-  
-  if (selectedSubcategory.value) {
-    exams = exams.filter(exam => exam.subcategory === selectedSubcategory.value)
-  }
-  
-  if (difficultyFilter.value) {
-    exams = exams.filter(exam => exam.difficulty === difficultyFilter.value)
-  }
-  
-  if (typeFilter.value) {
-    exams = exams.filter(exam => exam.tags.includes(typeFilter.value))
-  }
-  
-  if (premiumFilter.value) {
-    exams = exams.filter(exam => exam.isPremium.toString() === premiumFilter.value)
-  }
-  
-  return exams
-})
+const loading = computed(() => testsStore.loading)
+const filteredExams = computed(() => testsStore.items)
+const isGuestLimitReached = computed(() => testsStore.isGuestLimitReached)
 
-const selectCategory = (category: string) => {
-  selectedCategory.value = category
-  selectedSubcategory.value = ''
-}
-
-const selectSubcategory = (subcategory: string) => {
-  selectedSubcategory.value = subcategory
+const selectCategory = (cat: string) => {
+  if (selectedCategory.value === cat) selectedCategory.value = ''
+  else selectedCategory.value = cat
+  // In a real app, we'd trigger a fetch here.
+  // For hybrid mode, if it's guest, we only have 2 tests anyway.
+  // If user, we'd fetch with filters.
+  fetchTests()
 }
 
 const clearFilters = () => {
   selectedCategory.value = ''
-  selectedSubcategory.value = ''
   difficultyFilter.value = ''
   typeFilter.value = ''
-  premiumFilter.value = ''
+  fetchTests()
 }
+
+const fetchTests = async () => {
+   await testsStore.fetch({
+     exam: selectedCategory.value, // Mapping category to 'exam' field broadly or handle better mapping
+     difficulty: difficultyFilter.value,
+   })
+}
+
+const startTest = (id: string) => {
+  if (!authStore.session && isGuestLimitReached.value) {
+    alert("You've reached the guest limit of 2 tests! Please login.")
+    router.push('/login')
+    return
+  }
+
+  if (!authStore.session) {
+     testsStore.incrementGuestAttempt()
+  }
+
+  router.push(`/test/${id}`)
+}
+
+onMounted(() => {
+  testsStore.initGuestAttempts()
+  fetchTests()
+})
 </script>

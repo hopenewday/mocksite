@@ -1,78 +1,171 @@
 <template>
   <div class="card card-brutal-pink p-8">
-    <h2 class="subheading-brutal mb-6">Exam Countdown</h2>
+    <h2 class="subheading-brutal mb-6">
+      Exam Countdown
+    </h2>
     
     <div class="grid md:grid-cols-4 gap-4 mb-6">
       <!-- Stats -->
-      <div class="bg-brutal-cyan border-4 border-black p-4">
-        <div class="text-xs font-bold text-brutal-gray">Total Exams</div>
-        <div class="text-3xl font-black">{{ exams.length }}</div>
+      <div class="bg-brutal-cyan dark:bg-brutal-black border-4 border-black dark:border-brutal-white p-4">
+        <div class="text-xs font-bold text-brutal-gray">
+          Total Exams
+        </div>
+        <div class="text-3xl font-black">
+          {{ exams.length }}
+        </div>
       </div>
-      <div class="bg-brutal-lime border-4 border-black p-4">
-        <div class="text-xs font-bold text-brutal-gray">Upcoming</div>
-        <div class="text-3xl font-black">{{ upcoming }}</div>
+      <div class="bg-brutal-lime dark:bg-brutal-black border-4 border-black dark:border-brutal-white p-4">
+        <div class="text-xs font-bold text-brutal-gray">
+          Upcoming
+        </div>
+        <div class="text-3xl font-black">
+          {{ upcoming }}
+        </div>
       </div>
-      <div class="bg-brutal-yellow border-4 border-black p-4">
-        <div class="text-xs font-bold text-brutal-gray">This Week</div>
-        <div class="text-3xl font-black">{{ thisWeek }}</div>
+      <div class="bg-brutal-yellow dark:bg-brutal-black border-4 border-black dark:border-brutal-white p-4">
+        <div class="text-xs font-bold text-brutal-gray">
+          This Week
+        </div>
+        <div class="text-3xl font-black">
+          {{ thisWeek }}
+        </div>
       </div>
       <div class="bg-red-200 border-4 border-red-600 p-4">
-        <div class="text-xs font-bold text-brutal-gray">Completed</div>
-        <div class="text-3xl font-black">{{ completed }}</div>
+        <div class="text-xs font-bold text-brutal-gray">
+          Completed
+        </div>
+        <div class="text-3xl font-black">
+          {{ completed }}
+        </div>
       </div>
     </div>
 
     <div class="grid md:grid-cols-4 gap-4 mb-6">
-      <input v-model="newExam.name" type="text" placeholder="Exam name" class="input text-sm" @keyup.enter="addExam">
-      <input v-model="newExam.subject" type="text" placeholder="Subject" class="input text-sm" @keyup.enter="addExam">
-      <input v-model="newExam.datetime" type="datetime-local" class="input text-sm" @keyup.enter="addExam">
-      <button class="btn-primary btn-primary-lime" @click="addExam">+ Add Exam</button>
+      <input
+        v-model="newExam.name"
+        type="text"
+        placeholder="Exam name"
+        class="input text-sm"
+        @keyup.enter="addExam"
+      >
+      <input
+        v-model="newExam.subject"
+        type="text"
+        placeholder="Subject"
+        class="input text-sm"
+        @keyup.enter="addExam"
+      >
+      <input
+        v-model="newExam.datetime"
+        type="datetime-local"
+        class="input text-sm"
+        @keyup.enter="addExam"
+      >
+      <button
+        class="btn-primary btn-primary-lime"
+        @click="addExam"
+      >
+        + Add Exam
+      </button>
     </div>
 
     <!-- Exams List -->
     <div class="space-y-3 max-h-[500px] overflow-y-auto">
-      <div v-for="(exam, idx) in sortedExams" :key="idx" :class="['border-4 border-black p-4', getExamColor(exam)]">
+      <div
+        v-for="(exam, idx) in sortedExams"
+        :key="idx"
+        :class="['border-4 border-black p-4', getExamColor(exam)]"
+      >
         <div class="flex justify-between items-start mb-2">
           <div>
-            <div class="font-black text-lg">{{ exam.name }}</div>
-            <div class="text-sm font-bold text-brutal-gray">{{ exam.subject }}</div>
+            <div class="font-black text-lg">
+              {{ exam.name }}
+            </div>
+            <div class="text-sm font-bold text-brutal-gray">
+              {{ exam.subject }}
+            </div>
           </div>
-          <button class="btn-small btn-primary-pink" @click="removeExam(idx)">✕</button>
+          <button
+            class="btn-small btn-primary-pink"
+            @click="removeExam(idx)"
+          >
+            ✕
+          </button>
         </div>
         
-        <div v-if="!exam.completed" class="grid grid-cols-4 gap-2 text-sm mb-2">
+        <div
+          v-if="!exam.completed"
+          class="grid grid-cols-4 gap-2 text-sm mb-2"
+        >
           <div>
             <span class="font-black text-2xl text-brutal-cyan">{{ getCountdown(exam).days }}</span>
-            <div class="text-xs font-bold">days</div>
+            <div class="text-xs font-bold">
+              days
+            </div>
           </div>
           <div>
             <span class="font-black text-2xl text-brutal-lime">{{ getCountdown(exam).hours }}</span>
-            <div class="text-xs font-bold">hours</div>
+            <div class="text-xs font-bold">
+              hours
+            </div>
           </div>
           <div>
             <span class="font-black text-2xl text-brutal-yellow">{{ getCountdown(exam).mins }}</span>
-            <div class="text-xs font-bold">mins</div>
+            <div class="text-xs font-bold">
+              mins
+            </div>
           </div>
           <div class="text-right">
-            <div class="font-black text-sm">{{ formatDate(exam.datetime) }}</div>
-            <div class="text-xs font-bold">{{ formatTime(exam.datetime) }}</div>
+            <div class="font-black text-sm">
+              {{ formatDate(exam.datetime) }}
+            </div>
+            <div class="text-xs font-bold">
+              {{ formatTime(exam.datetime) }}
+            </div>
           </div>
         </div>
 
-        <div v-else class="text-sm font-black text-green-600">✓ Completed</div>
+        <div
+          v-else
+          class="text-sm font-black text-green-600"
+        >
+          ✓ Completed
+        </div>
 
-        <div v-if="!exam.completed" class="flex gap-2 mt-2">
-          <button class="btn-small btn-primary-cyan text-xs" @click="exam.completed = true">Mark Done</button>
-          <button v-if="exam.notification" class="btn-small btn-primary-yellow text-xs">🔔 Alert On</button>
+        <div
+          v-if="!exam.completed"
+          class="flex gap-2 mt-2"
+        >
+          <button
+            class="btn-small btn-primary-cyan text-xs"
+            @click="exam.completed = true"
+          >
+            Mark Done
+          </button>
+          <button
+            v-if="exam.notification"
+            class="btn-small btn-primary-yellow text-xs"
+          >
+            🔔 Alert On
+          </button>
         </div>
       </div>
     </div>
 
     <div class="mt-6 grid grid-cols-2 gap-4">
-      <button class="btn-primary btn-primary-cyan" :class="{ 'animate-copy-bounce': copying }" @click="copyList">
+      <button
+        class="btn-primary btn-primary-cyan"
+        :class="{ 'animate-copy-bounce': copying }"
+        @click="copyList"
+      >
         {{ copying ? 'Copied!' : 'Copy List' }}
       </button>
-      <button class="btn-primary btn-primary-lime" @click="clearAll">Clear All</button>
+      <button
+        class="btn-primary btn-primary-lime"
+        @click="clearAll"
+      >
+        Clear All
+      </button>
     </div>
   </div>
 </template>

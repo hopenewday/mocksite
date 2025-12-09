@@ -1,175 +1,545 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-html, body, #app { height: 100%; }
+/* Tailwind v4: Enable class-based dark mode */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Tailwind v4: Define custom theme colors */
+@theme {
+  --color-brutal-yellow: #facc15;
+  --color-brutal-cyan: #22d3ee;
+  --color-brutal-pink: #f472b6;
+  --color-brutal-lime: #a3e635;
+  --color-brutal-white: #ffffff;
+  --color-brutal-black: #000000;
+  --color-brutal-blue: #3b82f6;
+  --color-brutal-purple: #8b5cf6;
+  --color-brutal-green: #22c55e;
+  --color-brutal-gray: #6b7280;
+
+  --shadow-brutal: 4px 4px 0px 0px #000000;
+  --shadow-brutal-lg: 8px 8px 0px 0px #000000;
+  --shadow-brutal-sm: 2px 2px 0px 0px #000000;
+
+  --radius-brutal: 0.5rem;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+}
 
 @layer base {
   * {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: "Inter", system-ui, sans-serif;
   }
-  
+
   body {
-    background-color: #F5F5F5;
-    background-image: 
-      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px),
-      repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+    background-color: #f5f5f5;
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.03) 2px,
+        rgba(0, 0, 0, 0.03) 4px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.03) 2px,
+        rgba(0, 0, 0, 0.03) 4px
+      );
   }
-  
+
+  html.dark body,
   .dark body {
-    background-color: #1A1A1A;
-    background-image: 
-      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px),
-      repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px);
+    background-color: #000000;
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(255, 255, 255, 0.03) 2px,
+        rgba(255, 255, 255, 0.03) 4px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 2px,
+        rgba(255, 255, 255, 0.03) 2px,
+        rgba(255, 255, 255, 0.03) 4px
+      );
   }
-  
+
   @keyframes brutal-bounce {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    25% { transform: translateY(-8px) rotate(-1deg); }
-    75% { transform: translateY(-8px) rotate(1deg); }
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+
+    25% {
+      transform: translateY(-8px) rotate(-1deg);
+    }
+
+    75% {
+      transform: translateY(-8px) rotate(1deg);
+    }
   }
-  
+
   @keyframes brutal-shake {
-    0%, 100% { transform: translateX(0) rotate(0deg); }
-    10%, 30%, 50%, 70%, 90% { transform: translateX(-2px) rotate(-0.5deg); }
-    20%, 40%, 60%, 80% { transform: translateX(2px) rotate(0.5deg); }
+    0%,
+    100% {
+      transform: translateX(0) rotate(0deg);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+      transform: translateX(-2px) rotate(-0.5deg);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+      transform: translateX(2px) rotate(0.5deg);
+    }
   }
-  
+
   @keyframes brutal-pulse {
-    0%, 100% { transform: scale(1) rotate(0deg); }
-    50% { transform: scale(1.05) rotate(1deg); }
+    0%,
+    100% {
+      transform: scale(1) rotate(0deg);
+    }
+
+    50% {
+      transform: scale(1.05) rotate(1deg);
+    }
   }
-  
+
   @keyframes brutal-wiggle {
-    0%, 100% { transform: rotate(-3deg); }
-    50% { transform: rotate(3deg); }
+    0%,
+    100% {
+      transform: rotate(-3deg);
+    }
+
+    50% {
+      transform: rotate(3deg);
+    }
   }
-  
+
   .animate-brutal-bounce {
     animation: brutal-bounce 0.6s ease-in-out;
   }
-  
+
   .animate-brutal-shake {
     animation: brutal-shake 0.3s ease-in-out;
   }
-  
+
   .animate-brutal-pulse {
     animation: brutal-pulse 2s ease-in-out infinite;
   }
-  
+
   .animate-brutal-wiggle {
     animation: brutal-wiggle 0.5s ease-in-out infinite;
   }
-  
+
   .hover-brutal-bounce:hover {
     animation: brutal-bounce 0.6s ease-in-out;
   }
-  
+
   .hover-brutal-shake:hover {
     animation: brutal-shake 0.3s ease-in-out;
   }
-  
+
   .hover-brutal-wiggle:hover {
     animation: brutal-wiggle 0.5s ease-in-out infinite;
   }
-  
+
   @keyframes copy-bounce {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
+    0% {
+      transform: scale(1);
+    }
+
+    50% {
+      transform: scale(1.1);
+    }
+
+    100% {
+      transform: scale(1);
+    }
   }
-  
+
   .animate-copy-bounce {
     animation: copy-bounce 0.4s ease-out;
   }
 }
 
 @layer components {
-  .btn-primary { 
-    @apply px-6 py-4 rounded-brutal font-brutal font-bold text-lg uppercase tracking-wider 
-           border-4 border-black shadow-brutal transition-all duration-200 
-           hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-brutal-lg 
-           active:translate-x-[0px] active:translate-y-[0px] active:shadow-brutal-sm
-           focus:outline-none focus:ring-4 focus:ring-brutal-yellow/50 
-           disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-x-0 disabled:hover:translate-y-0 disabled:shadow-brutal
-           motion-safe:hover:scale-[1.01];
+  .btn-primary {
+    padding: 1.25rem 1.5rem;
+    border-radius: 0.5rem;
+    font-family: "Inter", system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 4px solid #000000;
+    box-shadow: 4px 4px 0px 0px #000000;
+    transition: all 200ms ease;
+    background-color: var(--tw-brutal-bg, transparent);
+    color: inherit;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 48px;
   }
-  
-  .btn-primary-brutal { @apply bg-brutal-yellow text-black hover:bg-brutal-white; }
-  .btn-primary-cyan { @apply bg-brutal-cyan text-white hover:bg-brutal-blue; }
-  .btn-primary-pink { @apply bg-brutal-pink text-white hover:bg-brutal-purple; }
-  .btn-primary-lime { @apply bg-brutal-lime text-black hover:bg-brutal-green; }
-  
-  .btn-secondary { 
-    @apply px-6 py-4 rounded-brutal font-brutal font-bold text-lg uppercase tracking-wider 
-           border-4 border-black bg-brutal-white text-black shadow-brutal transition-all duration-200 
-           hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-brutal-lg hover:bg-brutal-yellow
-           active:translate-x-[0px] active:translate-y-[0px] active:shadow-brutal-sm
-           focus:outline-none focus:ring-4 focus:ring-brutal-pink/50;
+
+  .btn-primary:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0px 0px #000000;
   }
-  
-  .card { 
-    @apply rounded-brutal bg-brutal-white border-4 border-black shadow-brutal 
-           transition-all duration-200 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-brutal-lg
-           dark:bg-brutal-black dark:border-brutal-white dark:text-brutal-white
-           ;
+
+  .btn-primary:active {
+    transform: translate(0, 0);
+    box-shadow: 4px 4px 0px 0px #000000;
   }
-  
-  .card-brutal-yellow { @apply border-brutal-yellow bg-brutal-yellow/20; }
-  .card-brutal-pink { @apply border-brutal-pink bg-brutal-pink/20; }
-  .card-brutal-cyan { @apply border-brutal-cyan bg-brutal-cyan/20; }
-  .card-brutal-lime { @apply border-brutal-lime bg-brutal-lime/20; }
-  
-  .input { 
-    @apply w-full px-4 py-4 rounded-brutal border-4 border-black bg-brutal-white 
-           font-brutal text-lg focus:outline-none focus:ring-4 focus:ring-brutal-cyan/50 
-           focus:border-brutal-cyan transition-all shadow-brutal-sm
-           dark:bg-brutal-black dark:border-brutal-white dark:text-brutal-white
-           ;
+
+  .btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
-  
-  .select { 
-    @apply w-full px-4 py-4 rounded-brutal border-4 border-black bg-brutal-white 
-           font-brutal text-lg focus:outline-none focus:ring-4 focus:ring-brutal-cyan/50 
-           focus:border-brutal-cyan transition-all shadow-brutal-sm
-           dark:bg-brutal-black dark:border-brutal-white dark:text-brutal-white
-           ;
+
+  :is(.dark, html.dark) .btn-primary {
+    border-color: #ffffff;
+    box-shadow: 4px 4px 0px 0px #ffffff;
   }
-  
-  .badge { 
-    @apply inline-flex items-center px-3 py-1 rounded-brutal text-xs font-bold uppercase tracking-wider 
-           border-2 border-black shadow-brutal-sm transition-all duration-200
-           hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-brutal
-           ;
+
+  :is(.dark, html.dark) .btn-primary:hover {
+    box-shadow: 8px 8px 0px 0px #ffffff;
   }
-  
-  .badge-yellow { @apply bg-brutal-yellow text-black; }
-  .badge-pink { @apply bg-brutal-pink text-white; }
-  .badge-cyan { @apply bg-brutal-cyan text-white; }
-  .badge-lime { @apply bg-brutal-lime text-black; }
-  
-  .heading-brutal {
-    @apply font-brutal font-black text-4xl md:text-5xl lg:text-6xl uppercase tracking-wider 
-           leading-tight text-black dark:text-brutal-white
-           ;
+
+  :is(.dark, html.dark) .btn-primary:active {
+    box-shadow: 4px 4px 0px 0px #ffffff;
   }
-  
-  .subheading-brutal {
-    @apply font-brutal font-bold text-2xl md:text-3xl uppercase tracking-wide 
-           text-black dark:text-brutal-white;
+
+  .btn-primary-brutal {
+    background-color: #facc15;
+    color: #000;
   }
-  
-  .text-brutal {
-    @apply font-brutal text-lg leading-relaxed text-gray-700 dark:text-gray-300;
+
+  .btn-primary-cyan {
+    background-color: #22d3ee;
+    color: #fff;
+  }
+
+  .btn-primary-pink {
+    background-color: #f472b6;
+    color: #fff;
+  }
+
+  .btn-primary-lime {
+    background-color: #a3e635;
+    color: #000;
+  }
+
+  .btn-primary-purple {
+    background-color: #8b5cf6;
+    color: #fff;
+  }
+
+  .btn-primary-blue {
+    background-color: #3b82f6;
+    color: #fff;
+  }
+
+  .btn-secondary {
+    padding: 1.5rem 1.5rem;
+    border-radius: 0.5rem;
+    font-family: "Inter", system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 1.125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 4px solid #000000;
+    background-color: #ffffff;
+    color: #000000;
+    box-shadow: 4px 4px 0px 0px #000000;
+    transition: all 200ms ease;
+  }
+
+  .btn-secondary:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0px 0px #000000;
+  }
+
+  :is(.dark, html.dark) .btn-secondary {
+    background-color: #1f2937;
+    border-color: #ffffff;
+    color: #ffffff;
+    box-shadow: 4px 4px 0px 0px #ffffff;
+  }
+
+  :is(.dark, html.dark) .btn-secondary:hover {
+    box-shadow: 8px 8px 0px 0px #ffffff;
+  }
+
+  .btn-small {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-family: "Inter", system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 2px solid #000;
+    background-color: #ffffff;
+    color: #000;
+    box-shadow: 2px 2px 0px 0px #000000;
+    transition: all 200ms ease;
+  }
+
+  .btn-small:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0px 0px #000000;
+  }
+
+  .btn-small:active {
+    transform: translate(0, 0);
+    box-shadow: 2px 2px 0px 0px #000000;
+  }
+
+  :is(.dark, html.dark) .btn-small {
+    background-color: #0f0f0f;
+    color: #ffffff;
+    border-color: #ffffff;
+    box-shadow: 2px 2px 0px 0px #ffffff;
+  }
+
+  :is(.dark, html.dark) .btn-small:hover {
+    box-shadow: 4px 4px 0px 0px #ffffff;
+  }
+
+  :is(.dark, html.dark) .btn-small:active {
+    box-shadow: 2px 2px 0px 0px #ffffff;
+  }
+
+  .card {
+    border-radius: 0.5rem;
+    background-color: #ffffff;
+    border: 4px solid #000;
+    box-shadow: 4px 4px 0px 0px #000000;
+    transition: all 200ms ease;
+  }
+
+  .card:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 8px 8px 0px 0px #000000;
+  }
+
+  :is(.dark, html.dark) .card {
+    background-color: #1f2937;
+    border-color: #ffffff;
+    color: #ffffff;
+    box-shadow: 4px 4px 0px 0px #ffffff;
   }
 }
 
+.card-brutal-yellow {
+  border-color: #facc15;
+  background-color: rgba(250, 204, 21, 0.2);
+}
+
+.card-brutal-pink {
+  border-color: #f472b6;
+  background-color: rgba(244, 114, 182, 0.2);
+}
+
+.card-brutal-cyan {
+  border-color: #22d3ee;
+  background-color: rgba(34, 211, 238, 0.2);
+}
+
+.card-brutal-lime {
+  border-color: #a3e635;
+  background-color: rgba(163, 230, 53, 0.2);
+}
+
+:is(.dark, html.dark) .card-brutal-yellow {
+  background-color: rgba(250, 204, 21, 0.1);
+}
+
+:is(.dark, html.dark) .card-brutal-pink {
+  background-color: rgba(244, 114, 182, 0.1);
+}
+
+:is(.dark, html.dark) .card-brutal-cyan {
+  background-color: rgba(34, 211, 238, 0.1);
+}
+
+:is(.dark, html.dark) .card-brutal-lime {
+  background-color: rgba(163, 230, 53, 0.1);
+}
+
+.input,
+.select {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 4px solid #000;
+  background-color: #ffffff;
+  color: #000;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 1rem;
+  transition: all 200ms ease;
+}
+
+:is(.dark, html.dark) .input,
+:is(.dark, html.dark) .select {
+  background-color: #0f0f0f;
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+:is(.dark, html.dark) .input::placeholder,
+:is(.dark, html.dark) .select::placeholder {
+  color: #9ca3af;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.5rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  border: 2px solid #000;
+}
+
+.badge-yellow {
+  background-color: #facc15;
+  color: #000;
+}
+
+.badge-pink {
+  background-color: #f472b6;
+  color: #fff;
+}
+
+.badge-cyan {
+  background-color: #22d3ee;
+  color: #fff;
+}
+
+.badge-lime {
+  background-color: #a3e635;
+  color: #000;
+}
+
+.heading-brutal {
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 900;
+  font-size: 2.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  line-height: 1.05;
+  color: #000;
+}
+
+:is(.dark, html.dark) .heading-brutal {
+  color: #ffffff;
+}
+
+.subheading-brutal {
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  color: #000;
+}
+
+:is(.dark, html.dark) .subheading-brutal {
+  color: #ffffff;
+}
+
+.text-brutal {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #374151;
+  /* gray-700 */
+}
+
+:is(.dark, html.dark) .text-brutal {
+  color: #d1d5db;
+  /* gray-300 */
+}
+
+:is(.dark, html.dark) .text-brutal-gray {
+  color: #9ca3af;
+  /* gray-400 */
+}
+
+/* Added aliases and utilities to reduce SFC-scoped @apply usage */
+.btn-primary-yellow {
+  background-color: #facc15;
+  color: #000;
+}
+
+.btn-primary-white {
+  background-color: #ffffff;
+  color: #000;
+}
+
+.card-brutal-white {
+  background-color: #ffffff;
+}
+
+.card-brutal-black {
+  background-color: #111827;
+  color: #ffffff;
+}
+
+.input-brutal {
+  width: 100%;
+  padding: 0.75rem;
+  /* p-3 */
+  border-radius: 0.5rem;
+  border: 4px solid #000000;
+  background-color: #ffffff;
+  color: #000000;
+  transition: all 200ms ease;
+}
+
+:is(.dark, html.dark) .input-brutal {
+  background-color: #0f0f0f;
+  color: #ffffff;
+}
+
 /* Route transitions */
-.route-fade-enter-active, .route-fade-leave-active { transition: opacity 180ms ease, transform 180ms ease; }
-.route-fade-enter-from, .route-fade-leave-to { opacity: 0; transform: translateY(6px); }
+.route-fade-enter-active,
+.route-fade-leave-active {
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.route-fade-enter-from,
+.route-fade-leave-to {
+  opacity: 0;
+  transform: translateY(6px);
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .route-fade-enter-active, .route-fade-leave-active { transition: none !important; }
+  .route-fade-enter-active,
+  .route-fade-leave-active {
+    transition: none !important;
+  }
 }
 
 /* Top route progress bar */
@@ -182,22 +552,46 @@ html, body, #app { height: 100%; }
   z-index: 9999;
   opacity: 0;
   background: linear-gradient(90deg, #22d3ee, #f472b6, #a3e635);
-  box-shadow: 0 1px 0 rgba(0,0,0,0.2);
-  transition: width 250ms ease, opacity 150ms ease;
-}
-#route-progress.route-progress-active { opacity: 1; }
-@media (prefers-reduced-motion: reduce) {
-  #route-progress { transition: none !important; }
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+  transition:
+    width 250ms ease,
+    opacity 150ms ease;
 }
 
-@keyframes ui-spin { to { transform: rotate(360deg); } }
-@keyframes ui-pop { 0% { transform: scale(0.9); opacity: 0.6; } 100% { transform: scale(1); opacity: 1; } }
+#route-progress.route-progress-active {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #route-progress {
+    transition: none !important;
+  }
+}
+
+@keyframes ui-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ui-pop {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
 
 .btn-primary[data-state="loading"],
 .btn-secondary[data-state="loading"] {
   position: relative;
   color: transparent !important;
 }
+
 .btn-primary[data-state="loading"]::after,
 .btn-secondary[data-state="loading"]::after {
   content: "";
@@ -208,14 +602,15 @@ html, body, #app { height: 100%; }
   height: 18px;
   margin-top: -9px;
   margin-left: -9px;
-  border: 3px solid rgba(0,0,0,0.7);
+  border: 3px solid rgba(0, 0, 0, 0.7);
   border-top-color: transparent;
   border-radius: 50%;
   animation: ui-spin 0.8s linear infinite;
 }
-.dark .btn-primary[data-state="loading"]::after,
-.dark .btn-secondary[data-state="loading"]::after {
-  border-color: rgba(255,255,255,0.8);
+
+:is(.dark, html.dark) .btn-primary[data-state="loading"]::after,
+:is(.dark, html.dark) .btn-secondary[data-state="loading"]::after {
+  border-color: rgba(255, 255, 255, 0.8);
   border-top-color: transparent;
 }
 
@@ -224,6 +619,7 @@ html, body, #app { height: 100%; }
   position: relative;
   color: transparent !important;
 }
+
 .btn-primary[data-state="success"]::after,
 .btn-secondary[data-state="success"]::after {
   content: "✓";

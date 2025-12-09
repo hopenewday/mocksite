@@ -1,25 +1,59 @@
 <template>
   <div class="card card-brutal-pink p-8">
-    <h2 class="subheading-brutal mb-6">Typing Speed Test</h2>
+    <h2 class="subheading-brutal mb-6">
+      Typing Speed Test
+    </h2>
     
     <div class="grid md:grid-cols-4 gap-4 mb-6">
-      <select v-model="duration" class="input text-sm">
-        <option value="15">15 seconds</option>
-        <option value="30">30 seconds</option>
-        <option value="60">60 seconds</option>
-        <option value="120">2 minutes</option>
+      <select
+        v-model="duration"
+        class="input text-sm"
+      >
+        <option value="15">
+          15 seconds
+        </option>
+        <option value="30">
+          30 seconds
+        </option>
+        <option value="60">
+          60 seconds
+        </option>
+        <option value="120">
+          2 minutes
+        </option>
       </select>
-      <select v-model="difficulty" class="input text-sm">
-        <option value="easy">Easy</option>
-        <option value="medium">Medium</option>
-        <option value="hard">Hard</option>
+      <select
+        v-model="difficulty"
+        class="input text-sm"
+      >
+        <option value="easy">
+          Easy
+        </option>
+        <option value="medium">
+          Medium
+        </option>
+        <option value="hard">
+          Hard
+        </option>
       </select>
-      <button v-if="!started" class="btn-primary btn-primary-lime" @click="startTest">Start Test</button>
-      <button v-if="started && !finished" class="btn-primary btn-primary-pink" @click="finishTest">Finish</button>
+      <button
+        v-if="!started"
+        class="btn-primary btn-primary-lime"
+        @click="startTest"
+      >
+        Start Test
+      </button>
+      <button
+        v-if="started && !finished"
+        class="btn-primary btn-primary-pink"
+        @click="finishTest"
+      >
+        Finish
+      </button>
     </div>
 
     <!-- Text to Type -->
-    <div class="bg-brutal-white border-4 border-black p-8 mb-6 min-h-32">
+    <div class="bg-brutal-white dark:bg-brutal-black border-4 border-black dark:border-brutal-white p-8 mb-6 min-h-32">
       <div class="text-lg leading-relaxed font-mono">
         <span
           v-for="(char, idx) in testText"
@@ -43,49 +77,93 @@
       class="input w-full h-32 font-mono resize-none mb-6"
       placeholder="Click 'Start Test' and begin typing..."
       @focus="autoStart"
-    ></textarea>
+    />
 
     <!-- Timer & Stats -->
-    <div v-if="started && !finished" class="grid md:grid-cols-4 gap-4 mb-6">
+    <div
+      v-if="started && !finished"
+      class="grid md:grid-cols-4 gap-4 mb-6"
+    >
       <div class="bg-brutal-cyan border-4 border-black p-4 text-center">
-        <div class="text-sm font-bold text-brutal-gray">Time</div>
-        <div class="text-4xl font-black">{{ timeRemaining }}s</div>
+        <div class="text-sm font-bold text-brutal-gray">
+          Time
+        </div>
+        <div class="text-4xl font-black">
+          {{ timeRemaining }}s
+        </div>
       </div>
       <div class="bg-brutal-yellow border-4 border-black p-4 text-center">
-        <div class="text-sm font-bold text-brutal-gray">WPM</div>
-        <div class="text-4xl font-black">{{ wpm.toFixed(0) }}</div>
+        <div class="text-sm font-bold text-brutal-gray">
+          WPM
+        </div>
+        <div class="text-4xl font-black">
+          {{ wpm.toFixed(0) }}
+        </div>
       </div>
       <div class="bg-brutal-lime border-4 border-black p-4 text-center">
-        <div class="text-sm font-bold text-brutal-gray">Accuracy</div>
-        <div class="text-4xl font-black">{{ accuracy.toFixed(1) }}%</div>
+        <div class="text-sm font-bold text-brutal-gray">
+          Accuracy
+        </div>
+        <div class="text-4xl font-black">
+          {{ accuracy.toFixed(1) }}%
+        </div>
       </div>
       <div class="bg-brutal-pink border-4 border-black p-4 text-center">
-        <div class="text-sm font-bold text-brutal-gray">Errors</div>
-        <div class="text-4xl font-black">{{ errors }}</div>
+        <div class="text-sm font-bold text-brutal-gray">
+          Errors
+        </div>
+        <div class="text-4xl font-black">
+          {{ errors }}
+        </div>
       </div>
     </div>
 
     <!-- Results -->
-    <div v-if="finished" class="grid md:grid-cols-4 gap-4">
+    <div
+      v-if="finished"
+      class="grid md:grid-cols-4 gap-4"
+    >
       <div class="bg-brutal-cyan border-4 border-black p-6">
-        <div class="text-sm font-bold text-brutal-gray">WPM</div>
-        <div class="text-4xl font-black">{{ finalWPM.toFixed(0) }}</div>
+        <div class="text-sm font-bold text-brutal-gray">
+          WPM
+        </div>
+        <div class="text-4xl font-black">
+          {{ finalWPM.toFixed(0) }}
+        </div>
       </div>
       <div class="bg-brutal-yellow border-4 border-black p-6">
-        <div class="text-sm font-bold text-brutal-gray">Accuracy</div>
-        <div class="text-4xl font-black">{{ accuracy.toFixed(1) }}%</div>
+        <div class="text-sm font-bold text-brutal-gray">
+          Accuracy
+        </div>
+        <div class="text-4xl font-black">
+          {{ accuracy.toFixed(1) }}%
+        </div>
       </div>
       <div class="bg-brutal-lime border-4 border-black p-6">
-        <div class="text-sm font-bold text-brutal-gray">Characters</div>
-        <div class="text-4xl font-black">{{ userInput.length }}</div>
+        <div class="text-sm font-bold text-brutal-gray">
+          Characters
+        </div>
+        <div class="text-4xl font-black">
+          {{ userInput.length }}
+        </div>
       </div>
       <div class="bg-brutal-pink border-4 border-black p-6">
-        <div class="text-sm font-bold text-brutal-gray">Total Errors</div>
-        <div class="text-4xl font-black">{{ errors }}</div>
+        <div class="text-sm font-bold text-brutal-gray">
+          Total Errors
+        </div>
+        <div class="text-4xl font-black">
+          {{ errors }}
+        </div>
       </div>
     </div>
 
-    <button v-if="finished" class="btn-primary btn-primary-lime w-full mt-6" @click="resetTest">Try Again</button>
+    <button
+      v-if="finished"
+      class="btn-primary btn-primary-lime w-full mt-6"
+      @click="resetTest"
+    >
+      Try Again
+    </button>
   </div>
 </template>
 

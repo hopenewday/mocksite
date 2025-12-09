@@ -1,20 +1,51 @@
 <template>
   <div class="card card-brutal-cyan p-8">
-    <h2 class="subheading-brutal mb-6">Reading Speed Test</h2>
+    <h2 class="subheading-brutal mb-6">
+      Reading Speed Test
+    </h2>
     
     <div class="grid md:grid-cols-4 gap-4 mb-6">
-      <select v-model="difficulty" class="input text-sm">
-        <option value="easy">Easy</option>
-        <option value="medium">Medium</option>
-        <option value="hard">Hard</option>
+      <select
+        v-model="difficulty"
+        class="input text-sm"
+      >
+        <option value="easy">
+          Easy
+        </option>
+        <option value="medium">
+          Medium
+        </option>
+        <option value="hard">
+          Hard
+        </option>
       </select>
-      <input v-model.number="testDuration" type="number" min="30" max="300" step="30" class="input text-sm" placeholder="Duration (s)">
-      <button v-if="!started" class="btn-primary btn-primary-lime" @click="startTest">Start Test</button>
-      <button v-else class="btn-primary btn-primary-pink" @click="finishTest">Finish Test</button>
+      <input
+        v-model.number="testDuration"
+        type="number"
+        min="30"
+        max="300"
+        step="30"
+        class="input text-sm"
+        placeholder="Duration (s)"
+      >
+      <button
+        v-if="!started"
+        class="btn-primary btn-primary-lime"
+        @click="startTest"
+      >
+        Start Test
+      </button>
+      <button
+        v-else
+        class="btn-primary btn-primary-pink"
+        @click="finishTest"
+      >
+        Finish Test
+      </button>
     </div>
 
     <!-- Text Display -->
-    <div class="bg-brutal-white border-4 border-black p-8 mb-6 min-h-64">
+    <div class="bg-brutal-white dark:bg-brutal-black border-4 border-black dark:border-brutal-white p-8 mb-6 min-h-64">
       <div class="text-lg leading-relaxed">
         <span
           v-for="(word, idx) in textWords"
@@ -28,37 +59,62 @@
     </div>
 
     <!-- User Input -->
-    <div v-if="started" class="mb-6">
+    <div
+      v-if="started"
+      class="mb-6"
+    >
       <textarea
         v-model="userInput"
         class="input w-full h-24 resize-none"
         placeholder="Start typing here..."
         :disabled="!started"
-      ></textarea>
+      />
     </div>
 
     <!-- Results -->
-    <div v-if="finished" class="grid md:grid-cols-4 gap-4">
+    <div
+      v-if="finished"
+      class="grid md:grid-cols-4 gap-4"
+    >
       <div class="bg-brutal-yellow border-4 border-black p-6">
-        <div class="text-sm font-bold text-brutal-gray">WPM</div>
-        <div class="text-4xl font-black">{{ wpm.toFixed(0) }}</div>
+        <div class="text-sm font-bold text-brutal-gray">
+          WPM
+        </div>
+        <div class="text-4xl font-black">
+          {{ wpm.toFixed(0) }}
+        </div>
       </div>
       <div class="bg-brutal-cyan border-4 border-black p-6">
-        <div class="text-sm font-bold text-brutal-gray">Accuracy</div>
-        <div class="text-4xl font-black">{{ accuracy.toFixed(1) }}%</div>
+        <div class="text-sm font-bold text-brutal-gray">
+          Accuracy
+        </div>
+        <div class="text-4xl font-black">
+          {{ accuracy.toFixed(1) }}%
+        </div>
       </div>
       <div class="bg-brutal-lime border-4 border-black p-6">
-        <div class="text-sm font-bold text-brutal-gray">Words Read</div>
-        <div class="text-4xl font-black">{{ wordsRead }}</div>
+        <div class="text-sm font-bold text-brutal-gray">
+          Words Read
+        </div>
+        <div class="text-4xl font-black">
+          {{ wordsRead }}
+        </div>
       </div>
       <div class="bg-brutal-pink border-4 border-black p-6">
-        <div class="text-sm font-bold text-brutal-gray">Time</div>
-        <div class="text-4xl font-black">{{ elapsedTime }}s</div>
+        <div class="text-sm font-bold text-brutal-gray">
+          Time
+        </div>
+        <div class="text-4xl font-black">
+          {{ elapsedTime }}s
+        </div>
       </div>
     </div>
 
     <!-- Timer -->
-    <div v-if="started && !finished" class="mt-6 text-center text-4xl font-black">
+    <div
+      v-if="started && !finished"
+      class="mt-6 text-center text-4xl font-black"
+    >
       Time: {{ timeRemaining }}s
     </div>
   </div>

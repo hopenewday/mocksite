@@ -267,12 +267,53 @@
  </script>
 
  <style scoped>
- .input-brutal { @apply w-full p-3 border-4 border-black bg-white dark:bg-brutal-black text-black dark:text-white; }
- .btn-primary { @apply px-4 py-2 border-4 border-black shadow-brutal font-black; }
- .btn-primary-yellow { @apply bg-brutal-yellow; }
- .btn-primary-lime { @apply bg-brutal-lime; }
- .btn-primary-pink { @apply bg-brutal-pink; }
- .card-brutal-white { @apply bg-brutal-white; }
- .card-brutal-black { @apply bg-brutal-black; }
- </style>
 
+ /* Input styling without Tailwind @apply */
+ .input-brutal {
+   width: 100%;
+   padding: 0.75rem; /* p-3 */
+   border-width: 4px;
+   border-style: solid;
+   border-color: #000000; /* border-black */
+   background-color: #ffffff; /* bg-white */
+   color: #000000; /* text-black */
+ }
+
+ /* Dark mode override equivalent to dark:bg-brutal-black dark:text-white */
+ :global(.dark) .input-brutal {
+   background-color: #000000; /* brutal black */
+   color: #ffffff;
+ }
+
+ /* Button base styling without @apply */
+ .btn-primary {
+   padding: 0.5rem 1rem; /* approx px-4 py-2 */
+   border-width: 4px;
+   border-style: solid;
+   border-color: #000000;
+   font-weight: 900; /* font-black */
+   box-shadow: 4px 4px 0 0 #000000; /* shadow-brutal equivalent */
+ }
+
+ /* Color variants (replacing bg-brutal-* utilities) */
+ .btn-primary-yellow {
+   background-color: #facc15; /* brutal yellow */
+ }
+
+ .btn-primary-lime {
+   background-color: #a3e635; /* brutal lime */
+ }
+
+ .btn-primary-pink {
+   background-color: #f472b6; /* brutal pink */
+ }
+
+ /* Card background helpers */
+ .card-brutal-white {
+   background-color: #ffffff;
+ }
+
+ .card-brutal-black {
+   background-color: #000000; /* brutal black */
+ }
+ </style>

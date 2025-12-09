@@ -9,12 +9,14 @@ import { registerSW } from 'virtual:pwa-register'
 void registerSW({ immediate: true })
 import { initJobsRedirect } from '@/lib/jobsRedirect'
 import { useAuthStore } from '@/stores/auth'
+import schemaOrg from '@/plugins/schemaOrg'
 
 const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 app.use(i18n)
 app.use(createHead())
+app.use(schemaOrg)
 app.mount('#app')
 
 // initialize jobs redirect listeners and expose auth token for cross-site transfer

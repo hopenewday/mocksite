@@ -1,6 +1,8 @@
 <template>
   <div class="card card-brutal-pink p-8">
-    <h2 class="subheading-brutal mb-6">Image to Base64</h2>
+    <h2 class="subheading-brutal mb-6">
+      Image to Base64
+    </h2>
     
     <div class="grid md:grid-cols-2 gap-8">
       <!-- Upload -->
@@ -11,32 +13,74 @@
           @dragover.prevent
           @click="triggerFileInput"
         >
-          <input ref="fileInput" type="file" accept="image/*" hidden @change="handleFileSelect">
-          <div class="text-4xl mb-2">📤</div>
-          <div class="font-black text-lg mb-2">Drag & Drop Image</div>
-          <div class="text-sm font-bold text-brutal-gray">or click to browse</div>
+          <input
+            ref="fileInput"
+            type="file"
+            accept="image/*"
+            hidden
+            @change="handleFileSelect"
+          >
+          <div class="text-4xl mb-2">
+            📤
+          </div>
+          <div class="font-black text-lg mb-2">
+            Drag & Drop Image
+          </div>
+          <div class="text-sm font-bold text-brutal-gray">
+            or click to browse
+          </div>
         </div>
 
-        <div v-if="imagePreview" class="border-4 border-black p-4">
-          <img :src="imagePreview" :alt="fileName" class="w-full max-h-64 object-cover">
-          <div class="text-xs font-bold text-brutal-gray mt-2">{{ fileName }}</div>
-          <div class="text-xs font-bold text-brutal-gray">{{ fileSize }}</div>
+        <div
+          v-if="imagePreview"
+          class="border-4 border-black p-4"
+        >
+          <img
+            :src="imagePreview"
+            :alt="fileName"
+            class="w-full max-h-64 object-cover"
+          >
+          <div class="text-xs font-bold text-brutal-gray mt-2">
+            {{ fileName }}
+          </div>
+          <div class="text-xs font-bold text-brutal-gray">
+            {{ fileSize }}
+          </div>
         </div>
 
-        <button v-if="imagePreview" class="btn-primary btn-primary-pink w-full" @click="clearImage">Clear Image</button>
+        <button
+          v-if="imagePreview"
+          class="btn-primary btn-primary-pink w-full"
+          @click="clearImage"
+        >
+          Clear Image
+        </button>
       </div>
 
       <!-- Output -->
       <div class="space-y-4">
-        <h3 class="font-black text-lg">Base64 Output</h3>
+        <h3 class="font-black text-lg">
+          Base64 Output
+        </h3>
         
         <div>
           <label class="font-black block mb-2 text-sm">Format</label>
-          <select v-model="outputFormat" class="input w-full">
-            <option value="base64">Base64 String</option>
-            <option value="dataurl">Data URL</option>
-            <option value="css">CSS Background</option>
-            <option value="html">HTML Img Tag</option>
+          <select
+            v-model="outputFormat"
+            class="input w-full"
+          >
+            <option value="base64">
+              Base64 String
+            </option>
+            <option value="dataurl">
+              Data URL
+            </option>
+            <option value="css">
+              CSS Background
+            </option>
+            <option value="html">
+              HTML Img Tag
+            </option>
           </select>
         </div>
 
@@ -45,20 +89,39 @@
             :value="output"
             readonly
             class="input w-full h-64 bg-brutal-gray font-mono text-xs resize-none"
-          ></textarea>
+          />
         </div>
 
         <div class="grid grid-cols-2 gap-2">
-          <button class="btn-primary btn-primary-cyan" :class="{ 'animate-copy-bounce': copying }" @click="copyOutput">
+          <button
+            class="btn-primary btn-primary-cyan"
+            :class="{ 'animate-copy-bounce': copying }"
+            @click="copyOutput"
+          >
             {{ copying ? 'Copied!' : 'Copy' }}
           </button>
-          <button v-if="output" class="btn-primary btn-primary-lime" @click="downloadAsFile">Download</button>
+          <button
+            v-if="output"
+            class="btn-primary btn-primary-lime"
+            @click="downloadAsFile"
+          >
+            Download
+          </button>
         </div>
 
-        <div v-if="imagePreview" class="bg-brutal-yellow border-4 border-black p-4">
-          <div class="text-xs font-bold text-brutal-gray mb-2">File Info</div>
-          <div class="text-sm font-bold">Size: {{ (base64Output.length / 1024).toFixed(2) }} KB</div>
-          <div class="text-sm font-bold">Format: {{ mimeType }}</div>
+        <div
+          v-if="imagePreview"
+          class="bg-brutal-yellow border-4 border-black p-4"
+        >
+          <div class="text-xs font-bold text-brutal-gray mb-2">
+            File Info
+          </div>
+          <div class="text-sm font-bold">
+            Size: {{ (base64Output.length / 1024).toFixed(2) }} KB
+          </div>
+          <div class="text-sm font-bold">
+            Format: {{ mimeType }}
+          </div>
         </div>
       </div>
     </div>

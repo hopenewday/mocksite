@@ -528,6 +528,7 @@ const copyHTMLCode = async () => {
 </script>
 
 <style scoped>
+@reference "tailwindcss";
 .input-brutal {
   width: 100%;
   padding: 0.75rem;

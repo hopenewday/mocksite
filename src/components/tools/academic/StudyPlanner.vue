@@ -1,35 +1,73 @@
 <template>
   <div class="card card-brutal-cyan p-8">
-    <h2 class="subheading-brutal mb-6">Study Planner</h2>
+    <h2 class="subheading-brutal mb-6">
+      Study Planner
+    </h2>
     
     <div class="grid md:grid-cols-4 gap-4 mb-6">
       <div>
         <label class="font-black text-sm block mb-2">Day</label>
-        <select v-model="selectedDay" class="input w-full text-sm">
-          <option v-for="day in days" :key="day" :value="day">{{ day }}</option>
+        <select
+          v-model="selectedDay"
+          class="input w-full text-sm"
+        >
+          <option
+            v-for="day in days"
+            :key="day"
+            :value="day"
+          >
+            {{ day }}
+          </option>
         </select>
       </div>
       <div>
         <label class="font-black text-sm block mb-2">Time</label>
-        <input v-model="newSession.time" type="time" class="input w-full text-sm">
+        <input
+          v-model="newSession.time"
+          type="time"
+          class="input w-full text-sm"
+        >
       </div>
       <div>
         <label class="font-black text-sm block mb-2">Duration (min)</label>
-        <input v-model.number="newSession.duration" type="number" min="15" max="480" step="15" class="input w-full text-sm">
+        <input
+          v-model.number="newSession.duration"
+          type="number"
+          min="15"
+          max="480"
+          step="15"
+          class="input w-full text-sm"
+        >
       </div>
       <div>
         <label class="font-black text-sm block mb-2">Subject</label>
-        <input v-model="newSession.subject" type="text" placeholder="Subject" class="input w-full text-sm">
+        <input
+          v-model="newSession.subject"
+          type="text"
+          placeholder="Subject"
+          class="input w-full text-sm"
+        >
       </div>
     </div>
 
-    <button class="btn-primary btn-primary-lime w-full mb-6" @click="addSession">+ Add Session</button>
+    <button
+      class="btn-primary btn-primary-lime w-full mb-6"
+      @click="addSession"
+    >
+      + Add Session
+    </button>
 
     <!-- Weekly Schedule Grid -->
     <div class="grid grid-cols-7 gap-2 mb-6">
-      <div v-for="day in days" :key="day" class="bg-brutal-white border-4 border-black p-4">
-        <h3 class="font-black text-sm mb-2">{{ day }}</h3>
-        <div class="space-y-1 min-h-96 bg-brutal-cyan border-2 border-black p-2">
+      <div
+        v-for="day in days"
+        :key="day"
+        class="bg-brutal-white dark:bg-brutal-black border-4 border-black dark:border-brutal-white p-4"
+      >
+        <h3 class="font-black text-sm mb-2">
+          {{ day }}
+        </h3>
+        <div class="space-y-1 min-h-96 bg-brutal-cyan dark:bg-brutal-black border-2 border-black dark:border-brutal-white p-2">
           <div
             v-for="(session, idx) in getSessionsForDay(day)"
             :key="idx"
@@ -47,27 +85,57 @@
 
     <!-- Hours Summary -->
     <div class="grid grid-cols-7 gap-2 mb-6">
-      <div v-for="day in days" :key="day + '-total'" class="bg-brutal-yellow border-4 border-black p-4 text-center">
-        <div class="text-xs font-bold text-brutal-gray">Total</div>
-        <div class="text-2xl font-black">{{ getTotalHours(day).toFixed(1) }}h</div>
+      <div
+        v-for="day in days"
+        :key="day + '-total'"
+        class="bg-brutal-yellow border-4 border-black p-4 text-center"
+      >
+        <div class="text-xs font-bold text-brutal-gray">
+          Total
+        </div>
+        <div class="text-2xl font-black">
+          {{ getTotalHours(day).toFixed(1) }}h
+        </div>
       </div>
     </div>
 
     <!-- Subject Distribution -->
     <div class="grid md:grid-cols-3 gap-6">
-      <div v-for="(hours, subject) in subjectHours" :key="subject" class="bg-brutal-pink border-4 border-black p-4">
-        <div class="text-sm font-bold text-brutal-gray mb-2">{{ subject }}</div>
-        <div class="text-3xl font-black">{{ hours.toFixed(1) }}h</div>
+      <div
+        v-for="(hours, subject) in subjectHours"
+        :key="subject"
+        class="bg-brutal-pink border-4 border-black p-4"
+      >
+        <div class="text-sm font-bold text-brutal-gray mb-2">
+          {{ subject }}
+        </div>
+        <div class="text-3xl font-black">
+          {{ hours.toFixed(1) }}h
+        </div>
       </div>
     </div>
 
     <!-- Actions -->
     <div class="mt-6 grid grid-cols-3 gap-4">
-      <button class="btn-primary btn-primary-cyan" :class="{ 'animate-copy-bounce': copying }" @click="copySchedule">
+      <button
+        class="btn-primary btn-primary-cyan"
+        :class="{ 'animate-copy-bounce': copying }"
+        @click="copySchedule"
+      >
         {{ copying ? 'Copied!' : 'Copy' }}
       </button>
-      <button class="btn-primary btn-primary-yellow" @click="exportImage">Export as Image</button>
-      <button class="btn-primary btn-primary-pink" @click="clearAll">Clear All</button>
+      <button
+        class="btn-primary btn-primary-yellow"
+        @click="exportImage"
+      >
+        Export as Image
+      </button>
+      <button
+        class="btn-primary btn-primary-pink"
+        @click="clearAll"
+      >
+        Clear All
+      </button>
     </div>
   </div>
 </template>

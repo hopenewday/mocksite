@@ -180,7 +180,7 @@ const output = ref('')
 const justCleaned = ref(false)
 const downloaded = ref(false)
 
-const opts = ref<{ 
+const opts = ref<{
   removeExtraSpaces: boolean
   removeLineBreaks: boolean
   trimWhitespace: boolean
@@ -214,7 +214,9 @@ function btnCase(kind: 'none' | 'lower' | 'upper') {
 async function paste() {
   try {
     input.value = await navigator.clipboard.readText()
-  } catch {}
+  } catch {
+    // Ignore clipboard errors
+  }
 }
 
 function clean() {

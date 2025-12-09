@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // @vitest-environment jsdom
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import ImageCompressor from '../ImageCompressor.vue'
 import ImageCropper from '../ImageCropper.vue'
@@ -11,8 +12,9 @@ import ImageResizer from '../ImageResizer.vue'
 // Mock browser-image-compression
 const { mockImageCompression } = vi.hoisted(() => {
   return {
-    mockImageCompression: vi.fn().mockImplementation(async (file, options) => {
+    mockImageCompression: vi.fn().mockImplementation(async (file, _options) => {
       // Return a smaller blob to simulate compression
+       
       return new Blob(['compressed content'], { type: file.type })
     })
   }
@@ -43,7 +45,7 @@ vi.mock('@vueuse/head', () => ({
 }))
 
 vi.mock('../../../composables/useCountUp', () => ({
-  useCountUp: (initial) => ({ value: initial })
+  useCountUp: (initial: number) => ({ value: initial })
 }))
 
 vi.mock('../../../composables/useMilestones', () => ({
@@ -83,14 +85,8 @@ Object.defineProperty(HTMLCanvasElement.prototype, 'toBlob', {
   writable: true
 })
 
-// Mock Image loading (since JSDOM doesn't load images)
-// We trigger onload manually in tests if needed, or rely on the component to handle it.
-// Many components use `new Image()` or `<img>` tags.
-// We can spy on Image constructor if needed, but usually setting src triggers nothing in JSDOM.
-// We might need to manually trigger onload events on image elements in tests.
-
 describe('Phase 3: Image Tools', () => {
-  
+
   describe('ImageCompressor.vue', () => {
     it('renders correctly', () => {
       const wrapper = mount(ImageCompressor)
@@ -100,35 +96,35 @@ describe('Phase 3: Image Tools', () => {
 
     it('handles file upload and compression', async () => {
       const wrapper = mount(ImageCompressor)
-      
+
       // Simulate file input change
       const file = new File(['test content'], 'test.png', { type: 'image/png' })
       const input = wrapper.find('input[type="file"]')
-      
+
       // Mock files property on the input element
       Object.defineProperty(input.element, 'files', {
         value: [file],
         writable: false,
       })
-      
+
       await input.trigger('change')
 
       // Wait for reactivity
       await wrapper.vm.$nextTick()
-      
+
       // Check if file is added to list
-      expect(wrapper.vm.files.length).toBe(1)
-      expect(wrapper.vm.files[0].original.name).toBe('test.png')
-      
+      expect((wrapper.vm as any).files.length).toBe(1)
+      expect((wrapper.vm as any).files[0].original.name).toBe('test.png')
+
       // It auto-compresses on add, so check if compression was called
       expect(mockImageCompression).toHaveBeenCalled()
-      
+
       // Wait for async operation (compression)
       // Allow time for the async compression mock to resolve
       await new Promise(resolve => setTimeout(resolve, 100))
-      
+
       // Check if state updated (compressed blob should be present)
-      expect(wrapper.vm.files[0].compressed).toBeTruthy()
+      expect((wrapper.vm as any).files[0].compressed).toBeTruthy()
     })
   })
 
@@ -140,23 +136,23 @@ describe('Phase 3: Image Tools', () => {
 
     it('loads an image for cropping', async () => {
       const wrapper = mount(ImageCropper)
-      
+
       const file = new File(['image data'], 'test.jpg', { type: 'image/jpeg' })
       const input = wrapper.find('input[type="file"]')
-      
+
       // Mock files property on the input element
       Object.defineProperty(input.element, 'files', {
         value: [file],
         writable: false,
       })
-      
+
       await input.trigger('change')
-      
+
       // Wait for FileReader
       await new Promise(resolve => setTimeout(resolve, 100))
-      
-      expect(wrapper.vm.originalImage).toEqual(file)
-      expect(wrapper.vm.imagePreview).toBeTruthy()
+
+      expect((wrapper.vm as any).originalImage).toEqual(file)
+      expect((wrapper.vm as any).imagePreview).toBeTruthy()
     })
   })
 

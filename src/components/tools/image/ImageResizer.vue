@@ -3,23 +3,23 @@
     <h2 class="subheading-brutal mb-6">
       Image Resizer
     </h2>
-    
+
     <div class="grid md:grid-cols-2 gap-6 mb-8">
       <!-- Upload Section -->
       <div class="bg-brutal-white border-4 border-black p-6">
         <h3 class="font-black text-lg mb-4">
           Upload Image
         </h3>
-        
+
         <div class="border-4 border-dashed border-brutal-gray p-8 text-center mb-4">
-          <input 
+          <input
             ref="fileInput"
-            type="file" 
+            type="file"
             accept="image/*"
             class="hidden"
             @change="handleFileSelect"
           >
-          <div 
+          <div
             class="cursor-pointer"
             @click="fileInput?.click()"
             @dragover.prevent
@@ -36,7 +36,7 @@
             </p>
           </div>
         </div>
-        
+
         <div
           v-if="originalImage"
           class="space-y-4"
@@ -45,12 +45,12 @@
             <span class="font-black">{{ originalImage.name }}</span>
             <span class="text-sm font-black">{{ formatFileSize(originalImage.size) }}</span>
           </div>
-          
+
           <div class="flex justify-between items-center p-3 bg-brutal-gray border-2 border-black">
             <span class="font-black">Original Size</span>
             <span class="text-sm font-black">{{ originalDimensions.width }} × {{ originalDimensions.height }}</span>
           </div>
-          
+
           <button
             class="btn-primary btn-primary-pink w-full"
             @click="clearImage"
@@ -59,13 +59,13 @@
           </button>
         </div>
       </div>
-      
+
       <!-- Resize Settings -->
       <div class="bg-brutal-yellow border-4 border-black p-6">
         <h3 class="font-black text-lg mb-4">
           Resize Settings
         </h3>
-        
+
         <div class="space-y-4">
           <div>
             <label class="font-black mb-2 block">Resize Method</label>
@@ -87,11 +87,11 @@
               </option>
             </select>
           </div>
-          
+
           <!-- Percentage Resize -->
           <div v-if="resizeMethod === 'percentage'">
             <label class="font-black mb-2 block">Scale Percentage</label>
-            <input 
+            <input
               v-model.number="scalePercentage"
               type="range"
               min="10"
@@ -102,13 +102,13 @@
               {{ scalePercentage }}%
             </div>
           </div>
-          
+
           <!-- Dimensions Resize -->
           <div v-if="resizeMethod === 'dimensions'">
             <div class="grid grid-cols-2 gap-2">
               <div>
                 <label class="font-black mb-2 block">Width (px)</label>
-                <input 
+                <input
                   v-model.number="targetWidth"
                   type="number"
                   min="1"
@@ -117,7 +117,7 @@
               </div>
               <div>
                 <label class="font-black mb-2 block">Height (px)</label>
-                <input 
+                <input
                   v-model.number="targetHeight"
                   type="number"
                   min="1"
@@ -125,7 +125,7 @@
                 >
               </div>
             </div>
-            
+
             <label class="flex items-center gap-2 mt-2">
               <input
                 v-model="maintainAspectRatio"
@@ -135,13 +135,13 @@
               <span class="font-black">Maintain Aspect Ratio</span>
             </label>
           </div>
-          
+
           <!-- Fit/Fill Resize -->
           <div v-if="resizeMethod === 'fit' || resizeMethod === 'fill'">
             <div class="grid grid-cols-2 gap-2">
               <div>
                 <label class="font-black mb-2 block">Width (px)</label>
-                <input 
+                <input
                   v-model.number="targetWidth"
                   type="number"
                   min="1"
@@ -150,7 +150,7 @@
               </div>
               <div>
                 <label class="font-black mb-2 block">Height (px)</label>
-                <input 
+                <input
                   v-model.number="targetHeight"
                   type="number"
                   min="1"
@@ -159,7 +159,7 @@
               </div>
             </div>
           </div>
-          
+
           <div>
             <label class="font-black mb-2 block">Output Format</label>
             <select
@@ -180,10 +180,10 @@
               </option>
             </select>
           </div>
-          
+
           <div v-if="outputFormat === 'jpeg'">
             <label class="font-black mb-2 block">Quality (1-100)</label>
-            <input 
+            <input
               v-model.number="quality"
               type="range"
               min="1"
@@ -197,7 +197,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Preview Section -->
     <div
       v-if="originalImage"
@@ -206,7 +206,7 @@
       <h3 class="font-black text-lg mb-4">
         Preview
       </h3>
-      
+
       <div class="grid md:grid-cols-2 gap-6">
         <div>
           <h4 class="font-bold mb-2">
@@ -220,7 +220,7 @@
             >
           </div>
         </div>
-        
+
         <div>
           <h4 class="font-bold mb-2">
             Resized
@@ -233,7 +233,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="flex gap-4 mt-4">
         <button
           class="btn-primary btn-primary-cyan flex-1"
@@ -241,7 +241,7 @@
         >
           Preview Resize
         </button>
-        
+
         <button
           class="btn-primary btn-primary-lime flex-1"
           @click="resizeImage"
@@ -250,15 +250,15 @@
         </button>
       </div>
     </div>
-    
+
     <!-- Preset Sizes -->
     <div class="bg-brutal-pink border-4 border-black p-6">
       <h3 class="font-black text-lg mb-4">
         Quick Presets
       </h3>
-      
+
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <button 
+        <button
           v-for="preset in presetSizes"
           :key="preset.name"
           class="p-4 bg-brutal-white border-2 border-black transform transition-all duration-200 hover:rotate-[-1deg]"
@@ -346,12 +346,12 @@ const loadImage = (file: File) => {
     alert('Please select an image file')
     return
   }
-  
+
   originalImage.value = file
   const reader = new FileReader()
   reader.onload = (e) => {
     imagePreview.value = e.target?.result as string
-    
+
     // Get original dimensions
     const img = new Image()
     img.onload = () => {
@@ -381,17 +381,17 @@ const applyPreset = (preset: PresetSize) => {
 
 const previewResize = () => {
   if (!originalImage.value || !previewCanvas.value) return
-  
+
   const img = new Image()
   img.onload = () => {
     const canvas = previewCanvas.value!
     const ctx = canvas.getContext('2d')!
-    
+
     const newDimensions = calculateNewDimensions(img.width, img.height)
-    
+
     canvas.width = newDimensions.width
     canvas.height = newDimensions.height
-    
+
     ctx.drawImage(img, 0, 0, newDimensions.width, newDimensions.height)
   }
   img.src = imagePreview.value
@@ -399,22 +399,22 @@ const previewResize = () => {
 
 const resizeImage = () => {
   if (!originalImage.value) return
-  
+
   const img = new Image()
   img.onload = () => {
     const canvas = document.createElement('canvas')
     const ctx = canvas.getContext('2d')!
-    
+
     const newDimensions = calculateNewDimensions(img.width, img.height)
-    
+
     canvas.width = newDimensions.width
     canvas.height = newDimensions.height
-    
+
     ctx.drawImage(img, 0, 0, newDimensions.width, newDimensions.height)
-    
+
     // Determine output format
     const format = outputFormat.value === 'original' ? originalImage.value!.type.split('/')[1] : outputFormat.value
-    
+
     canvas.toBlob((blob) => {
       if (blob) {
         downloadBlob(blob, `resized_image.${format}`)
@@ -427,17 +427,17 @@ const resizeImage = () => {
 const calculateNewDimensions = (originalWidth: number, originalHeight: number) => {
   let newWidth = originalWidth
   let newHeight = originalHeight
-  
+
   switch (resizeMethod.value) {
     case 'percentage':
       newWidth = Math.round(originalWidth * (scalePercentage.value / 100))
       newHeight = Math.round(originalHeight * (scalePercentage.value / 100))
       break
-      
+
     case 'dimensions':
       newWidth = targetWidth.value
       newHeight = targetHeight.value
-      
+
       if (maintainAspectRatio.value) {
         const aspectRatio = originalWidth / originalHeight
         if (targetWidth.value / targetHeight.value > aspectRatio) {
@@ -447,11 +447,11 @@ const calculateNewDimensions = (originalWidth: number, originalHeight: number) =
         }
       }
       break
-      
-    case 'fit':
+
+    case 'fit': {
       const aspectRatio = originalWidth / originalHeight
       const targetAspectRatio = targetWidth.value / targetHeight.value
-      
+
       if (aspectRatio > targetAspectRatio) {
         newWidth = targetWidth.value
         newHeight = Math.round(targetWidth.value / aspectRatio)
@@ -460,11 +460,12 @@ const calculateNewDimensions = (originalWidth: number, originalHeight: number) =
         newWidth = Math.round(targetHeight.value * aspectRatio)
       }
       break
-      
-    case 'fill':
+    }
+
+    case 'fill': {
       const fillAspectRatio = originalWidth / originalHeight
       const fillTargetAspectRatio = targetWidth.value / targetHeight.value
-      
+
       if (fillAspectRatio > fillTargetAspectRatio) {
         newHeight = targetHeight.value
         newWidth = Math.round(targetHeight.value * fillAspectRatio)
@@ -473,8 +474,9 @@ const calculateNewDimensions = (originalWidth: number, originalHeight: number) =
         newHeight = Math.round(targetWidth.value / fillAspectRatio)
       }
       break
+    }
   }
-  
+
   return { width: newWidth, height: newHeight }
 }
 
