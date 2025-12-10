@@ -73,11 +73,11 @@ npm install
 pnpm install
 ```
 
-3. Create a `.env` file in the root directory with your Supabase configuration:
-```env
-VITE_SUPABASE_URL=your-supabase-url
-VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
+3. Create a `.env` file by copying the example file:
+```bash
+cp .env.example .env
 ```
+4. Open the `.env` file and add your Supabase URL and anonymous key. You will also need to configure the URLs for the application's edge functions.
 
 4. Start the development server:
 ```bash
