@@ -71,6 +71,7 @@ export async function deleteTest(id: string) {
   })
   return res.data
 }
+
 export async function updateTest(id: string, updates: Partial<{ title: string; exam: string; difficulty: 'easy'|'medium'|'hard'; duration_minutes: number; language: 'en'|'hi'; passing_score: number; retake_policy: 'no_limit'|'once'|'thrice'|'cooldown'; category_id: string|null; module_id: string|null }>) {
   const { data } = await supabase.auth.getSession()
   const token = data.session?.access_token || ''

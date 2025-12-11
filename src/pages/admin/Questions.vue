@@ -21,13 +21,17 @@
       class="space-y-3"
       @submit.prevent="create"
     >
-      <input
+      <select
         v-model="testId"
-        class="input"
-        placeholder="Test ID"
+        class="select"
         :disabled="isLoading"
         required
       >
+        <option value="" disabled>Select a Test</option>
+        <option v-for="test in tests" :key="test.id" :value="test.id">
+          {{ test.title }}
+        </option>
+      </select>
       <select
         v-model="type"
         class="select"
@@ -70,12 +74,41 @@
         placeholder="Section"
         :disabled="isLoading"
       >
-      <textarea
-        v-model="optionsRaw"
-        class="textarea"
-        placeholder="Options comma separated"
-        :disabled="isLoading"
-      />
+
+      <div class="space-y-2">
+        <label>Options</label>
+        <div v-for="(option, index) in options" :key="index" class="flex items-center gap-2">
+          <input
+            v-model="option.en"
+            class="input"
+            placeholder="Option EN"
+            :disabled="isLoading"
+          >
+          <input
+            v-model="option.hi"
+            class="input"
+            placeholder="Option HI"
+            :disabled="isLoading"
+          >
+          <button
+            type="button"
+            class="btn-danger"
+            :disabled="isLoading || options.length === 1"
+            @click="removeOption(index)"
+          >
+            Remove
+          </button>
+        </div>
+        <button
+          type="button"
+          class="btn-secondary"
+          :disabled="isLoading"
+          @click="addOption"
+        >
+          Add Option
+        </button>
+      </div>
+
       <input
         v-model.number="correct"
         type="number"
@@ -111,24 +144,43 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { supabase } from '@/supabase/client'
 import ErrorBanner from '@/components/ErrorBanner.vue'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
 
+const tests = ref<{ id: string, title: string }[]>([])
 const testId = ref('')
 const type = ref<'mcq'|'tf'|'fib'|'match'>('mcq')
 const contentEn = ref('')
 const contentHi = ref('')
 const topic = ref('')
 const section = ref('')
-const optionsRaw = ref('')
+const options = ref<{ en: string, hi: string }[]>([{ en: '', hi: '' }])
 const correct = ref(0)
 const expEn = ref('')
 const expHi = ref('')
 const isLoading = ref(false)
 const errorMessage = ref('')
 const successMessage = ref('')
+
+function addOption() {
+  options.value.push({ en: '', hi: '' })
+}
+
+function removeOption(index: number) {
+  options.value.splice(index, 1)
+}
+
+onMounted(async () => {
+  try {
+    const { data, error } = await supabase.from('tests').select('id, title')
+    if (error) throw error
+    tests.value = data
+  } catch (err: any) {
+    errorMessage.value = 'Failed to load tests: ' + (err.message || 'Unknown error')
+  }
+})
 
 async function create() {
   isLoading.value = true
@@ -143,7 +195,7 @@ async function create() {
       content_hi: { text: contentHi.value },
       topic: topic.value || null,
       section: section.value || null,
-      options: optionsRaw.value.split(',').map(x => x.trim()),
+      options: options.value,
       correct_answer: correct.value,
       explanation_en: expEn.value,
       explanation_hi: expHi.value
@@ -161,7 +213,7 @@ async function create() {
     // Clear form
     contentEn.value = ''
     contentHi.value = ''
-    optionsRaw.value = ''
+    options.value = [{ en: '', hi: '' }]
     expEn.value = ''
     expHi.value = ''
   } catch (err: any) {
