@@ -12,7 +12,7 @@
 
     <form
       class="grid sm:grid-cols-2 gap-3 mb-6"
-      @submit.prevent="create"
+      @submit.prevent="isEditing ? update() : create()"
     >
       <input
         v-model="title"
@@ -124,16 +124,27 @@
           {{ m.name }}
         </option>
       </select>
-      <button 
-        class="btn-primary flex items-center justify-center gap-2"
-        :disabled="isLoading"
-      >
-        <LoadingSpinner
-          v-if="isLoading"
-          class="w-4 h-4"
-        />
-        <span>{{ isLoading ? 'Creating...' : 'Create' }}</span>
-      </button>
+      <div class="sm:col-span-2 flex justify-end items-center gap-3">
+        <button
+          v-if="isEditing"
+          type="button"
+          class="btn-secondary"
+          :disabled="isLoading"
+          @click="cancelEdit"
+        >
+          Cancel
+        </button>
+        <button
+          class="btn-primary flex items-center justify-center gap-2"
+          :disabled="isLoading"
+        >
+          <LoadingSpinner
+            v-if="isLoading"
+            class="w-4 h-4"
+          />
+          <span>{{ isLoading ? (isEditing ? 'Updating...' : 'Creating...') : (isEditing ? 'Update' : 'Create') }}</span>
+        </button>
+      </div>
     </form>
 
     <div
@@ -173,23 +184,32 @@
             {{ t.exam }} • {{ t.difficulty }} • {{ t.duration_minutes }}m • {{ t.language }}
           </div>
         </div>
-        <button
-          class="btn-secondary text-red-600 hover:bg-red-50 border-red-200"
-          :disabled="isLoading"
-          @click="remove(t.id)"
-        >
-          Delete
-        </button>
+        <div class="flex items-center gap-2">
+          <button
+            class="btn-secondary"
+            :disabled="isLoading"
+            @click="edit(t)"
+          >
+            Edit
+          </button>
+          <button
+            class="btn-secondary text-red-600 hover:bg-red-50 border-red-200"
+            :disabled="isLoading"
+            @click="remove(t.id)"
+          >
+            Delete
+          </button>
+        </div>
       </div>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { supabase } from '@/supabase/client'
 import type { TestItem } from '@/stores/tests'
-import { createTest, deleteTest } from '@/lib/adminApi'
+import { createTest, deleteTest, updateTest } from '@/lib/adminApi'
 import ErrorBanner from '@/components/ErrorBanner.vue'
 import LoadingSpinner from '@/components/LoadingSpinner.vue'
 
@@ -206,6 +226,9 @@ const tests = ref<TestItem[]>([])
 const lastCreatedId = ref('')
 const categories = ref<Array<{ id: string; name: string }>>([])
 const modules = ref<Array<{ id: string; name: string }>>([])
+const editingTestId = ref<string | null>(null)
+
+const isEditing = computed(() => !!editingTestId.value)
 
 const isLoading = ref(false)
 const errorMessage = ref('')
@@ -219,6 +242,32 @@ async function fetchTests() {
   } catch (err: any) {
     console.error('Error fetching tests:', err)
     errorMessage.value = 'Failed to load tests: ' + (err.message || 'Unknown error')
+  }
+}
+
+async function update() {
+  if (!editingTestId.value) return
+  isLoading.value = true
+  errorMessage.value = ''
+  try {
+    await updateTest(editingTestId.value, {
+      title: title.value,
+      exam: exam.value,
+      difficulty: difficulty.value,
+      duration_minutes: duration.value,
+      language: language.value,
+      passing_score: passingScore.value,
+      retake_policy: retakePolicy.value,
+      category_id: categoryId.value || null,
+      module_id: moduleId.value || null,
+    })
+    cancelEdit()
+    await fetchTests()
+  } catch (err: any) {
+    console.error('Update test error:', err)
+    errorMessage.value = 'Failed to update test: ' + (err.message || 'Server error')
+  } finally {
+    isLoading.value = false
   }
 }
 
@@ -294,6 +343,33 @@ async function remove(id: string) {
   } finally {
     isLoading.value = false
   }
+}
+
+function edit(test: TestItem) {
+  editingTestId.value = test.id
+  title.value = test.title
+  exam.value = test.exam
+  difficulty.value = test.difficulty
+  duration.value = test.duration_minutes
+  language.value = test.language
+  passingScore.value = test.passing_score
+  retakePolicy.value = test.retake_policy
+  categoryId.value = test.category_id || ''
+  moduleId.value = test.module_id || ''
+}
+
+function cancelEdit() {
+  editingTestId.value = null
+  // Reset form
+  title.value = ''
+  exam.value = ''
+  difficulty.value = 'easy'
+  duration.value = 30
+  language.value = 'en'
+  passingScore.value = 40
+  retakePolicy.value = 'no_limit'
+  categoryId.value = ''
+  moduleId.value = ''
 }
 
 onMounted(async () => { 
