@@ -119,7 +119,7 @@ YOUR-ID,match,"Match: India - ?","Delhi,Washington,London,Paris",0
 **Solution**: Make sure you created the test first and copied the correct UUID.
 
 ### Issue 2: CSV upload fails
-**Solution**: 
+**Solution**:
 - Check CSV format matches template exactly
 - Ensure no extra commas in content
 - Use quotes around text with commas: `"Option A, with comma"`
@@ -216,7 +216,7 @@ YOUR-ID,mcq,"Perimeter of square (side=5)?","15,20,25,30",1,Geometry
 Currently not supported via UI. Use Supabase SQL:
 
 ```sql
-UPDATE questions 
+UPDATE questions
 SET content_en = '{"text": "Updated question?"}'
 WHERE id = 'question-uuid-here';
 ```
@@ -269,7 +269,7 @@ LEFT JOIN user_attempts ua ON t.id = ua.test_id
 GROUP BY t.id;
 
 -- Completion rate
-SELECT 
+SELECT
   t.title,
   COUNT(ua.id) as total_attempts,
   COUNT(ua.completed_at) as completed,
