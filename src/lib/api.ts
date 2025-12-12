@@ -8,6 +8,7 @@ export async function uploadCSV(rows: unknown[]) {
   const res = await axios.post(env.edgeCsvUrl, { rows }, {
     headers: {
       'Content-Type': 'application/json',
+      'X-CSRF-Token': env.csrfToken,
       ...(token ? { Authorization: `Bearer ${token}` } : {})
     }
   })
