@@ -61,17 +61,29 @@ Deno.serve(async (req) => {
     const body = await req.json()
     const parsed = z.array(RowSchema).parse(body.rows)
     const client = serviceClient
-    const payload = parsed.map(r => ({
-      test_id: r.test_id,
-      type: r.type || 'mcq',
-      content_en: { text: r.content_en },
-      content_hi: r.content_hi ? { text: r.content_hi } : null,
-      options: r.options.split(',').map(x => x.trim()),
-      correct_answer: r.correct_answer,
-      topic: r.topic || null,
-      section: r.section || null,
-      explanation_en: r.explanation_en,
-      explanation_hi: r.explanation_hi
+    const testIdCache = new Map<string, string>()
+    const payload = await Promise.all(parsed.map(async (r) => {
+      let testUUID = testIdCache.get(r.test_id)
+      if (!testUUID) {
+        const { data: test, error } = await client.from('tests').select('id').eq('title', r.test_id).single()
+        if (error || !test) {
+          throw new Error(`Test with title "${r.test_id}" not found`)
+        }
+        testUUID = test.id
+        testIdCache.set(r.test_id, testUUID)
+      }
+      return {
+        test_id: testUUID,
+        type: r.type || 'mcq',
+        content_en: { text: r.content_en },
+        content_hi: r.content_hi ? { text: r.content_hi } : null,
+        options: r.options.split(',').map(x => x.trim()),
+        correct_answer: r.correct_answer,
+        topic: r.topic || null,
+        section: r.section || null,
+        explanation_en: r.explanation_en,
+        explanation_hi: r.explanation_hi
+      }
     }))
     const { error } = await client.from('questions').insert(payload)
     if (error) return new Response(JSON.stringify({ error: error.message }), { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
