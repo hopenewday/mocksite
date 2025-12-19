@@ -58,7 +58,7 @@ Deno.serve(async (req) => {
     if (role !== 'super_admin' && role !== 'junior_admin') {
       return new Response(JSON.stringify({ error: 'Forbidden' }), { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
     }
-    const body = await req.json()
+    const body: any = await req.json()
     const parsed = z.array(RowSchema).parse(body.rows)
     const client = serviceClient
     const payload = parsed.map(r => ({

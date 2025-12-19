@@ -40,7 +40,7 @@ export function removeNumbers(text: string): string {
  * Remove punctuation from text
  */
 export function removePunctuation(text: string): string {
-  return text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?\[\]"']/g, '')
+  return text.replace(/[.,/#!$%^&*;:{}=\-_`~()?[]"']/g, '')
 }
 
 /**
@@ -187,7 +187,7 @@ export function extractEmails(text: string): string[] {
  * Extract URLs from text
  */
 export function extractUrls(text: string): string[] {
-  const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g
+  const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/g
   return [...new Set(text.match(urlRegex) || [])]
 }
 
