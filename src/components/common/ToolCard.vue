@@ -1,8 +1,10 @@
 <template>
-  <div :class="[
-    'card bg-white dark:bg-gray-900 border-4 border-black dark:border-white p-6 transition-all duration-300 cursor-pointer shadow-brutal dark:shadow-[4px_4px_0px_#fff] h-full flex flex-col',
-    tiltClass
-  ]">
+  <div
+    :class="[
+      'card bg-white dark:bg-gray-900 border-4 border-black dark:border-white p-6 transition-all duration-300 cursor-pointer shadow-brutal dark:shadow-[4px_4px_0px_#fff] h-full flex flex-col',
+      tiltClass
+    ]"
+  >
     <div class="w-16 h-16 bg-brutal-yellow border-4 border-black shadow-brutal flex items-center justify-center mb-4 flex-shrink-0">
       <span class="text-2xl">{{ icon }}</span>
     </div>

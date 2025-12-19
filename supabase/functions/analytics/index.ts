@@ -39,7 +39,7 @@ Deno.serve(async (req) => {
       return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
     }
     const serviceClient = createClient(Deno.env.get('SUPABASE_URL') as string, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') as string)
-    const { data: prof } = await serviceClient.from('profiles').select('role').eq('id', userData.user.id).single()
+    const { data: prof }: any = await serviceClient.from('profiles').select('role').eq('id', userData.user.id).single()
     const role = (prof as any)?.role || 'user'
     if (role !== 'super_admin' && role !== 'junior_admin') {
       return new Response(JSON.stringify({ error: 'Forbidden' }), { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
@@ -50,10 +50,14 @@ Deno.serve(async (req) => {
 
     const totalTests = (tests || []).length
     const totalAttempts = (attempts || []).length
-    const avgScore = Math.round(((attempts || []).reduce((sum: number, r: any) => sum + (r.score || 0), 0) / Math.max(totalAttempts, 1)) || 0)
-    const completionRate = Math.round(((attempts || []).filter((r: any) => r.completed_at).length / Math.max(totalAttempts, 1)) * 100)
+    const avgScore = Math.round(
+      ((attempts || []).reduce((sum: number, r: any) => sum + (r.score || 0), 0) / Math.max(totalAttempts, 1)) || 0
+    )
+    const completionRate = Math.round(
+      (((attempts || []).filter((r: any) => r.completed_at).length / Math.max(totalAttempts, 1)) * 100)
+    )
     const byTest: Record<string, number> = {}
-    (attempts || []).forEach((r: any) => { byTest[r.test_id] = (byTest[r.test_id] || 0) + 1 })
+    ;(attempts || []).forEach((r: any) => { byTest[r.test_id] = (byTest[r.test_id] || 0) + 1 })
     const popular = Object.entries(byTest).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([test_id, count]) => ({ test_id, count }))
 
     const result = { totalTests, totalAttempts, avgScore, completionRate, popular }

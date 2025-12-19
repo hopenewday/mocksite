@@ -98,7 +98,7 @@
         </h3>
         <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
           <div 
-            v-for="(word, index) in topWords" 
+            v-for="word in topWords"
             :key="word.word"
             class="bg-brutal-white border-2 border-black p-2 flex justify-between items-center"
           >

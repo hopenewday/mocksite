@@ -47,7 +47,7 @@ Deno.serve(async (req) => {
       return new Response(JSON.stringify({ error: 'Forbidden' }), { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } })
     }
 
-    const body = await req.json()
+    const body: any = await req.json()
     const action = String(body.action || '')
     if (action === 'list') {
       const { q, role: filterRole, limit = 50 } = body

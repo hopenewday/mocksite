@@ -18,6 +18,7 @@ export const useTTSStore = defineStore('tts', {
       this.lastText = text
       if (!('speechSynthesis' in window)) return
       window.speechSynthesis.cancel()
+      /* eslint-disable no-undef */
       const u = new SpeechSynthesisUtterance(text)
       u.rate = this.rate
       if (this.voiceURI) {
